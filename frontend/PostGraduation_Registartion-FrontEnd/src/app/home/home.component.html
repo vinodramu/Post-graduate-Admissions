@@ -38,12 +38,14 @@
             </div>
             <div class="col-lg-6 col-md-8 col-sm-10 mb-4 card-container">
                 <div class="card shadow-lg equal-height">
-                    <div class="card-body">
-                        <h5 class="card-title">Admin Login</h5>
-                        <button class="btn btn-primary my-2">Super Admin</button>
-                    </div>
+                  <div class="card-body">
+                    <h5 class="card-title">Admin Login</h5>
+                    <button class="btn btn-primary my-2" (click)="navigateToLogin()">Chairperson login</button>
+                    <button class="btn btn-primary my-2" (click)="navigateToLogin()">Super Admin</button>
+                    <button class="btn btn-primary my-2" (click)="navigateToLogin()">Examination</button>
+                  </div>
                 </div>
-            </div>
+              </div>
         </div>
     </div>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
