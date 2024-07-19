@@ -1,17 +1,14 @@
-// app.module.ts
 import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { MongooseModule } from '@nestjs/mongoose';
+import { ConfigModule } from '@nestjs/config';
 import { UserModule } from './user/user.module';
-import { User } from './user/user.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'mongodb',
-      url: 'mongodb://localhost:27017/studentregistration', // Update with your MongoDB connection string
-      entities: [User],
-      synchronize: true, // Set to false in production
-      useUnifiedTopology: true,
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+    MongooseModule.forRoot("mongodb://localhost:27017/studentregistration", {
     }),
     UserModule,
   ],

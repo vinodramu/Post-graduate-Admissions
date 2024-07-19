@@ -8,7 +8,8 @@ dotenv.config();
 async function bootstrap() {
   
   const app = await NestFactory.create(AppModule);
-  await MongoDbModule.connectDB();
+  app.enableCors();
+  // await MongoDbModule.connectDB();
   await app.listen(3000);
 }
 bootstrap();
