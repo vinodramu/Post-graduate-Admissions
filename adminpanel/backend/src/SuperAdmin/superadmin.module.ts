@@ -8,7 +8,7 @@ import { JwtService } from '@nestjs/jwt';
 
 @Module({
     imports: [
-    MongooseModule.forFeature([{ name: SuperAdmin.name, schema: SuperAdminSchema }]),
+MongooseModule.forFeature([{ name: SuperAdmin.name, schema: SuperAdminSchema }]),
     ],
     controllers: [SuperAdminController],
     providers: [SuperAdminService, AuthService, JwtService],

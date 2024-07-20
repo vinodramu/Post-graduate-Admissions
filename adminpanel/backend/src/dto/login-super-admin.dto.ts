@@ -1,4 +1,4 @@
 export class LoginSuperAdminDto {
-    readonly username: string;
+    readonly adminId: string;
     readonly password: string;
 }

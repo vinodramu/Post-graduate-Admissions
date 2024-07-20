@@ -31,6 +31,9 @@ export class SuperAdmin {
 
     @Prop({ default: Date.now })
     updatedAt: Date;
+
+    @Prop({ required: true, unique: true })
+    adminId: string; 
 }
 
 export const SuperAdminSchema = SchemaFactory.createForClass(SuperAdmin);

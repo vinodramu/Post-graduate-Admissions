@@ -18,7 +18,7 @@ export class AuthService {
     }
 
     async validateUserIsAuthorized(credentials: LoginSuperAdminDto): Promise<{ userId: string; username: string } | null> {
-        const getUser = await this.superAdminModel.findOne({ username: credentials.username }).exec();
+        const getUser = await this.superAdminModel.findOne({ adminId: credentials.adminId }).exec();
 
         if (getUser && await bcrypt.compare(credentials.password, getUser.password)) {
             return { userId: getUser._id.toString(), username: getUser.username };
