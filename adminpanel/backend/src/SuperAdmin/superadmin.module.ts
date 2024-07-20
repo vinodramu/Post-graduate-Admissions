@@ -3,7 +3,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { SuperAdminService } from './superadmin.service';
 import { SuperAdminController } from './superadmin.controller';
 import { SuperAdmin, SuperAdminSchema } from './superadmin.entity';
-import { AuthService } from 'src/auth/auth.service';
+import { AuthService } from '../auth/auth.service';
 import { JwtService } from '@nestjs/jwt';
 
 @Module({

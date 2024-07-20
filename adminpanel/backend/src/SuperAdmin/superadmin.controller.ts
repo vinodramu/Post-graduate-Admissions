@@ -1,14 +1,16 @@
-import { Controller, Get, Post, Body, UnauthorizedException } from '@nestjs/common';
+import { Controller, Get, Post, Body, Logger, forwardRef, HttpStatus, Inject } from '@nestjs/common';
 import { SuperAdminService } from './superadmin.service';
 import { CreateSuperAdminDto } from '../dto/super-admin.dto';
 import { LoginSuperAdminDto } from 'src/dto/login-super-admin.dto';
-import { AuthService } from 'src/auth/auth.service';
+import { AuthService } from '../auth/auth.service';
 
 @Controller('superAdmin')
 export class SuperAdminController {
     constructor(
-        private readonly superAdminService: SuperAdminService,
-        private readonly authService: AuthService
+        @Inject(forwardRef(() => AuthService))
+        private readonly authService: AuthService,
+        @Inject(forwardRef(() => SuperAdminService))
+        private readonly superAdminService: SuperAdminService
     ) { }
 
     @Post('/create')
@@ -16,19 +18,24 @@ export class SuperAdminController {
         return this.superAdminService.create(createSuperAdminDto);
     }
 
-    @Post('/login')
-    async login(@Body() credentials: LoginSuperAdminDto) {
-        const user = await this.authService.validateUser(credentials.username, credentials.password);
-        if (!user) {
-            throw new UnauthorizedException('Invalid credentials');
+    @Post('login')
+    public async getAccessTokenIfUserAuthorized(@Body() credentials: LoginSuperAdminDto): Promise<{ access_token: string }> {
+        Logger.log(`Start AuthController : getAccessTokenIfUserAuthorized`)
+        try {
+            const userAuthorized = await this.authService.validateUserIsAuthorized(credentials);
+            if (!userAuthorized) {
+                throw new Error('Invalid credentials');
+            }
+            return this.authService.login(userAuthorized);
         }
-        return this.authService.login(user); 
+        catch (err) {
+            Logger.log(`Error in AuthController : getAccessTokenIfUserAuthorized`)
+            HttpStatus.UNAUTHORIZED
+        }
     }
 
     @Get()
     async findAll() {
         return this.superAdminService.findAll();
     }
-
-    // Add other necessary endpoints like findOne, update, delete etc.
 }

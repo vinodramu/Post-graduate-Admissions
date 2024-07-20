@@ -1,36 +1,35 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { forwardRef, Inject, Injectable, Logger } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import * as bcrypt from 'bcrypt';
 import { SuperAdmin, SuperAdminDocument } from '../SuperAdmin/superadmin.entity';
-import { ConfigService } from '@nestjs/config';
+import { LoginSuperAdminDto } from 'src/dto/login-super-admin.dto';
 
 @Injectable()
 export class AuthService {
     constructor(
-        @InjectModel(SuperAdmin.name) private superAdminModel: Model<SuperAdminDocument>,
-        private jwtService: JwtService,
-        private readonly configService: ConfigService,
+        @InjectModel(SuperAdmin.name) private readonly superAdminModel: Model<SuperAdminDocument>,
+        @Inject(forwardRef(() => JwtService))
+        private readonly jwtService: JwtService,
     ) {
-        const jwtSecret = this.configService.get<string>('JWT_SECRET');
-        Logger.log(`JWT Secret in AuthService: ${jwtSecret}`, 'AuthService');
+        const jwtSecret = `secret1204`;
+        Logger.log(`JWT Secret: ${jwtSecret}`, 'AuthService');
     }
 
-    async validateUser(username: string, pass: string): Promise<{ username: string; _id: string } | null> {
-        const user = await this.superAdminModel.findOne({ username }).exec();
-        Logger.log(user);
-        if (user && await bcrypt.compare(pass, user.password)) {
-            return { username: user.username, _id: user._id.toString() };
+    async validateUserIsAuthorized(credentials: LoginSuperAdminDto): Promise<{ userId: string; username: string } | null> {
+        const getUser = await this.superAdminModel.findOne({ username: credentials.username }).exec();
+
+        if (getUser && await bcrypt.compare(credentials.password, getUser.password)) {
+            return { userId: getUser._id.toString(), username: getUser.username };
         }
         return null;
     }
 
-    async login(user: { username: string; _id: string }) {
-        const payload = { username: user.username, sub: user._id };
-        Logger.log(`Generated access token for user: ${user.username}`, 'AuthService');
+    async login(user: { username: string; userId: string }) {
+        const payload = { username: user.username, sub: user.userId };
         return {
-            access_token: this.jwtService.sign(payload),
+            access_token: this.jwtService.sign(payload, { secret: `${process.env.JWT_SECRET}` })
         };
     }
 }
