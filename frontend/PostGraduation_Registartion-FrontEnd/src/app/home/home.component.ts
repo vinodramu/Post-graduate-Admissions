@@ -15,8 +15,18 @@ export class HomeComponent {
   login() {
     // Add your logic for loginconsole.log('Login button clicked');
   }
-  navigateToLogin(): void {
-    this.router.navigate(['/login']);
+  navigateToAdminLogin(): void {
+    this.router.navigate(['/adminLogin']);
   }
+  navigateToSuperAdminLogin(): void {
+    this.router.navigate(['/superAdminLogin']);
+  }
+  navigateToExaminationLogin(): void {
+    this.router.navigate(['/examinationLogin']);
+  }
+  navigateToChairpersonLogin(): void {
+    this.router.navigate(['/chairpersonLogin']);
+  }
+
 
 }
