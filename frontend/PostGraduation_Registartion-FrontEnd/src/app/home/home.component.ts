@@ -14,7 +14,7 @@ export class HomeComponent {
   }
 
   isPopupVisible = false;
-  userId = '';
+  userEmail = '';
   password = '';
 
   showPopup() {
@@ -37,7 +37,7 @@ export class HomeComponent {
 
   onLoginSubmit() {
     // Handle login logic here
-    console.log('User ID:', this.userId);
+    console.log('User ID:', this.userEmail);
     console.log('Password:', this.password);
   }
 

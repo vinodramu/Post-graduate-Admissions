@@ -1,0 +1,227 @@
+<div class="container">
+    <div class="form-container">
+      <h1>Student Registration</h1>
+      <form [formGroup]="studentForm" (ngSubmit)="onSubmit()">
+        
+        <div class="form-group">
+          <label for="firstName">First Name</label>
+          <input id="firstName" formControlName="firstName" type="text" />
+          <div *ngIf="studentForm.get('firstName')?.hasError('required') && studentForm.get('firstName')?.touched" class="error-message">
+            First Name is required
+          </div>
+        </div>
+
+      <div class="form-group">
+        <label for="lastName">Last Name</label>
+        <input id="lastName" formControlName="lastName" type="text" />
+        <div *ngIf="studentForm.get('lastName')?.hasError('required') && studentForm.get('lastName')?.touched" class="error-message">
+          Last Name is required
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="age">Age</label>
+        <input id="age" formControlName="age" type="number" />
+        <div *ngIf="studentForm.get('age')?.hasError('required') && studentForm.get('age')?.touched" class="error-message">
+          Age is required
+        </div>
+        <div *ngIf="studentForm.get('age')?.hasError('min') && studentForm.get('age')?.touched" class="error-message">
+          Age must be at least 1
+        </div>
+        <div *ngIf="studentForm.get('age')?.hasError('max') && studentForm.get('age')?.touched" class="error-message">
+          Age cannot be more than 150
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="adharNo">Aadhar Number</label>
+        <input id="adharNo" formControlName="adharNo" type="text" />
+        <div *ngIf="studentForm.get('adharNo')?.hasError('required') && studentForm.get('adharNo')?.touched" class="error-message">
+          Aadhar Number is required
+        </div>
+        <div *ngIf="studentForm.get('adharNo')?.hasError('pattern') && studentForm.get('adharNo')?.touched" class="error-message">
+          Aadhar Number must be 12 digits
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="dob">Date of Birth</label>
+        <input id="dob" formControlName="dob" type="date" />
+        <div *ngIf="studentForm.get('dob')?.hasError('required') && studentForm.get('dob')?.touched" class="error-message">
+          Date of Birth is required
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="nationality">Nationality</label>
+        <input id="nationality" formControlName="nationality" type="text" />
+        <div *ngIf="studentForm.get('nationality')?.hasError('required') && studentForm.get('nationality')?.touched" class="error-message">
+          Nationality is required
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="address">Address</label>
+        <textarea id="address" formControlName="address"></textarea>
+        <div *ngIf="studentForm.get('address')?.hasError('required') && studentForm.get('address')?.touched" class="error-message">
+          Address is required
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input id="email" formControlName="email" type="email" />
+        <div *ngIf="studentForm.get('email')?.hasError('required') && studentForm.get('email')?.touched" class="error-message">
+          Email is required
+        </div>
+        <div *ngIf="studentForm.get('email')?.hasError('email') && studentForm.get('email')?.touched" class="error-message">
+          Invalid Email
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="phoneNumber">Phone Number</label>
+        <input id="phoneNumber" formControlName="phoneNumber" type="text" />
+        <div *ngIf="studentForm.get('phoneNumber')?.hasError('required') && studentForm.get('phoneNumber')?.touched" class="error-message">
+          Phone Number is required
+        </div>
+        <div *ngIf="studentForm.get('phoneNumber')?.hasError('pattern') && studentForm.get('phoneNumber')?.touched" class="error-message">
+          Invalid Phone Number
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="degreeName">Degree Name</label>
+        <input id="degreeName" formControlName="degreeName" type="text" />
+        <div *ngIf="studentForm.get('degreeName')?.hasError('required') && studentForm.get('degreeName')?.touched" class="error-message">
+          Degree Name is required
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="yop">Year of Passing</label>
+        <input id="yop" formControlName="yop" type="number" />
+        <div *ngIf="studentForm.get('yop')?.hasError('required') && studentForm.get('yop')?.touched" class="error-message">
+          Year of Passing is required
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="cgpa">CGPA</label>
+        <input id="cgpa" formControlName="cgpa" type="number" step="0.01" />
+        <div *ngIf="studentForm.get('cgpa')?.hasError('required') && studentForm.get('cgpa')?.touched" class="error-message">
+          CGPA is required
+        </div>
+        <div *ngIf="studentForm.get('cgpa')?.hasError('min') && studentForm.get('cgpa')?.touched" class="error-message">
+          CGPA must be between 0 and 10
+        </div>
+        <div *ngIf="studentForm.get('cgpa')?.hasError('max') && studentForm.get('cgpa')?.touched" class="error-message">
+          CGPA must be between 0 and 10
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="hallTicketNumber">Hall Ticket Number</label>
+        <input id="hallTicketNumber" formControlName="hallTicketNumber" type="text" />
+        <div *ngIf="studentForm.get('hallTicketNumber')?.hasError('required') && studentForm.get('hallTicketNumber')?.touched" class="error-message">
+          Hall Ticket Number is required
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="degreeCertificate">Degree Certificate</label>
+        <input id="degreeCertificate" formControlName="degreeCertificate" type="file" />
+      </div>
+
+      <div class="form-group">
+        <label for="college1">College 1</label>
+        <select id="college1" formControlName="college1" class="form-control">
+          <option value="">Select College 1</option>
+          <option *ngFor="let college of colleges" [value]="college">{{ college }}</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label for="college2">College 2</label>
+        <select id="college2" formControlName="college2" class="form-control">
+          <option value="">Select College 2</option>
+          <option *ngFor="let college of colleges" [value]="college">{{ college }}</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label for="college3">College 3</label>
+        <select id="college3" formControlName="college3" class="form-control">
+          <option value="">Select College 3</option>
+          <option *ngFor="let college of colleges" [value]="college">{{ college }}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="college4">College 4</label>
+        <select id="college4" formControlName="college4" class="form-control">
+          <option value="">Select College 4</option>
+          <option *ngFor="let college of colleges" [value]="college">{{ college }}</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label for="college5">College 5</label>
+        <select id="college5" formControlName="college5" class="form-control">
+          <option value="">Select College 5</option>
+          <option *ngFor="let college of colleges" [value]="college">{{ college }}</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label for="college6">College 6</label>
+        <select id="college6" formControlName="college6" class="form-control">
+          <option value="">Select College 6</option>
+          <option *ngFor="let college of colleges" [value]="college">{{ college }}</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label for="college7">College 7</label>
+        <select id="college7" formControlName="college7" class="form-control">
+          <option value="">Select College 7</option>
+          <option *ngFor="let college of colleges" [value]="college">{{ college }}</option>
+        </select>
+      </div>
+
+      <!-- Course Selection Dropdown -->
+      <div class="form-group">
+        <label for="course">Course</label>
+        <select id="course" formControlName="course" class="form-control">
+          <option value="">Select Course</option>
+          <option *ngFor="let course of courses" [value]="course">{{ course }}</option>
+        </select>
+      </div>
+
+      <!-- Payment Method Dropdown -->
+      <div class="form-group">
+        <label for="paymentMethod">Payment Method</label>
+        <select id="paymentMethod" formControlName="paymentMethod" class="form-control">
+          <option value="">Select Payment Method</option>
+          <option value="online">Online Banking</option>
+          <option value="creditCard">Credit Card</option>
+          <option value="debitCard">Debit Card</option>
+          <option value="upi">UPI</option>
+        </select>
+      </div>
+
+      <!-- Custom Payment Amount -->
+      <div class="form-group">
+        <label for="customAmount">Custom Payment Amount</label>
+        <input type="number" id="customAmount" formControlName="customAmount" class="form-control" />
+      </div>
+
+      <!-- Form Buttons -->
+      <div class="form-buttons">
+        <button type="button" class="btn btn-secondary" (click)="onSave()">Save</button>
+        <button type="button" class="btn btn-warning" (click)="onEdit()">Edit</button>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </div>
+    </form>
+  </div>
+</div>

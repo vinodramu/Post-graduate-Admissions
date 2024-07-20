@@ -43,32 +43,47 @@ export class UserComponent {
       this.user1 = this.form.value;
       this.user1.phone='+91'+this.form.value.phone;
       console.log(this.user1)
-      this.userService.saveDeviceItemRule(this.user1).subscribe(
+      this.userService.saveUser(this.user1).subscribe(
         response => {
-          console.log('Rule saved successfully', response);
+          console.log('User saved successfully', response);
+          this.userService.sendOtp(this.user1.phone).subscribe(
+            response => {
+              this.showOtpPopup = true;
+              console.log('otp sent successfully', response);
+            },
+            error => {
+              console.error('Error saving rule', error);
+            });
         },
         error => {
-          console.error('Error saving rule', error);
-        });
-
-      this.showOtpPopup = true;
+          console.error('Error while saving User', error);
+        }); 
     }
   }
 
   onOtpSubmit() {
     if (this.otpForm.valid) {
-      const otpValid = true;
-      if (otpValid) {
-        this.showOtpPopup = false;
-        this.showSuccessPopup = true;
-      } else {
-        this.showOtpPopup = false;
-        this.showErrorPopup = true;
-      }
+      this.userService.otpVarification(this.otpForm.value.otp,this.user1.phone).subscribe(
+        (response:boolean) => {
+          if(response){
+            this.showOtpPopup = false;
+            this.showSuccessPopup = true;
+          }
+          else{
+            this.showOtpPopup = false;
+            this.showErrorPopup = true;
+          }  
+          console.log(response)
+        },
+        error => {
+          this.showOtpPopup = false;
+          this.showErrorPopup = true;
+          console.error('Error saving rule', error);
+        }); 
     }
   }
 
-  OtpSuccess() {
+  OtpVarifiedSuccessfully() {
     this.showSuccessPopup = false;
     this.router.navigate(['']);
   }
@@ -78,6 +93,14 @@ export class UserComponent {
     this.showOtpPopup = true;
   }
   ResendOTP() {
+    this.userService.sendOtp(this.user1.phone).subscribe(
+      response => {
+        this.showOtpPopup = true;
+        console.log('otp sent successfully', response);
+      },
+      error => {
+        console.error('Error saving rule', error);
+      });
     this.showResendOtp = true;
   }
 }
