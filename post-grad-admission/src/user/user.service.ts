@@ -2,14 +2,14 @@ import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import * as bcrypt from 'bcrypt';
-
 import { Twilio } from 'twilio';
 import * as nodemailer from 'nodemailer';
 import * as dotenv from 'dotenv';
 import { User, UserDocument } from './user.entity';
 import { CreateUserDto } from 'src/dto/create-user.dto';
 import { SendOtpDto } from 'src/dto/otp.dto';
-import { VerifyOtpDto } from 'src/dto/verify-otp.dto';
+import { VerifyOtpDto } from '../dto/verify-otp.dto'
+import { MailerService } from 'src/mail/mail.service';
 
 dotenv.config();
 
@@ -17,6 +17,7 @@ dotenv.config();
 export class UserService {
   private twilioClient: Twilio;
   private transporter: nodemailer.Transporter;
+  private readonly mailerService: MailerService
 
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {
     this.twilioClient = new Twilio("");
@@ -30,9 +31,9 @@ export class UserService {
   }
 
   async register(createUserDto: CreateUserDto): Promise<any> {
-    const { username, email, phone, password, Confirmpassword } = createUserDto;
+    const { username, email, phone, password, confirmpassword } = createUserDto;
   
-    if (password !== Confirmpassword) {
+    if (password !== confirmpassword) {
       throw new HttpException('Passwords do not match', HttpStatus.BAD_REQUEST);
     }
   
@@ -68,8 +69,13 @@ export class UserService {
     user.phoneVerified = true;
     user.otp = undefined; // Clear the OTP
     await user.save();
-    return { message: 'Phone number verified successfully.'
-     };
+   await this.mailerService.sendMail(
+      // user.email,
+      // 'Registration Successful',
+      // 'registration-email.hbs', // Adjust template name if needed
+      // { username: user.username }
+    );
+    return { message: 'Phone number verified successfully.'};
    }
 
   // async sendEmail(emailDto: EmailDto): Promise<any> {

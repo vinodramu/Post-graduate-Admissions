@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
 import { UserModule } from './user/user.module';
+import { MailerModule } from './mail/mail.module';
 
 @Module({
   imports: [
@@ -11,6 +12,7 @@ import { UserModule } from './user/user.module';
     MongooseModule.forRoot("mongodb://localhost:27017/studentregistration", {
     }),
     UserModule,
+    MailerModule
   ],
 })
 export class AppModule {}

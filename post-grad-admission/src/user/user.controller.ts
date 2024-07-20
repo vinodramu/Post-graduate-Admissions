@@ -1,5 +1,5 @@
 // user.controller.ts
-import { Controller, Post, Body, Res, Get } from '@nestjs/common';
+import { Controller, Post, Body, Res, Get, Param } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from 'src/dto/create-user.dto';
 import { SendOtpDto } from 'src/dto/otp.dto';
@@ -14,8 +14,9 @@ export class UserController {
     return this.userService.register(createUserDto);
   }
 
-  @Post('/sendotp')
-  async sendOtp(@Body() sendOtpDto: SendOtpDto): Promise<any> {
+  @Post('/sendotp/:phoneNumber')
+  async sendOtp(@Param('phoneNumber') phone: string): Promise<any> {
+    const sendOtpDto: SendOtpDto = { phone };
     return this.userService.sendOtp(sendOtpDto);
   }
 
