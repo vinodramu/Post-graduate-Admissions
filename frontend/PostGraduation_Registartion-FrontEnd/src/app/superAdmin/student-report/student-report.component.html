@@ -1,0 +1,19 @@
+<div class="student-report-container">
+  <h2>Student Table List</h2>
+  <div class="ag-theme-alpine" style="height: 500px; width: 100%;">
+    <ag-grid-angular
+      [rowData]="rowData"
+      [columnDefs]="columnDefs"
+      [pagination]="true"
+      [paginationPageSize]="paginationPageSize"
+      [frameworkComponents]="frameworkComponents"
+      (gridReady)="onGridReady($event)">
+    </ag-grid-angular>
+  </div>
+
+  <div class="pagination-controls">
+    <button (click)="onPageChanged(currentPage - 1)" [disabled]="currentPage <= 1">Previous</button>
+    <span>Page {{currentPage}} of {{totalPages()}}</span>
+    <button (click)="onPageChanged(currentPage + 1)" [disabled]="currentPage >= totalPages()">Next</button>
+  </div>
+</div>
