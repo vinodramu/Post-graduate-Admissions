@@ -1,4 +1,4 @@
-import { forwardRef, Inject, Injectable, Logger } from '@nestjs/common';
+import { forwardRef, Inject, Injectable} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -12,10 +12,7 @@ export class AuthService {
         @InjectModel(SuperAdmin.name) private readonly superAdminModel: Model<SuperAdminDocument>,
         @Inject(forwardRef(() => JwtService))
         private readonly jwtService: JwtService,
-    ) {
-        const jwtSecret = `secret1204`;
-        Logger.log(`JWT Secret: ${jwtSecret}`, 'AuthService');
-    }
+    ) { }
 
     async validateUserIsAuthorized(credentials: LoginSuperAdminDto): Promise<{ userId: string; username: string } | null> {
         const getUser = await this.superAdminModel.findOne({ adminId: credentials.adminId }).exec();

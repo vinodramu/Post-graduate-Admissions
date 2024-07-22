@@ -1,8 +1,10 @@
-import { Controller, Get, Post, Body, Logger, forwardRef, HttpStatus, Inject } from '@nestjs/common';
+import { Controller, Get, Post, Body, Logger, forwardRef, HttpStatus, Inject, Query } from '@nestjs/common';
 import { SuperAdminService } from './superadmin.service';
 import { CreateSuperAdminDto } from '../dto/super-admin.dto';
 import { LoginSuperAdminDto } from 'src/dto/login-super-admin.dto';
 import { AuthService } from '../auth/auth.service';
+import { Student } from './student.entity';
+import { CreateStudentDto } from 'src/dto/create-student.dto';
 
 @Controller('superAdmin')
 export class SuperAdminController {
@@ -34,6 +36,25 @@ export class SuperAdminController {
         }
     }
 
+    @Get('/list/students')
+    async findAllStudents(
+        @Query('page') page: number = 1,
+        @Query('limit') limit: number = 4,
+    ) {
+        const { students, total } = await this.superAdminService.findAllStudents(page, limit);
+        return {
+            students,
+            total,
+            page,
+            limit,
+        };
+    }
+    
+    @Post('/create/student')
+    async createStudent(@Body() createStudentDto: CreateStudentDto): Promise<Student> {
+        return this.superAdminService.createStudent(createStudentDto);
+    }   
+    
     @Get()
     async findAll() {
         return this.superAdminService.findAll();
