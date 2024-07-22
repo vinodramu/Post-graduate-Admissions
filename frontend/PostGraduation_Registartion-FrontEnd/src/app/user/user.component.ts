@@ -41,7 +41,7 @@ export class UserComponent {
   onUserFormSubmit() {
     if (this.form.valid) {
       this.user1 = this.form.value;
-      this.user1.phone='+91'+this.form.value.phone;
+      this.user1.phone = '+91' + this.form.value.phone;
       console.log(this.user1)
       this.userService.saveUser(this.user1).subscribe(
         response => {
@@ -57,29 +57,29 @@ export class UserComponent {
         },
         error => {
           console.error('Error while saving User', error);
-        }); 
+        });
     }
   }
 
   onOtpSubmit() {
     if (this.otpForm.valid) {
-      this.userService.otpVarification(this.otpForm.value.otp,this.user1.phone).subscribe(
-        (response:boolean) => {
-          if(response){
+      this.userService.otpVarification(this.otpForm.value.otp, this.user1.phone).subscribe(
+        (response: boolean) => {
+          if (response) {
             this.showOtpPopup = false;
             this.showSuccessPopup = true;
           }
-          else{
+          else {
             this.showOtpPopup = false;
             this.showErrorPopup = true;
-          }  
+          }
           console.log(response)
         },
         error => {
           this.showOtpPopup = false;
           this.showErrorPopup = true;
           console.error('Error saving rule', error);
-        }); 
+        });
     }
   }
 

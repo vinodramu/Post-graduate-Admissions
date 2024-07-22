@@ -1,0 +1,212 @@
+/* Center the form container */
+.form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  position: relative;
+  padding: 20px;
+}
+
+/* Style the form card */
+.form-card {
+  background-color: #ffffffd3;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  padding: 40px;
+  width: 500px;
+  /* Increased width */
+  max-width: 100%;
+  text-align: center;
+}
+
+/* Heading style */
+h2 {
+  margin-bottom: 20px;
+  font-size: 26px;
+  /* Increased font size */
+  color: #333;
+}
+
+/* Label style */
+label {
+  display: block;
+  margin-bottom: 12px;
+  font-size: 18px;
+  /* Increased font size */
+  color: #555;
+  text-align: left;
+}
+
+/* Select dropdown style */
+select {
+  width: calc(100% - 24px);
+  /* Adjust width to fit within padding */
+  padding: 14px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 18px;
+  /* Increased font size */
+  box-sizing: border-box;
+  background-color: #f8f9fa;
+  color: #495057;
+  cursor: pointer;
+}
+
+/* Increase size of dropdown list items */
+select option {
+  font-size: 28px;
+  /* Increased font size */
+  padding: 20px;
+  /* Increased padding */
+}
+
+/* Remove default arrow in IE */
+select::-ms-expand {
+  display: none;
+}
+
+/* Style the button */
+button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 14px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 18px;
+  /* Increased font size */
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+/* Style the popups */
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.popup-content-unsuccess,
+.popup-content-success {
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 40px;
+  text-align: center;
+  width: 500px;
+  /* Increased width */
+  max-width: 90%;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Popup heading style */
+.popup-content-unsuccess,
+.popup-content-success h3 {
+  margin-bottom: 20px;
+  font-size: 22px;
+  /* Increased font size */
+  color: #333;
+}
+
+/* Popup button style */
+.popup-content-success button {
+  background-color: #35dc35;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 18px;
+  /* Increased font size */
+}
+
+.popup-content-success button:hover {
+  background-color: #06740d;
+}
+
+/* Popup button style */
+.popup-content-unsuccess button {
+  background-color: #be4922;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 18px;
+  /* Increased font size */
+}
+
+.popup-content-unsuccess button:hover {
+  background-color: #741706;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+
+  .form-card,
+  .popup-content {
+    width: 90%;
+    padding: 20px;
+  }
+
+  h2 {
+    font-size: 22px;
+  }
+
+  label {
+    font-size: 16px;
+  }
+
+  select {
+    font-size: 16px;
+  }
+
+  button {
+    font-size: 14px;
+  }
+
+  .popup-content h3 {
+    font-size: 20px;
+  }
+
+  .popup-content button {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+
+  .form-card,
+  .popup-content {
+    width: 95%;
+  }
+
+  h2 {
+    font-size: 20px;
+  }
+
+  label {
+    font-size: 14px;
+  }
+
+  select {
+    font-size: 14px;
+  }
+
+  button {
+    font-size: 12px;
+  }
+
+  .popup-content h3 {
+    font-size: 18px;
+  }
+
+  .popup-content button {
+    font-size: 14px;
+  }
+}

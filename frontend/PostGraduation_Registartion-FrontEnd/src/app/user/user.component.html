@@ -4,14 +4,26 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Responsive Form and Modal</title>
+  <title>USER REGISTRATION</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
+<style>
+  body {
+    background-image: url('assets/university.jpg');
+    font-family: Arial, sans-serif;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+  }
+</style>
 
 <body>
   <div class="container">
     <div class="form-container">
-      <h1>STUDENT REGISTRATION</h1>
+      <h1>USER REGISTRATION</h1>
       <form [formGroup]="form" (ngSubmit)="onUserFormSubmit()" class="form-group">
         <div class="form-group">
           <label for="name">Name</label>

@@ -31,15 +31,15 @@ export class StudentComponent implements OnInit {
       degreeCertificate: [''],
       photo: [''],
       college1: ['', Validators.required],
+      course1: ['', Validators.required],
       college2: ['', Validators.required],
+      course2: ['', Validators.required],
       college3: ['', Validators.required],
+      course3: ['', Validators.required],
       college4: ['', Validators.required],
+      course4: ['', Validators.required],
       college5: ['', Validators.required],
-      college6: ['', Validators.required],
-      college7: ['', Validators.required],
-      course: ['', Validators.required],
-      paymentMethod: ['', Validators.required],
-      customAmount: ['']
+      course5: ['', Validators.required],
     });
   }
 

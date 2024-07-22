@@ -13,12 +13,15 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
 import { StudentComponent } from './student/student.component';
+import { PaymetComponent } from './paymet/paymet.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     UserComponent,
     StudentComponent,
+    PaymetComponent,
   ],
   imports: [
     BrowserModule,
@@ -31,7 +34,8 @@ import { StudentComponent } from './student/student.component';
     MatFormFieldModule,
     MatCardModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatSnackBarModule
   ],
   providers: [],
   bootstrap: [AppComponent]
