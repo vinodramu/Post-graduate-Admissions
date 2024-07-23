@@ -15,6 +15,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { StudentComponent } from './student/student.component';
 import { PaymetComponent } from './paymet/paymet.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { ExamApplicationComponent } from './exam-application/exam-application.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -22,6 +23,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     UserComponent,
     StudentComponent,
     PaymetComponent,
+    ExamApplicationComponent,
+    
   ],
   imports: [
     BrowserModule,

@@ -6,6 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent {
+  
   createUser() {
     // Add your logic for creating a userconsole.log('Create User button clicked');
   }
@@ -45,5 +46,6 @@ export class HomeComponent {
     event.preventDefault();
     alert('Forgot Password clicked!');
   }
+
 
 }

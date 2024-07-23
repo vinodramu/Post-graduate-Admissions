@@ -14,6 +14,7 @@ export class PaymetComponent {
 
   onSubmit() {
     //  payment process
+    console.log(this.selectedPaymentMethod)
     const isPaymentSuccessful = Math.random() < 0.5;
 
     if (isPaymentSuccessful) {

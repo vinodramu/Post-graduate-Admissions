@@ -35,11 +35,7 @@ export class StudentComponent implements OnInit {
       college2: ['', Validators.required],
       course2: ['', Validators.required],
       college3: ['', Validators.required],
-      course3: ['', Validators.required],
-      college4: ['', Validators.required],
-      course4: ['', Validators.required],
-      college5: ['', Validators.required],
-      course5: ['', Validators.required],
+      course3: ['', Validators.required]
     });
   }
 

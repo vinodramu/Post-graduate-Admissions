@@ -52,7 +52,7 @@ export class UserComponent {
               console.log('otp sent successfully', response);
             },
             error => {
-              console.error('Error saving rule', error);
+              console.error('Error saving User', error);
             });
         },
         error => {

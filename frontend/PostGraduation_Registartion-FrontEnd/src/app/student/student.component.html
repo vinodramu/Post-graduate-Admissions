@@ -222,38 +222,6 @@
             <option *ngFor="let course of courses" [value]="course">{{ course }}</option>
           </select>
         </div>
-
-        <div class="form-group">
-          <label for="college4">College 4</label>
-          <select id="college4" formControlName="college4" class="form-control">
-            <option value="">Select College</option>
-            <option *ngFor="let college of colleges" [value]="college">{{ college }}</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="course4">Course</label>
-          <select id="course4" formControlName="course4" class="form-control">
-            <option value="">Select Course</option>
-            <option *ngFor="let course of courses" [value]="course">{{ course }}</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="college5">College 5</label>
-          <select id="college5" formControlName="college5" class="form-control">
-            <option value="">Select College 1</option>
-            <option *ngFor="let college of colleges" [value]="college">{{ college }}</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="course5">Course</label>
-          <select id="course5" formControlName="course5" class="form-control">
-            <option value="">Select Course</option>
-            <option *ngFor="let course of courses" [value]="course">{{ course }}</option>
-          </select>
-        </div>
-
-
         <!-- Form Buttons -->
         <div class="form-buttons">
           <button type="button" class="btn btn-secondary" (click)="onSave()">Save</button>

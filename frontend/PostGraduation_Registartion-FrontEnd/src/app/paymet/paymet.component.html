@@ -23,7 +23,7 @@
     <div class="form-container">
         <form (ngSubmit)="onSubmit()">
             <div class="form-card">
-                <h2>Payment Form</h2>
+                <h2>Payment Method</h2>
                 <label for="paymentMethod">Select Payment Method:</label>
                 <select id="paymentMethod" [(ngModel)]="selectedPaymentMethod" name="paymentMethod" required>
                     <option *ngFor="let method of paymentMethods" [value]="method">{{ method }}</option>
