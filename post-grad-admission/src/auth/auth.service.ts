@@ -1,32 +1,30 @@
-// import { Injectable } from '@nestjs/common';
-// import { JwtService } from '@nestjs/jwt';
-// import { UserService } from '../user/user.service';
-// import { CreateUserDto } from './dto/create-user.dto';
-// import { LoginDto } from './dto/login.dto';
-// import { OtpDto } from './dto/otp.dto';
+// src/auth/auth.service.ts
+import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import * as bcrypt from 'bcrypt';
+import * as jwt from 'jsonwebtoken';
+import { User } from 'src/user/user.entity';
 
-// @Injectable()
-// export class AuthService {
-//   constructor(
-//     private userService: UserService,
-//     private jwtService: JwtService
-//   ) {}
+@Injectable()
+export class AuthService {
+  private readonly jwtSecret = 'secret1204'; // Use a strong secret
 
-//   async register(createUserDto: CreateUserDto) {
-//     const user = await this.userService.create(createUserDto);
-//     // Send email and SMS with OTP
-//     // Return user or token
-//   }
+  constructor(@InjectModel('User') private userModel: Model<User>) {}
 
-//   async login(loginDto: LoginDto) {
-//     const user = await this.userService.findByCredentials(loginDto);
-//     const payload = { username: user.username, sub: user.id };
-//     return {
-//       access_token: this.jwtService.sign(payload),
-//     };
-//   }
+  async validateStudent(email: string, password: string): Promise<any> {
+    const user = await this.userModel.findOne({ email });
+    if (user && await bcrypt.compare(password, user.password)) {
+      const { password, ...result } = user.toObject();
+      return result;
+    }
+    throw new UnauthorizedException('Invalid credentials');
+  }
 
-//   async verifyOtp(otpDto: OtpDto) {
-//     // Verify OTP logic
-//   }
-// }
+  async login(email: string, password: string): Promise<{ accessToken: string }> {
+    const user = await this.validateStudent(email, password);
+    const payload = { email: user.email };
+    const accessToken = jwt.sign(payload, this.jwtSecret, { expiresIn: '1h' });
+    return { accessToken };
+  }
+}

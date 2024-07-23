@@ -9,26 +9,32 @@ import { User, UserDocument } from './user.entity';
 import { CreateUserDto } from 'src/dto/create-user.dto';
 import { SendOtpDto } from 'src/dto/otp.dto';
 import { VerifyOtpDto } from '../dto/verify-otp.dto'
-import { MailerService } from 'src/mail/mail.service';
-
+import { SentMessageInfo } from 'nodemailer';
+import { MailerService } from '@nestjs-modules/mailer';
+import {environment } from '../environment'
 dotenv.config();
 
 @Injectable()
 export class UserService {
   private twilioClient: Twilio;
   private transporter: nodemailer.Transporter;
-  private readonly mailerService: MailerService
 
-  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {
-    this.twilioClient = new Twilio("");
-    // this.transporter = nodemailer.createTransport({
-    //   service: 'gmail',
-    //   auth: {
-    //     user: process.env.GMAIL_USER,
-    //     pass: process.env.GMAIL_PASS,
-    //   },
-    // });
+  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>,
+  private readonly mailerService: MailerService
+  ){
+    this.twilioClient = new Twilio(environment.twiloId,environment.twilosecretKey);
   }
+
+  async sendMail(to: string, subject: string, template: string, context: any): Promise<SentMessageInfo> {
+    const mailOptions = {
+      from: environment.fromEmail,
+      to,
+      subject,
+      template,
+      context,
+    };
+    return this.mailerService.sendMail(mailOptions);  
+}
 
   async register(createUserDto: CreateUserDto): Promise<any> {
     const { username, email, phone, password, confirmpassword } = createUserDto;
@@ -54,7 +60,7 @@ export class UserService {
     await user.save();
     await this.twilioClient.messages.create({
       body: `Your OTP is ${otp}`,
-      from: "+13203137936",
+      from: environment.fromphone,
       to: phone,
     });
     return { message: 'OTP sent successfully.' };
@@ -69,24 +75,18 @@ export class UserService {
     user.phoneVerified = true;
     user.otp = undefined; // Clear the OTP
     await user.save();
-   await this.mailerService.sendMail(
-      // user.email,
-      // 'Registration Successful',
-      // 'registration-email.hbs', // Adjust template name if needed
-      // { username: user.username }
+    await this.sendMail(
+      user.email,
+      'Registration Successful',
+      'registration-email.hbs',
+      { username: user.username }
     );
-    return { message: 'Phone number verified successfully.'};
+    return true;
    }
 
-  // async sendEmail(emailDto: EmailDto): Promise<any> {
-  //   const { email, subject, body } = emailDto;
-  //   const mailOptions = {
-  //     from: process.env.GMAIL_USER,
-  //     to: email,
-  //     subject: subject,
-  //     text: body,
-  //   };
-  //   await this.transporter.sendMail(mailOptions);
-  //   return { message: 'Email sent successfully.' };
-  // }
+   async getAllUsers(): Promise<User[]> {
+    return this.userModel.find().exec();
+  }
+
+ 
 }
