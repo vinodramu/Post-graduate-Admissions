@@ -1,18 +1,20 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { SuperAdmin, SuperAdminDocument } from './superadmin.entity';
+import { SuperAdmin, SuperAdminDocument } from '../models/superadmin.entity';
 import { CreateSuperAdminDto } from '../dto/super-admin.dto';
 import * as bcrypt from 'bcrypt';
-import { Student, StudentDocument } from './student.entity';
+import { Student, StudentDocument } from '../models/student.entity';
 import { CreateStudentDto } from 'src/dto/create-student.dto';
+import { Examination } from 'src/models/examinations';
 
 @Injectable()
 export class SuperAdminService {
     generatedIds: Set<string>;
     constructor(
         @InjectModel(SuperAdmin.name) private superAdminModel: Model<SuperAdminDocument>,
-        @InjectModel(Student.name) private studentModel: Model<StudentDocument>
+        @InjectModel(Student.name) private studentModel: Model<StudentDocument>,
+        @InjectModel('Examination') private readonly examinationModel: Model<Examination>,
     ) { this.generatedIds = new Set();  }
 
     async create(createSuperAdminDto: CreateSuperAdminDto): Promise<string> {
@@ -33,10 +35,10 @@ export class SuperAdminService {
         return this.superAdminModel.find().exec();
     }
 
-    async findAllStudents(page: number, limit: number): Promise<{ students: Student[], total: number }> {
+    async findAllStudents(page: number, limit: number): Promise<{ students: Examination[], total: number }> {
         const skip = (page - 1) * limit;
-        const students = await this.studentModel.find().skip(skip).limit(limit).exec();
-        const total = await this.studentModel.countDocuments().exec();
+        const students = await this.examinationModel.find().skip(skip).limit(limit).exec();
+        const total = await this.examinationModel.countDocuments().exec();
         return { students, total };
     }
 

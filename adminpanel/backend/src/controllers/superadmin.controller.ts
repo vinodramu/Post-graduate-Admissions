@@ -1,10 +1,13 @@
 import { Controller, Get, Post, Body, Logger, forwardRef, HttpStatus, Inject, Query } from '@nestjs/common';
-import { SuperAdminService } from './superadmin.service';
+import { SuperAdminService } from '../services/superadmin.service';
 import { CreateSuperAdminDto } from '../dto/super-admin.dto';
 import { LoginSuperAdminDto } from 'src/dto/login-super-admin.dto';
-import { AuthService } from '../auth/auth.service';
-import { Student } from './student.entity';
+import { AuthService } from '../services/auth.service';
+import { Student } from '../models/student.entity';
 import { CreateStudentDto } from 'src/dto/create-student.dto';
+import { AdminService } from 'src/services/admin.service';
+import { CreateAdminDto } from 'src/dto/create-admin.dto';
+import { Admin } from 'src/models/admin.schema';
 
 @Controller('superAdmin')
 export class SuperAdminController {
@@ -12,12 +15,19 @@ export class SuperAdminController {
         @Inject(forwardRef(() => AuthService))
         private readonly authService: AuthService,
         @Inject(forwardRef(() => SuperAdminService))
-        private readonly superAdminService: SuperAdminService
+        private readonly superAdminService: SuperAdminService,
+        @Inject(forwardRef(() => AdminService))
+        private readonly adminService: AdminService
     ) { }
 
-    @Post('/create')
-    async create(@Body() createSuperAdminDto: CreateSuperAdminDto) {
+    @Post('create/superadmin')
+    async createSuperAdmin(@Body() createSuperAdminDto: CreateSuperAdminDto) {
         return this.superAdminService.create(createSuperAdminDto);
+    }
+
+    @Post('create/admin')
+    async createAdmin(@Body() createAdminDto: CreateAdminDto): Promise<Admin> {
+        return await this.adminService.create(createAdminDto);
     }
 
     @Post('login')
@@ -36,7 +46,7 @@ export class SuperAdminController {
         }
     }
 
-    @Get('/list/students')
+    @Get('list/students')
     async findAllStudents(
         @Query('page') page: number = 1,
         @Query('limit') limit: number = 4,
@@ -50,7 +60,7 @@ export class SuperAdminController {
         };
     }
     
-    @Post('/create/student')
+    @Post('create/student')
     async createStudent(@Body() createStudentDto: CreateStudentDto): Promise<Student> {
         return this.superAdminService.createStudent(createStudentDto);
     }   

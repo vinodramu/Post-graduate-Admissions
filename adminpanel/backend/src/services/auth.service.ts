@@ -3,7 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import * as bcrypt from 'bcrypt';
-import { SuperAdmin, SuperAdminDocument } from '../SuperAdmin/superadmin.entity';
+import { SuperAdmin, SuperAdminDocument } from '../models/superadmin.entity';
 import { LoginSuperAdminDto } from 'src/dto/login-super-admin.dto';
 
 @Injectable()
