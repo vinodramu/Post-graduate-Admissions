@@ -1,11 +1,16 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
-import { Education, EducationSchema } from 'src/education/schemas/education.schema';
+import { Document,Schema as mongooseSchema, Types } from 'mongoose';
+import { Education, EducationSchema } from '../../education/schema/education.schema';
+import { v4 as uuidv4 } from 'uuid';
+import { Application } from 'src/application/schemas/application.schema';
 
 @Schema()
 export class Student extends Document {
-  @Prop({ required: true, unique: true })
-  student_id: string;
+  // @Prop({ unique: true , default: () => uuidv4()})
+  // student_id: string;
+
+  @Prop({ type: [{ type: [mongooseSchema.Types.ObjectId], ref: 'Application' }] })
+  applicationsIds: Types.ObjectId[];
 
   @Prop({ required: true })
   name: string;
@@ -25,18 +30,18 @@ export class Student extends Document {
   @Prop({ required: true })
   address: string;
 
-  @Prop({ type: [String], required: true })
-  state: string[];
+  @Prop({ required: true })
+  state: string;
 
   @Prop({ required: true })
   pincode: string;
 
-  @Prop({ type: [String], required: true })
-  country: string[];
+  @Prop({ required: true })
+  country: string;
 
   @Prop({ type: [EducationSchema], required: true })
   educational_details: Education[];
 
 }
 
-export const StudentSchema = SchemaFactory.createForClass(Student);
+  export const StudentSchema = SchemaFactory.createForClass(Student);

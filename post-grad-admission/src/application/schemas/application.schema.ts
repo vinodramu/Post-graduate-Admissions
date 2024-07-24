@@ -1,16 +1,17 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document as MongooseDocument, Schema as MongooseSchema } from 'mongoose';
+import { Document as MongooseDocument, Schema as MongooseSchema, Types } from 'mongoose';
+import { Student } from 'src/student/schemas/student.schema';
 
 @Schema()
 export class Application extends MongooseDocument {
-  @Prop({ required: true, unique: true })
-  application_id: string;
+  // @Prop({ required: true, unique: true })
+  // application_id: string;
 
-  @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'Student', required: true })
-  student_id: MongooseSchema.Types.ObjectId;
+  @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'Student' })
+  studentId: Types.ObjectId;
 
-  @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'Course', required: true })
-  course_id: MongooseSchema.Types.ObjectId;
+  // @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'Course', required: true })
+  // course_id: MongooseSchema.Types.ObjectId;
 
   @Prop({ required: true ,default: 'pending'})
   status: string;

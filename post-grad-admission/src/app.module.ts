@@ -7,6 +7,8 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
 import { AuthModule } from './auth/auth.module';
 import { ExaminationModule } from './examination/examination.module';
 import {environment } from './environment'
+import { StudentModule } from './student/student.module';
+import { ApplicationModule } from './application/application.module';
 
 
 @Module({
@@ -42,6 +44,8 @@ import {environment } from './environment'
     MailerModule,
     AuthModule,
     ExaminationModule,
+    StudentModule,
+    ApplicationModule
   ],
 })
 export class AppModule {}
