@@ -1,6 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 
-const ExamAllotmentSchema = new Schema({
+export const ExamAllotmentSchema = new Schema({
     student: { type: Schema.Types.ObjectId, ref: 'Student', required: true }, 
     examCentre: { type: Schema.Types.ObjectId, ref: 'ExamCentre', required: true }, 
     course: { type: Schema.Types.ObjectId, ref: 'Course', required: true }, 
@@ -8,4 +8,4 @@ const ExamAllotmentSchema = new Schema({
 });
 
 const ExamAllotment = mongoose.model('ExamAllotment', ExamAllotmentSchema);
-module.exports = ExamAllotment;
+export default ExamAllotment;
