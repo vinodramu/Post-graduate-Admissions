@@ -1,163 +1,230 @@
-<div class="container mt-5">
-    <h2 class="mb-4">Exam Application Form</h2>
-    <form [formGroup]="examForm" (ngSubmit)="onSubmit()">
-      <!-- Name Field -->
-      <div class="mb-3">
-        <label for="name" class="form-label">Name</label>
-        <input id="name" formControlName="name" class="form-control" />
-        <div *ngIf="submitted && f['name'].errors" class="text-danger">
-          <div *ngIf="f['name'].errors['required']">Name is required</div>
-        </div>
-      </div>
-      
-      <!-- Aadhar Number Field -->
-      <div class="mb-3">
-        <label for="aadharNumber" class="form-label">Aadhar Number</label>
-        <input id="aadharNumber" formControlName="aadharNumber" class="form-control" />
-        <div *ngIf="submitted && f['aadharNumber'].errors" class="text-danger">
-          <div *ngIf="f['aadharNumber'].errors['required']">Aadhar Number is required</div>
-        </div>
-      </div>
-      
-      <!-- Date of Birth Field -->
-      <div class="mb-3">
-        <label for="dob" class="form-label">Date of Birth</label>
-        <input id="dob" type="date" formControlName="dob" class="form-control" />
-        <div *ngIf="submitted && f['dob'].errors" class="text-danger">
-          <div *ngIf="f['dob'].errors['required']">Date of Birth is required</div>
-        </div>
-      </div>
-      
-      <!-- Nationality Field -->
-      <div class="mb-3">
-        <label for="nationality" class="form-label">Nationality</label>
-        <input id="nationality" formControlName="nationality" class="form-control" />
-        <div *ngIf="submitted && f['nationality'].errors" class="text-danger">
-          <div *ngIf="f['nationality'].errors['required']">Nationality is required</div>
-        </div>
-      </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam Application</title>
+</head>
+<body>
+    <div class="form-container">
+        <form [formGroup]="studentExamForm" (ngSubmit)="onSubmit()">
+            <h1>Exam Application</h1>
+            
+            <div class="form-section">
+                <h2>Personal Details</h2>
+                <div class="form-grid">
+                    <div>
+                        <label for="name">Name</label>
+                        <input id="name" formControlName="name">
+                    </div>
+                    <div>
+                        <label for="date_of_birth">Date of Birth</label>
+                        <input id="date_of_birth" type="date" formControlName="date_of_birth">
+                    </div>
+                    <div>
+                        <label for="pincode">Gender</label>
+                        <select id="pincode" formControlName="gender">
+                            <option *ngFor="let gender of genders" [value]="gender">{{gender}}</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="email">Email</label>
+                        <input id="email" type="email" formControlName="email">
+                    </div>
+                    <div>
+                        <label for="phone_number">Phone Number</label>
+                        <input id="phone_number" formControlName="phone_number">
+                    </div>
+                    <div>
+                        <label for="aadharno">Aadhar Number</label>
+                        <input id="aadharno" formControlName="aadharno">
+                    </div>
+                    <div>
+                        <label for="address">Address</label>
+                        <input id="address" formControlName="address">
+                    </div>
+                    <div>
+                        <label for="state">State</label>
+                        <select id="state" formControlName="state">
+                            <option *ngFor="let state of states" [value]="state">{{state}}</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="address">Pincode</label>
+                        <input id="address" formControlName="pincode">
+                    </div>
+                    <div>
+                        <label for="country">Country</label>
+                        <select id="country" formControlName="country">
+                            <option *ngFor="let country of countries" [value]="country">{{country}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-section">
+                <h2>Degree Details</h2>
+                <div class="form-grid">
+                    <div>
+                        <label for="level">Level</label>
+                        <input id="level" formControlName="degreeLevel">
+                    </div>
+                    <div>
+                        <label for="board">Board</label>
+                        <select id="board" formControlName="degreeBoard">
+                            <option *ngFor="let board of boards" [value]="board">{{board}}</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="roll_no">Roll Number</label>
+                        <input id="roll_no" formControlName="degreeRoll_no">
+                    </div>
+                    <div>
+                        <label for="school_college_name">School/College Name</label>
+                        <input id="school_college_name" formControlName="degreeCollegeName">
+                    </div>
+                    <div>
+                        <label for="year_of_passing">Year of Passing</label>
+                        <input id="year_of_passing" type="number" formControlName="degreeYop">
+                    </div>
+                    <div>
+                        <label for="percentage_cgpa">Percentage/CGPA</label>
+                        <input id="percentage_cgpa" formControlName="degreePercentage">
+                    </div>
+                    <div>
+                        <label for="specialization">Specialization</label>
+                        <input id="specialization" formControlName="DegreeSpecialization">
+                    </div>
+                    <div>
+                        <label for="certificate">Upload Degree Certificate</label>
+                        <input id="certificate" type="file" (change)="onFileChange($event, 'DegreeCertificate')">
+                    </div>
+                </div>
+            </div> 
 
-      <div class="mb-3">
-        <label for="caste" class="form-label">Caste</label>
-        <input id="caste" formControlName="caste" class="form-control" />
-        <div *ngIf="submitted && f['caste'].errors" class="text-danger">
-          <div *ngIf="f['caste'].errors['required']">caste is required</div>
-        </div>
-      </div>
-      
-      <!-- Email Field -->
-      <div class="mb-3">
-        <label for="email" class="form-label">Email</label>
-        <input id="email" formControlName="email" type="email" class="form-control" />
-        <div *ngIf="submitted && f['email'].errors" class="text-danger">
-          <div *ngIf="f['email'].errors['required']">Email is required</div>
-          <div *ngIf="f['email'].errors['email']">Invalid email format</div>
-        </div>
-      </div>
-      
-      <!-- Phone Number Field -->
-      <div class="mb-3">
-        <label for="phoneNumber" class="form-label">Phone Number</label>
-        <input id="phoneNumber" formControlName="phoneNumber" class="form-control" />
-        <div *ngIf="submitted && f['phoneNumber'].errors" class="text-danger">
-          <div *ngIf="f['phoneNumber'].errors['required']">Phone Number is required</div>
-        </div>
-      </div>
+            <div class="form-section">
+                <h2>12th Details</h2>
+                <div class="form-grid">
+                    <div>
+                        <label for="level">Level</label>
+                        <input id="level" formControlName="InterLevel">
+                    </div>
+                    <div>
+                        <label for="board">Board</label>
+                        <select id="board" formControlName="InterBoardoard">
+                            <option *ngFor="let board of countries" [value]="board">{{board}}</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="roll_no">Roll Number</label>
+                        <input id="roll_no" formControlName="interRollNo">
+                    </div>
+                    <div>
+                        <label for="school_college_name">School/College Name</label>
+                        <input id="school_college_name" formControlName="interCollegeName">
+                    </div>
+                    <div>
+                        <label for="year_of_passing">Year of Passing</label>
+                        <input id="year_of_passing" type="number" formControlName="interYop">
+                    </div>
+                    <div>
+                        <label for="percentage_cgpa">Percentage/CGPA</label>
+                        <input id="percentage_cgpa" formControlName="interPercentage">
+                    </div>
+                    <div>
+                        <label for="specialization">Specialization</label>
+                        <input id="specialization" formControlName="interSpecializatio">
+                    </div>
+                    <div>
+                        <label for="certificate">Upload !2th Certificate</label>
+                        <input id="certificate" type="file" (change)="onFileChange($event, 'interCertificate')">
+                    </div>
+                </div>
+            </div>
 
-      <!-- Address Field -->
-      <div class="mb-3">
-        <label for="address" class="form-label">Address</label>
-        <input id="address" formControlName="address" class="form-control" />
-        <div *ngIf="submitted && f['address'].errors" class="text-danger">
-          <div *ngIf="f['address'].errors['required']">Address is required</div>
-        </div>
-      </div>
+            <div class="form-section">
+                <h2>10th Details</h2>
+                <div class="form-grid">
+                    <div>
+                        <label for="level">Level</label>
+                        <input id="level" formControlName="sscLevel">
+                    </div>
+                    <div>
+                        <label for="board">Board</label>
+                        <select id="board" formControlName="sscBoard">
+                            <option *ngFor="let board of countries" [value]="board">{{board}}</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="roll_no">Roll Number</label>
+                        <input id="roll_no" formControlName="sscRoll_no">
+                    </div>
+                    <div>
+                        <label for="school_college_name">School/College Name</label>
+                        <input id="school_college_name" formControlName="sscSchoolName">
+                    </div>
+                    <div>
+                        <label for="year_of_passing">Year of Passing</label>
+                        <input id="year_of_passing" type="number" formControlName="sscYop">
+                    </div>
+                    <div>
+                        <label for="percentage_cgpa">Percentage/CGPA</label>
+                        <input id="percentage_cgpa" formControlName="sscPercentage">
+                    </div>
+                    <div>
+                        <label for="certificate">Upload SSC Certificate</label>
+                        <input id="certificate" type="file" (change)="onFileChange($event, 'sscCertificate')">
+                    </div>
+                </div>
+            </div>
 
-      <div class="mb-3">
-        <label for="city" class="form-label">City</label>
-        <input id="city" formControlName="city" class="form-control" />
-        <div *ngIf="submitted && f['city'].errors" class="text-danger">
-          <div *ngIf="f['city'].errors['required']">city is required</div>
-        </div>
-      </div>
-
-      <div class="mb-3">
-        <label for="district" class="form-label">district</label>
-        <input id="district" formControlName="district" class="form-control" />
-        <div *ngIf="submitted && f['district'].errors" class="text-danger">
-          <div *ngIf="f['district'].errors['required']">city is required</div>
-        </div>
-      </div>
-      
-      <!-- Degree Name Field -->
-      <div class="mb-3">
-        <label for="degreeName" class="form-label">Degree Name</label>
-        <input id="degreeName" formControlName="degreeName" class="form-control" />
-        <div *ngIf="submitted && f['degreeName'].errors" class="text-danger">
-          <div *ngIf="f['degreeName'].errors['required']">Degree Name is required</div>
-        </div>
-      </div>
-      
-      <!-- Year of Passing Field -->
-      <div class="mb-3">
-        <label for="yearOfPassing" class="form-label">Year of Passing</label>
-        <input id="yearOfPassing" formControlName="yearOfPassing" type="number" class="form-control" />
-        <div *ngIf="submitted && f['yearOfPassing'].errors" class="text-danger">
-          <div *ngIf="f['yearOfPassing'].errors['required']">Year of Passing is required</div>
-        </div>
-      </div>
-      
-      <!-- CGPA Field -->
-      <div class="mb-3">
-        <label for="cgpa" class="form-label">CGPA</label>
-        <input id="cgpa" formControlName="cgpa" type="number" step="0.01" class="form-control" />
-        <div *ngIf="submitted && f['cgpa'].errors" class="text-danger">
-          <div *ngIf="f['cgpa'].errors['required']">CGPA is required</div>
-        </div>
-      </div>
-      
-      <!-- Hall Ticket Number Field -->
-      <div class="mb-3">
-        <label for="hallTicketNumber" class="form-label">Hall Ticket Number</label>
-        <input id="hallTicketNumber" formControlName="hallTicketNumber" class="form-control" />
-        <div *ngIf="submitted && f['hallTicketNumber'].errors" class="text-danger">
-          <div *ngIf="f['hallTicketNumber'].errors['required']">Hall Ticket Number is required</div>
-        </div>
-      </div>
-      
-      <!-- Degree Certificate Field -->
-      <div class="mb-3">
-        <label for="degreeCertificate" class="form-label">Degree Certificate</label>
-        <input id="degreeCertificate" type="file" formControlName="degreeCertificate" class="form-control" />
-      </div>
-      
-      <!-- Photo Field -->
-      <div class="mb-3">
-        <label for="photo" class="form-label">Photo</label>
-        <input id="photo" type="file" formControlName="photo" class="form-control" />
-      </div>
-
-      <div class="mb-3">
-        <label for="signature" class="form-label">Photo</label>
-        <input id="signature" type="file" formControlName="signature" class="form-control" />
-      </div>
-      
-      <!-- Fees Field -->
-      <div class="mb-3">
-        <label for="fees" class="form-label">Fees</label>
-        <input id="fees" formControlName="fees" type="number" class="form-control" />
-        <div *ngIf="submitted && f['fees'].errors" class="text-danger">
-          <div *ngIf="f['fees'].errors['required']">Fees is required</div>
-        </div>
-      </div>
-      
-      <!-- Submit and Cancel Buttons -->
-      <div class="d-flex justify-content-end">
-        <button type="submit" class="btn btn-primary me-2">
-          {{ selectedApplication ? 'Update' : 'Submit' }}
-        </button>
-        <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancel</button>
-      </div>
-    </form>
-  </div>
-  
+            <div class="form-section">
+                <h2>SELECT COURSE AND COLLEGE</h2>
+                <div class="form-grid">
+                    <div>
+                        <label for="college">Select college</label>
+                        <select id="college" formControlName="college">
+                            <option *ngFor="let college of colleges"  [value]="college">{{college}}</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="course">Select Course</label>
+                        <select id="course" formControlName="course">
+                            <option *ngFor="let course of courses" [value]="course">{{course}}</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="center1">Choose Exam center-1</label>
+                        <select id="center1" formControlName="center1">
+                            <option *ngFor="let center of centers" [value]="center">{{center}}</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="center2">Choose Exam center-1</label>
+                        <select id="center2" formControlName="center2">
+                            <option *ngFor="let center of centers" [value]="center">{{center}}</option>
+                        </select>
+                    </div>
+                    
+                </div>
+            </div>
+            
+            <div class="form-section">
+                <h2>Upload Documents</h2>
+                <div class="form-grid">
+                    <div>
+                        <label for="photo">Photo Upload</label>
+                        <input id="photo" type="file" (change)="onFileChange($event, 'photo')">
+                    </div>
+                    <div>
+                        <label for="signature">Signature Upload</label>
+                        <input id="signature" type="file" (change)="onFileChange($event, 'signature')">
+                    </div>
+                </div>
+            </div>
+            
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</body>
+</html>

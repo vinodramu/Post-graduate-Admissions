@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { AuthService } from '../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -7,6 +9,7 @@ import { Component } from '@angular/core';
 })
 export class HomeComponent {
   
+
   createUser() {
     // Add your logic for creating a userconsole.log('Create User button clicked');
   }
@@ -17,6 +20,9 @@ export class HomeComponent {
   isPopupVisible = false;
   userEmail = '';
   password = '';
+  loginError = false;
+
+  constructor(private authService: AuthService,private router:Router) { }
 
   showPopup() {
     this.isPopupVisible = true;
@@ -29,7 +35,6 @@ export class HomeComponent {
   }
   handleKeyboardEvent(event: Event): void {
     if (event instanceof KeyboardEvent) {
-      // Handle keyboard event
       if (event.key === 'Enter' || event.key === ' ') {
         this.isPopupVisible = false;
       }
@@ -37,9 +42,17 @@ export class HomeComponent {
   }
 
   onLoginSubmit() {
-    // Handle login logic here
-    console.log('User ID:', this.userEmail);
-    console.log('Password:', this.password);
+    this.authService.login(this.userEmail, this.password).subscribe(
+      response => {
+        this.loginError = false;
+        console.log(response)
+        this.router.navigate(['/exam-application']); 
+      },
+      error => {
+        console.log(error)
+        this.loginError = true;
+      }
+    );
   }
 
   onForgotPassword(event: Event) {

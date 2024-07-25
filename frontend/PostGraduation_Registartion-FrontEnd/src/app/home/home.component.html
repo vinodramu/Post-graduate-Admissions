@@ -68,6 +68,9 @@
                     <button type="button" class="btn btn-link" (click)="onForgotPassword($event)">Forgot
                         Password?</button>
                 </div>
+                <div *ngIf="loginError" class="error-message" style="color: red;">
+                    Incorrect email or password.
+                </div>
             </form>
         </div>
     </div>
