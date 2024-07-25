@@ -21,10 +21,17 @@ export class AuthService {
     throw new UnauthorizedException('Invalid credentials');
   }
 
-  async login(email: string, password: string): Promise<{ accessToken: string }> {
+  async login(email: string, password: string): Promise<{ accessToken: string } | { error: string }> {
     const user = await this.validateStudent(email, password);
+  
+    if (!user.phoneVerified) {
+      return { error: 'Phone number not verified' };
+    }
+  
     const payload = { email: user.email };
     const accessToken = jwt.sign(payload, this.jwtSecret, { expiresIn: '1h' });
+  
     return { accessToken };
   }
+  
 }

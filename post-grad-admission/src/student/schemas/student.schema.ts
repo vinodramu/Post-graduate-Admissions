@@ -9,6 +9,9 @@ export class Student extends Document {
   // @Prop({ unique: true , default: () => uuidv4()})
   // student_id: string;
 
+  @Prop({ type: mongooseSchema.Types.ObjectId, ref: 'Document' })
+  documentId: Types.ObjectId;
+
   @Prop({ type: [{ type: [mongooseSchema.Types.ObjectId], ref: 'Application' }] })
   applicationsIds: Types.ObjectId[];
 
@@ -26,6 +29,9 @@ export class Student extends Document {
 
   @Prop({ required: true })
   phone_number: string;
+
+  @Prop({ required: true, unique: true })
+  aadharno: string;
 
   @Prop({ required: true })
   address: string;

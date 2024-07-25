@@ -35,8 +35,9 @@ export const multerOptions = {
       cb(null, uploadPath)
     },
 
-    filename: (req: any, file: any, cb: any) => {
-      cb(null, file.originalname)
-    }
+    filename: (req, file, callback) => {
+      const filename = `${Date.now()}${extname(file.originalname)}`;
+      callback(null, filename);
+    },
   })
 }

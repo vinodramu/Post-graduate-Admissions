@@ -88,5 +88,13 @@ export class UserService {
     return this.userModel.find().exec();
   }
 
+  async getUserByEmail(email: string): Promise<User | null> {
+    const user = await this.userModel.findOne({ email }).exec();
+    if (!user) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+    return user;
+  }
+
  
 }

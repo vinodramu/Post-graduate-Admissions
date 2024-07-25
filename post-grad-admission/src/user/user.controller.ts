@@ -1,5 +1,5 @@
 // user.controller.ts
-import { Controller, Post, Body, Res, Get, Param } from '@nestjs/common';
+import { Controller, Post, Body, Res, Get, Param, Query } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from 'src/dto/create-user.dto';
 import { SendOtpDto } from 'src/dto/otp.dto';
@@ -28,5 +28,10 @@ export class UserController {
   @Get('/getalluser')
   async getAllUsers(): Promise<User[]> {
     return this.userService.getAllUsers();
+  }
+
+  @Get('/by-email/:email')
+  async getUserByEmail(@Param('email') email: string): Promise<User> {
+    return this.userService.getUserByEmail(email);
   }
 }

@@ -5,10 +5,10 @@ import { UserModule } from './user/user.module';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 import { AuthModule } from './auth/auth.module';
-import { ExaminationModule } from './examination/examination.module';
 import {environment } from './environment'
 import { StudentModule } from './student/student.module';
 import { ApplicationModule } from './application/application.module';
+import { DocumentModule } from './document/document.module';
 
 
 @Module({
@@ -43,9 +43,9 @@ import { ApplicationModule } from './application/application.module';
     UserModule,
     MailerModule,
     AuthModule,
-    ExaminationModule,
     StudentModule,
-    ApplicationModule
+    ApplicationModule,
+    DocumentModule
   ],
 })
 export class AppModule {}

@@ -1,8 +1,12 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document as MongooseDocument } from 'mongoose';
+import { Document as MongooseDocument,Schema as MongooseSchema,Types } from 'mongoose';
 
 @Schema()
 export class Education extends MongooseDocument {
+
+  @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'Student' })
+  studentId: Types.ObjectId;
+
   @Prop({ required: true })
   level: string; // e.g., '10th', '12th', 'Graduation'
 
