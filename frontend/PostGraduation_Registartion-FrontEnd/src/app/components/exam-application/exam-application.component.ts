@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CommonService } from '../services/common.service';
-import { StudentPersonalData } from '../models/studentPersonalData.model';
-import { StudentEducationdata } from '../models/studentEducatioData.model';
-import { StudentApplicationCourseData } from '../models/studentApplicationCourseData.model';
-import { StudentApplicationService } from '../services/student-application.service';
-
+import { StudentApplicationCourseData } from 'src/app/models/studentApplicationCourseData.model';
+import { StudentEducationdata } from 'src/app/models/studentEducatioData.model';
+import { StudentPersonalData } from 'src/app/models/studentPersonalData.model';
+import { CommonService } from 'src/app/services/common.service';
+import { StudentApplicationService } from 'src/app/services/student-application.service';
 @Component({
   selector: 'app-exam-application',
   templateUrl: './exam-application.component.html',
@@ -195,7 +194,7 @@ export class ExamApplicationComponent implements OnInit {
     const selectedCollege = (event.target as HTMLSelectElement).value;
     this.dropdownDataService.getCoursesByCollegeNaame(selectedCollege).subscribe(
       data => {
-        this.courses = data.map((course: any) => course.name);
+        this.courses = data.map((course:any) => course.name);
       },
       error => {
         console.error('Error fetching college data:', error);

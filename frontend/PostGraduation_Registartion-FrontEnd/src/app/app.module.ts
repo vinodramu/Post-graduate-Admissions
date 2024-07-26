@@ -3,8 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HomeComponent } from './home/home.component';
-import { UserComponent } from './user/user.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -12,10 +10,12 @@ import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
-import { StudentComponent } from './student/student.component';
-import { PaymetComponent } from './paymet/paymet.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { ExamApplicationComponent } from './exam-application/exam-application.component';
+import { HomeComponent } from './components/home/home.component';
+import { UserComponent } from './components/user/user.component';
+import { StudentComponent } from './components/student/student.component';
+import { PaymetComponent } from './components/paymet/paymet.component';
+import { ExamApplicationComponent } from './components/exam-application/exam-application.component';
 @NgModule({
   declarations: [
     AppComponent,

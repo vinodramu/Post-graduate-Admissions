@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { UserData } from '../models/userData.model';
-import { UserService } from '../services/user.service';
+import { UserData } from 'src/app/models/userData.model';
+import { UserService } from 'src/app/services/user.service';
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
@@ -44,21 +44,21 @@ export class UserComponent {
       this.user1.phone = '+91' + this.form.value.phone;
       console.log(this.user1)
       this.userService.saveUser(this.user1).subscribe(
-        response => {
-          localStorage.setItem('userName',this.user1.username)
-          localStorage.setItem('userEmail',this.user1.email)
-          localStorage.setItem('userPhone',this.user1.phone)
+        (response: any) => {
+          localStorage.setItem('userName', this.user1.username)
+          localStorage.setItem('userEmail', this.user1.email)
+          localStorage.setItem('userPhone', this.user1.phone)
           console.log('User saved successfully', response);
           this.userService.sendOtp(this.user1.phone).subscribe(
-            response => {
+            (response: any) => {
               this.showOtpPopup = true;
               console.log('otp sent successfully', response);
             },
-            error => {
+            (error: any) => {
               console.error('Error saving User', error);
             });
         },
-        error => {
+        (error: any) => {
           console.error('Error while saving User', error);
         });
     }
@@ -78,7 +78,7 @@ export class UserComponent {
           }
           console.log(response)
         },
-        error => {
+        (error: any) => {
           this.showOtpPopup = false;
           this.showErrorPopup = true;
           console.error('Error saving rule', error);
@@ -97,11 +97,11 @@ export class UserComponent {
   }
   ResendOTP() {
     this.userService.sendOtp(this.user1.phone).subscribe(
-      response => {
+      (response: any) => {
         this.showOtpPopup = true;
         console.log('otp sent successfully', response);
       },
-      error => {
+      (error: any) => {
         console.error('Error saving rule', error);
       });
     this.showResendOtp = true;
