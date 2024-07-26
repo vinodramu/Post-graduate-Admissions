@@ -1,28 +1,28 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document as MongooseDocument, Schema as MongooseSchema } from 'mongoose';
+import { Document, Types } from 'mongoose';
 
 @Schema()
-export class Document extends MongooseDocument {
-  @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'Student' })
-  studentId: MongooseSchema.Types.ObjectId;
+export class DocumentEntity extends Document {
+  @Prop({ type: Types.ObjectId, ref: 'Student' })
+  studentId: Types.ObjectId;
 
   @Prop()
-  aadhar_photo: string;
+  aadharPhoto: string;
 
   @Prop()
-  student_photo: string;
+  studentPhoto: string;
 
   @Prop()
   signature: string;
 
   @Prop()
-  degree_certificate: string;
+  graduationCertificate: string;
 
   @Prop()
-  intermediate_certificate: string;
+  twelthCertificate: string;
 
   @Prop()
-  tenth_certificate: string;
+  tenthCertificate: string;
 }
 
-export const DocumentSchema = SchemaFactory.createForClass(Document);
+export const DocumentSchema = SchemaFactory.createForClass(DocumentEntity);

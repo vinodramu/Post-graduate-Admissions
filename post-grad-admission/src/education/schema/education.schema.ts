@@ -1,32 +1,31 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document as MongooseDocument,Schema as MongooseSchema,Types } from 'mongoose';
+import { Document, Types } from 'mongoose';
 
 @Schema()
-export class Education extends MongooseDocument {
-
-  @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'Student' })
-  studentId: Types.ObjectId;
+export class Education extends Document {
+  @Prop({ required: true })
+  levelOfEducation: string;
 
   @Prop({ required: true })
-  level: string; // e.g., '10th', '12th', 'Graduation'
+  institution: string;
 
   @Prop({ required: true })
-  board: string; // e.g., 'CBSE', 'State Board'
+  yearOfPassing: number;
 
   @Prop({ required: true })
-  roll_no: string;
-
-  @Prop({ required: true })
-  school_college_name: string;
-
-  @Prop({ required: true })
-  year_of_passing: number;
-
-  @Prop({ required: true })
-  percentage_cgpa: number;
-
-  @Prop()
-  specialization?: string; // Only for graduation
+  percentage: string;
 }
 
 export const EducationSchema = SchemaFactory.createForClass(Education);
+
+@Schema()
+export class EducationalDetails extends Document {
+  @Prop({ type: Types.ObjectId, ref: 'Student' })
+  studentId: Types.ObjectId;
+
+  @Prop({ type: [EducationSchema], required: true })
+  education: Education[];
+}
+
+export const EducationalDetailsSchema =
+  SchemaFactory.createForClass(EducationalDetails);
