@@ -7,7 +7,8 @@ import { Education } from './schema/education.schema'; // Adjust the import path
 @Injectable()
 export class EducationService {
   constructor(
-    @InjectModel(Education.name) private readonly educationModel: Model<Education>,
+    @InjectModel(Education.name)
+    private readonly educationModel: Model<Education>
   ) {}
 
   // Method to create a new education record
@@ -22,8 +23,12 @@ export class EducationService {
   }
 
   // Method to update an education record by ID
-  async updateEducation(id: string, educationData: Partial<Education>): Promise<Education | null> {
-    return await this.educationModel.findByIdAndUpdate(id, educationData, { new: true }).exec();
+  async updateEducation(
+    id: string,
+    educationData: Partial<Education>
+  ): Promise<Education | null> {
+    return await this.educationModel
+      .findByIdAndUpdate(id, educationData, { new: true })
+      .exec();
   }
-
 }

@@ -13,9 +13,6 @@ export class Application extends Document {
   submissionDate: Date;
 
   @Prop({ type: Types.ObjectId })
-  collegeId: Types.ObjectId;
-
-  @Prop({ type: Types.ObjectId })
   courseId: Types.ObjectId;
 
   @Prop()

@@ -14,24 +14,26 @@ export class AuthService {
 
   async validateStudent(email: string, password: string): Promise<any> {
     const user = await this.userModel.findOne({ email });
-    if (user && await bcrypt.compare(password, user.password)) {
+    if (user && (await bcrypt.compare(password, user.password))) {
       const { password, ...result } = user.toObject();
       return result;
     }
     throw new UnauthorizedException('Invalid credentials');
   }
 
-  async login(email: string, password: string): Promise<{ accessToken: string } | { error: string }> {
+  async login(
+    email: string,
+    password: string
+  ): Promise<{ accessToken: string } | { error: string }> {
     const user = await this.validateStudent(email, password);
-  
+
     if (!user.phoneVerified) {
       return { error: 'Phone number not verified' };
     }
-  
+
     const payload = { email: user.email };
     const accessToken = jwt.sign(payload, this.jwtSecret, { expiresIn: '1h' });
-  
+
     return { accessToken };
   }
-  
 }

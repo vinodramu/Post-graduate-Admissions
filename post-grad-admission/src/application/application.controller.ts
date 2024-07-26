@@ -1,4 +1,14 @@
-import { Controller, Get, Post, Body, Param, Put, Delete, NotFoundException, Patch } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Put,
+  Delete,
+  NotFoundException,
+  Patch,
+} from '@nestjs/common';
 import { ApplicationService } from './application.service';
 import { Application } from './schemas/application.schema';
 import { Student } from 'src/student/schemas/student.schema';
@@ -7,14 +17,12 @@ import { Student } from 'src/student/schemas/student.schema';
 export class ApplicationController {
   constructor(private readonly applicationService: ApplicationService) {}
 
-  // @Post('/create')
-  // async createApplication(@Body() createApplicationDto: any ) {
-  //   return this.applicationService.createApplication(createApplicationDto);
-  // }
-
   @Get('/student/:studentId')
-  async findByStudentId(@Param('studentId') studentId: string): Promise<Application[]> {
-    const applications = await this.applicationService.findByStudentId(studentId);
+  async findByStudentId(
+    @Param('studentId') studentId: string
+  ): Promise<Application[]> {
+    const applications =
+      await this.applicationService.findByStudentId(studentId);
     if (!applications || applications.length === 0) {
       throw new NotFoundException('No applications found for this student');
     }
@@ -33,9 +41,12 @@ export class ApplicationController {
   @Patch('/:id')
   async update(
     @Param('id') id: string,
-    @Body() updateData: Partial<Application>,
+    @Body() updateData: Partial<Application>
   ): Promise<Application> {
-    const updatedApplication = await this.applicationService.updateById(id, updateData);
+    const updatedApplication = await this.applicationService.updateById(
+      id,
+      updateData
+    );
     if (!updatedApplication) {
       throw new NotFoundException('Application not found');
     }

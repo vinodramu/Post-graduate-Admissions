@@ -1,5 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document as MongooseDocument, Schema as MongooseSchema } from 'mongoose';
+import {
+  Document as MongooseDocument,
+  Schema as MongooseSchema,
+} from 'mongoose';
 
 @Schema()
 export class Payment extends MongooseDocument {
@@ -9,7 +12,11 @@ export class Payment extends MongooseDocument {
   @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'Student', required: true })
   student_id: MongooseSchema.Types.ObjectId;
 
-  @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'Application', required: true })
+  @Prop({
+    type: MongooseSchema.Types.ObjectId,
+    ref: 'Application',
+    required: true,
+  })
   application_id: MongooseSchema.Types.ObjectId;
 
   @Prop({ required: true })

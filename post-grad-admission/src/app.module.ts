@@ -5,11 +5,9 @@ import { UserModule } from './user/user.module';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 import { AuthModule } from './auth/auth.module';
-import {environment } from './environment'
-import { StudentModule } from './student/student.module';
-import { ApplicationModule } from './application/application.module';
+import { environment } from './environment';
+import { RegistrationModule } from './Registration/registrationModule';
 import { DocumentModule } from './document/document.module';
-
 
 @Module({
   imports: [
@@ -23,7 +21,7 @@ import { DocumentModule } from './document/document.module';
         ssl: false,
         tls: true,
         auth: {
-          user: "correspondence@rms.electems.com",
+          user: 'correspondence@rms.electems.com',
           pass: 'cybis@ban',
         },
       },
@@ -38,14 +36,13 @@ import { DocumentModule } from './document/document.module';
         },
       },
     }),
-    MongooseModule.forRoot(environment.mongoDbUri, {
-    }),
+    MongooseModule.forRoot(environment.mongoDbUri, {}),
     UserModule,
     MailerModule,
     AuthModule,
-    StudentModule,
-    ApplicationModule,
+    RegistrationModule,
     DocumentModule
+
   ],
 })
 export class AppModule {}

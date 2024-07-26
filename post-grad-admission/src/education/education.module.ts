@@ -6,7 +6,9 @@ import { EducationService } from './education.service';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: Education.name, schema: EducationSchema }]),
+    MongooseModule.forFeature([
+      { name: Education.name, schema: EducationSchema },
+    ]),
   ],
   providers: [EducationService],
   exports: [EducationService],

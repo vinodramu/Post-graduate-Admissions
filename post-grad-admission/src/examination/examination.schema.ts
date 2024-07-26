@@ -24,5 +24,9 @@ export const ExaminationSchema = new Schema({
   photo: { type: String, required: true },
   signature: { type: String, required: true },
   fees: { type: Number, required: true },
-  paymentStatus: { type: String, enum: ['Pending', 'Paid'], default: 'Pending' },
+  paymentStatus: {
+    type: String,
+    enum: ['Pending', 'Paid'],
+    default: 'Pending',
+  },
 });

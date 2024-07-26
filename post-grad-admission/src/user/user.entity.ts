@@ -5,7 +5,7 @@ export type UserDocument = User & Document;
 
 @Schema()
 export class User {
-  @Prop({ required: true})
+  @Prop({ required: true })
   username: string;
 
   @Prop({ required: true, unique: true })
@@ -19,7 +19,7 @@ export class User {
 
   @Prop({ default: false }) // Default to false
   phoneVerified: boolean;
-  
+
   @Prop()
   otp: string;
 }

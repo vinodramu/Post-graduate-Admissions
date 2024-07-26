@@ -42,20 +42,20 @@
 //             if (!file) {
 //               throw new BadRequestException('No file uploaded');
 //             }
-      
+
 //             const photofilePath = path.join('uploads',file.filename);
-      
+
 //             // Update examination details with file path
 //             const result = await this.examModel.findByIdAndUpdate(
 //               id,
 //               { photo: photofilePath },
 //               { new: true },
 //             );
-      
+
 //             if (!result) {
 //               throw new BadRequestException('Examination not found');
 //             }
-      
+
 //             return file;
 //     } catch (e) {
 //       throw new HttpException(
@@ -74,20 +74,20 @@
 //             if (!file) {
 //               throw new BadRequestException('No file uploaded');
 //             }
-      
+
 //             const signfilePath = path.join('uploads',file.filename);
-      
+
 //             // Update examination details with file path
 //             const result = await this.examModel.findByIdAndUpdate(
 //               id,
 //               { signature: signfilePath },
 //               { new: true },
 //             );
-      
+
 //             if (!result) {
 //               throw new BadRequestException('Examination not found');
 //             }
-      
+
 //             return file;
 //     } catch (e) {
 //       throw new HttpException(
