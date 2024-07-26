@@ -29,3 +29,4 @@ export class EducationalDetails extends Document {
 
 export const EducationalDetailsSchema =
   SchemaFactory.createForClass(EducationalDetails);
+//coment

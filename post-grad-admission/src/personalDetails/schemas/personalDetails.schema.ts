@@ -24,3 +24,4 @@ export class PersonalDetails extends Document {
 
 export const PersonalDetailsSchema =
   SchemaFactory.createForClass(PersonalDetails);
+//coment

@@ -14,3 +14,4 @@ export class College extends Document {
 }
 
 export const CollegeSchema = SchemaFactory.createForClass(College);
+//coment

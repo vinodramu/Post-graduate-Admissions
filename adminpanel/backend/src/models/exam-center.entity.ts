@@ -14,3 +14,4 @@ export class ExamCenter extends Document {
 }
 
 export const ExamCenterSchema = SchemaFactory.createForClass(ExamCenter);
+//coment
