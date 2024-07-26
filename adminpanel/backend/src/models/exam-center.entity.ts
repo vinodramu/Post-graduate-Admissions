@@ -1,10 +1,16 @@
-import mongoose, { Schema } from "mongoose";
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Document } from 'mongoose';
 
-export const ExamCentreSchema = new Schema({
-    name: { type: String, maxlength: 100, required: true },
-    city: { type: String, maxlength: 200, required: true },
-    capacity: { type: Number, required: true }
-});
+@Schema()
+export class ExamCenter extends Document {
+    @Prop({ required: true, unique: true })
+    centerId: string;
 
-const ExamCentre = mongoose.model('ExamCentre', ExamCentreSchema);
-export default ExamCentre;
+    @Prop({ required: true })
+    centerName: string;
+
+    @Prop({ required: true })
+    address: string;
+}
+
+export const ExamCenterSchema = SchemaFactory.createForClass(ExamCenter);
