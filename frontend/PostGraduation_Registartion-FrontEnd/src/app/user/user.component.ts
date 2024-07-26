@@ -45,6 +45,9 @@ export class UserComponent {
       console.log(this.user1)
       this.userService.saveUser(this.user1).subscribe(
         response => {
+          localStorage.setItem('userName',this.user1.username)
+          localStorage.setItem('userEmail',this.user1.email)
+          localStorage.setItem('userPhone',this.user1.phone)
           console.log('User saved successfully', response);
           this.userService.sendOtp(this.user1.phone).subscribe(
             response => {

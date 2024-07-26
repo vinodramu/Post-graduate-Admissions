@@ -38,7 +38,7 @@ import { ExamApplicationComponent } from './exam-application/exam-application.co
     MatCardModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatSnackBarModule
+    MatSnackBarModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

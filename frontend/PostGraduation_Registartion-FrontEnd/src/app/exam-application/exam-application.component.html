@@ -44,6 +44,12 @@
                         <input id="address" formControlName="address">
                     </div>
                     <div>
+                        <label for="country">Country</label>
+                        <select id="country" formControlName="country" >
+                            <option *ngFor="let country of countries" [value]="country">{{country}}</option>
+                        </select>
+                    </div>
+                    <div>
                         <label for="state">State</label>
                         <select id="state" formControlName="state">
                             <option *ngFor="let state of states" [value]="state">{{state}}</option>
@@ -52,12 +58,6 @@
                     <div>
                         <label for="address">Pincode</label>
                         <input id="address" formControlName="pincode">
-                    </div>
-                    <div>
-                        <label for="country">Country</label>
-                        <select id="country" formControlName="country">
-                            <option *ngFor="let country of countries" [value]="country">{{country}}</option>
-                        </select>
                     </div>
                 </div>
             </div>
@@ -133,7 +133,7 @@
                     </div>
                     <div>
                         <label for="specialization">Specialization</label>
-                        <input id="specialization" formControlName="interSpecializatio">
+                        <input id="specialization" formControlName="interSpecialization">
                     </div>
                     <div>
                         <label for="certificate">Upload !2th Certificate</label>
@@ -183,7 +183,7 @@
                 <div class="form-grid">
                     <div>
                         <label for="college">Select college</label>
-                        <select id="college" formControlName="college">
+                        <select id="college" formControlName="college" (change)="onCollegeChange($event)">
                             <option *ngFor="let college of colleges"  [value]="college">{{college}}</option>
                         </select>
                     </div>
@@ -212,6 +212,10 @@
             <div class="form-section">
                 <h2>Upload Documents</h2>
                 <div class="form-grid">
+                    <div>
+                        <label for="adhar">Adhar Upload</label>
+                        <input id="adhar" type="file" (change)="onFileChange($event, 'adhar')">
+                    </div>
                     <div>
                         <label for="photo">Photo Upload</label>
                         <input id="photo" type="file" (change)="onFileChange($event, 'photo')">
