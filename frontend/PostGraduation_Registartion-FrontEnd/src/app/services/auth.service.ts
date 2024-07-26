@@ -1,14 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, tap } from 'rxjs';
+import { Environment } from '../environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  private apiUrl = 'http://192.168.0.109:3000';
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,private envornment:Environment) { }
+  private apiUrl = this.envornment.baseUrl2;
 
   login(userEmail: string, password: string): Observable<any> {
     const loginData = { email: userEmail, password: password };

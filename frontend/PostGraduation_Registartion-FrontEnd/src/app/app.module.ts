@@ -16,6 +16,7 @@ import { UserComponent } from './components/user/user.component';
 import { StudentComponent } from './components/student/student.component';
 import { PaymetComponent } from './components/paymet/paymet.component';
 import { ExamApplicationComponent } from './components/exam-application/exam-application.component';
+import { Environment } from './environment';
 @NgModule({
   declarations: [
     AppComponent,
@@ -23,8 +24,7 @@ import { ExamApplicationComponent } from './components/exam-application/exam-app
     UserComponent,
     StudentComponent,
     PaymetComponent,
-    ExamApplicationComponent,
-    
+    ExamApplicationComponent,  
   ],
   imports: [
     BrowserModule,
@@ -40,7 +40,7 @@ import { ExamApplicationComponent } from './components/exam-application/exam-app
     MatNativeDateModule,
     MatSnackBarModule,
   ],
-  providers: [],
+  providers: [ { provide: Environment, useClass: Environment}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

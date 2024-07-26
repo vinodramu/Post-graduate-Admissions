@@ -1,6 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +22,15 @@ export class CommonService {
 
   getAllCountries(): Observable<any> {
     return this.http.get(`https://freetestapi.com/api/v1/countries`);
+  }
+  
+  getStatesByCountry(countryName: string): Observable<string[]> {
+    return this.http.get<any>('https://countriesnow.space/api/v0.1/countries/states').pipe(
+      map(data => {
+        const country = data.data.find((c: any) => c.name === countryName);
+        return country ? country.states.map((state: any) => state.name) : [];
+      })
+    );
   }
 
 }

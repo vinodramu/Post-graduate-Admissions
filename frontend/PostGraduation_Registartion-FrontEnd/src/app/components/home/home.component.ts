@@ -45,6 +45,9 @@ export class HomeComponent {
     this.authService.login(this.userEmail, this.password).subscribe(
       response => {
         this.loginError = false;
+        localStorage.setItem('userName', response.username)
+        localStorage.setItem('userEmail', response.email)
+        localStorage.setItem('userPhone', response.phone)
         console.log(response)
         this.router.navigate(['/exam-application']); 
       },

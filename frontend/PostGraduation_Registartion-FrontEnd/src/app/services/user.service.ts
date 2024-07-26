@@ -2,14 +2,15 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { UserData } from '../models/userData.model';
 import { Observable } from 'rxjs';
+import { Environment } from '../environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  private apiUrl = 'http://192.168.0.109:3000/api';
+  constructor(private http: HttpClient,private environment:Environment) { }
+  private apiUrl = this.environment.baseUrl2;
 
-  constructor(private http: HttpClient) { }
   saveUser(user: UserData): Observable<UserData> {
     return this.http.post<UserData>(`${this.apiUrl}/register`, user);
   }
@@ -19,5 +20,8 @@ export class UserService {
   otpVarification(otp: string, phone: string): Observable<any> {
     const body = { phone, otp };
     return this.http.post(`${this.apiUrl}/varifyotp`, body);
+  }
+  getUserByEmail(userEmail:string):Observable<any>{
+    return this.http.get(`${this.apiUrl}/by-email/${userEmail}`);
   }
 }
