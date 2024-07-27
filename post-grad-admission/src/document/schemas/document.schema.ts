@@ -3,7 +3,7 @@ import { Document, Types } from 'mongoose';
 
 @Schema()
 export class DocumentEntity extends Document {
-  @Prop({ type: Types.ObjectId, ref: 'Student' })
+  @Prop({ type: Types.ObjectId, ref: 'PersonalDetails' })
   studentId: Types.ObjectId;
 
   @Prop()
@@ -26,4 +26,3 @@ export class DocumentEntity extends Document {
 }
 
 export const DocumentSchema = SchemaFactory.createForClass(DocumentEntity);
-//coment

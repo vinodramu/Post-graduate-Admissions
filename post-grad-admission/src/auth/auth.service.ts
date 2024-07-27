@@ -12,7 +12,7 @@ export class AuthService {
 
   constructor(@InjectModel('User') private userModel: Model<User>) {}
 
-  async validateStudent(email: string, password: string): Promise<any> {
+  async validate(email: string, password: string): Promise<any> {
     const user = await this.userModel.findOne({ email });
     if (user && (await bcrypt.compare(password, user.password))) {
       const { password, ...result } = user.toObject();
@@ -25,7 +25,7 @@ export class AuthService {
     email: string,
     password: string
   ): Promise<{ accessToken: string } | { error: string }> {
-    const user = await this.validateStudent(email, password);
+    const user = await this.validate(email, password);
 
     if (!user.phoneVerified) {
       return { error: 'Phone number not verified' };

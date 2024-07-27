@@ -8,6 +8,8 @@ import { AuthModule } from './auth/auth.module';
 import { environment } from './environment';
 import { DocumentModule } from './document/document.module';
 import { PersonalDetailsModule } from './personalDetails/personalDetails.module';
+import { AdminModule } from './Admin/admin.module';
+import { CourseModule } from './courses/course.module';
 
 @Module({
   imports: [
@@ -41,8 +43,9 @@ import { PersonalDetailsModule } from './personalDetails/personalDetails.module'
     MailerModule,
     AuthModule,
     DocumentModule,
-    PersonalDetailsModule
-
+    PersonalDetailsModule,
+    AdminModule,
+    CourseModule
   ],
 })
 export class AppModule {}

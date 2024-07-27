@@ -1,5 +1,4 @@
 import * as dotenv from 'dotenv';
-
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { MongoDbModule } from './database/mongodb.module';
@@ -15,8 +14,8 @@ async function bootstrap() {
     // Uncomment if MongoDB connection is needed
     // await MongoDbModule.connectDB();
     // console.log('Connected to MongoDB');
-    const port = 3000;
-    const host = '192.168.0.109';
+    const port = 4000;
+    const host = '192.168.0.102';
     await app.listen(port, host);
     console.log(`Application listening on ${host}:${port}`);
   } catch (error) {
