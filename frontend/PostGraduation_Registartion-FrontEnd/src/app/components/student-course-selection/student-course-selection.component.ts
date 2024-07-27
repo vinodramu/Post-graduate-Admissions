@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { StudentCourse } from 'src/app/models/studentCourse.model';
 import { StudentApplicationService } from 'src/app/services/student-application.service';
@@ -8,11 +8,12 @@ import { StudentApplicationService } from 'src/app/services/student-application.
   templateUrl: './student-course-selection.component.html',
   styleUrls: ['./student-course-selection.component.scss']
 })
-export class StudentCourseSelectionComponent {
+export class StudentCourseSelectionComponent implements OnInit {
   studentForm!: FormGroup;
   courses: string[] = []
   fee!:number;
   courseId!:string;
+  courseName='';
   submitted = false;
   studentCourses!:StudentCourse[];
   constructor(
@@ -22,7 +23,7 @@ export class StudentCourseSelectionComponent {
 
   ngOnInit() {
     this.studentForm = this.formBuilder.group({
-      course: ['', Validators.required],
+      course: [this.courseName, Validators.required],
     });
     this.fetchDropdownData()
   }
@@ -48,6 +49,26 @@ export class StudentCourseSelectionComponent {
       console.log('Course not found');
     }
   }
+
+  getCourseNameByStudentId(){
+    this.studentApplicationServices.getCourseIdByStudentId().subscribe(
+      (id: string) => {
+        this.courseId = id;
+        console.log('Course ID:', this.courseId); 
+        const selectedCourse = this.studentCourses.find(course => course.courseId === this.courseId);
+        if (selectedCourse) {
+          this.fee = selectedCourse.fee;
+          this.courseName=selectedCourse.courseName;
+        } else {
+          console.log('Course not found');
+        }
+      },
+      error => {
+        console.error('Error fetching course ID:', error);
+      }
+    );
+  }
+
   get f() { return this.studentForm.controls; }
 
   onSubmit() {

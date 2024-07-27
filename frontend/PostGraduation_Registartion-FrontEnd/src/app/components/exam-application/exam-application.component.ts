@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { StudentAddress } from 'src/app/models/studentAddress.model';
 import { StudentCourse } from 'src/app/models/studentCourse.model';
+import { StudentDocumentData } from 'src/app/models/studentDocumentData.model';
+import { StudentEducationdata } from 'src/app/models/studentEducatioData.model';
+import { StudentPersonalData } from 'src/app/models/studentPersonalData.model';
 import { CommonService } from 'src/app/services/common.service';
 import { StudentApplicationService } from 'src/app/services/student-application.service';
 
@@ -15,12 +19,18 @@ export class ExamApplicationComponent implements OnInit {
   genders = ['Male', 'Female', 'Other'];
   countries = [];
   states: string[] = [];
-  cities = ['State1', 'State2', 'State3'];
-  pincodes = ['Board1', 'Board2', 'Board3'];
+  cities: string[] = [];
+  pincodes: string[] = [];
   courses: string[] = []
-  fee=10;
+  fee!:number;
+  courseId!:string;
   submitted = false;
   studentCourses!:StudentCourse[];
+  studentPersonalData!:StudentPersonalData;
+  studentAddress!:StudentAddress;
+  studentCourseData!:StudentCourse;
+  studentEducationalData!:StudentEducationdata[];
+  studentDocumentData!:StudentDocumentData;
   constructor(
     private formBuilder: FormBuilder,
     private commonService: CommonService,
@@ -40,7 +50,6 @@ export class ExamApplicationComponent implements OnInit {
       city: ['', Validators.required],
       pincode: ['', Validators.required],
       country: ['', Validators.required],
-      college: ['', Validators.required],
       course: ['', Validators.required],
       degreeLevelOfEducation: [{ value: 'UnderGraduation', disabled: true }, Validators.required],
       degreeInstitution: ['', Validators.required],
@@ -113,9 +122,9 @@ export class ExamApplicationComponent implements OnInit {
     });
     //get courses 
     this.studentApplicationServices.getAllCourses().subscribe(data => {
+      this.courses = data.map((course: any) => course.courseName);
       this.studentCourses=data;
-      console.log(this.studentCourses)
-      this.courses = data.map((course: StudentCourse) =>{ course.courseName});
+      console.log(this.courses)
     }, error => {
       console.error('Error fetching college data:', error);
     });
@@ -132,7 +141,65 @@ export class ExamApplicationComponent implements OnInit {
   }
   onCourseChange(event: Event): void {
     const target = event.target as HTMLSelectElement;
-    const selectedCourse = target.value;
+    const selectedCourseName = target.value;
+    const selectedCourse = this.studentCourses.find(course => course.courseName === selectedCourseName);
+    if (selectedCourse) {
+      this.fee = selectedCourse.fee;
+      this.courseId=selectedCourse.courseId;
+    } else {
+      console.log('Course not found');
+    }
+  }
+
+  private mapFormToStudentPersonalData(formValue: any): void {
+    this.studentPersonalData.name = formValue.name;
+    this.studentPersonalData.dateOfBirth = new Date(formValue.date_of_birth); 
+    this.studentPersonalData.gender = formValue.gender;
+    this.studentPersonalData.email = formValue.email
+  }
+
+  private mapFormToStudentAddressData(formValue: any): void{
+    this.studentAddress.correspondenseAddress=formValue.correspondenseAddress;
+    this.studentAddress.permanentAddress=formValue.permanentAddress;
+    this.studentAddress.state=formValue.state;
+    this.studentAddress.city=formValue.city;
+    this.studentAddress.pincode=formValue.pincode;
+    this.studentAddress.country=formValue.country;
+  }
+
+  private mapFormToStudentCourseData(): void{
+    this.studentCourseData.courseId=this.courseId;
+    this.studentCourseData.fee=this.fee;
+  }
+
+  private mapFormToEducationData(formValue: any): StudentEducationdata[] {
+    const educationDataList: StudentEducationdata[] = [];
+
+    // Degree Data
+    educationDataList.push({
+      levelOfEducation: formValue.degreeLevelOfEducation,
+      institution: formValue.degreeInstitution,
+      yearOfPassing: +formValue.degreeYearOfPassing, // Convert to number
+      percentage: +formValue.degreePercentage, // Convert to number
+    });
+
+    // Intermediate Data
+    educationDataList.push({
+      levelOfEducation: formValue.interLevelOfEducation,
+      institution: formValue.interInstitution,
+      yearOfPassing: +formValue.interYearOfPassing, // Convert to number
+      percentage: +formValue.interPercentage, // Convert to number
+    });
+
+    // SSC Data
+    educationDataList.push({
+      levelOfEducation: formValue.sscLevelOfEducation,
+      institution: formValue.sscInstitution,
+      yearOfPassing: +formValue.sscYearOfPassing, // Convert to number
+      percentage: +formValue.sscPercentage, // Convert to number
+    });
+
+    return educationDataList;
   }
   get f() { return this.studentForm.controls; }
 

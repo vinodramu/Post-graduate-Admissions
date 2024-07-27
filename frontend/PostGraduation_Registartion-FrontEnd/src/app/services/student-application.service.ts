@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Environment } from '../environment';
+import { map, Observable } from 'rxjs';
 // import { StudentPersonalData } from '../models/studentPersonalData.model';
 // import { StudentApplicationCourseData } from '../models/studentApplicationCourseData.model';
 // import { Observable } from 'rxjs';
@@ -19,4 +20,11 @@ export class StudentApplicationService {
   getFeeByCourse(course:string){
     return this.http.get<any>(`${this.apiUrl}/course`);
   }
+
+  getCourseIdByStudentId():Observable<string>{
+    return this.http.get<any>("").pipe(
+      map(response => response.courseId)
+    );
+  }
+
 }
