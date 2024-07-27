@@ -1,16 +1,20 @@
-// education.module.ts
+// educational-details.module.ts
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Education, EducationSchema } from './schema/education.schema';
-import { EducationService } from './education.service';
+import { EducationalDetailsController } from './education.controller';
+import { EducationalDetailsService } from './education.service';
+import {
+  EducationalDetails,
+  EducationalDetailsSchema,
+} from './schema/education.schema';
 
 @Module({
   imports: [
     MongooseModule.forFeature([
-      { name: Education.name, schema: EducationSchema },
+      { name: EducationalDetails.name, schema: EducationalDetailsSchema },
     ]),
   ],
-  providers: [EducationService],
-  exports: [EducationService],
+  controllers: [EducationalDetailsController],
+  providers: [EducationalDetailsService],
 })
-export class EducationModule {}
+export class EducationalDetailsModule {}

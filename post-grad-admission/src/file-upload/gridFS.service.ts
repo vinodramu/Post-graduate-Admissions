@@ -43,4 +43,18 @@ export class GridFSService {
         });
     });
   }
+
+  async getFileById(fileId: string): Promise<NodeJS.ReadableStream> {
+    const id = new ObjectId(fileId);
+    try {
+      return this.bucket.openDownloadStream(id);
+    } catch (error) {
+      throw new NotFoundException(`File with ID ${fileId} not found`);
+    }
+  }
+
+  async getFileStream(fileId: string): Promise<NodeJS.ReadableStream> {
+    const id = new ObjectId(fileId);
+    return this.bucket.openDownloadStream(id);
+  }
 }

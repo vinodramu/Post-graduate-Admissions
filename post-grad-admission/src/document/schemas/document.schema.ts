@@ -3,7 +3,7 @@ import { Document, Types } from 'mongoose';
 
 @Schema()
 export class DocumentEntity extends Document {
-  @Prop({ type: Types.ObjectId, ref: 'Student' })
+  @Prop({ type: Types.ObjectId, ref: 'PersonalDetails' })
   studentId: Types.ObjectId;
 
   @Prop()
