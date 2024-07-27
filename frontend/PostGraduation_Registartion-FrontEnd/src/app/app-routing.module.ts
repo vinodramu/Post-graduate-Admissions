@@ -8,6 +8,7 @@ import { ExamApplicationComponent } from './components/exam-application/exam-app
 import { StudentPersonalDetailsComponent } from './components/student-personal-details/student-personal-details.component';
 import { StudentAddressDetailsComponent } from './components/student-address-details/student-address-details.component';
 import { StudentEducationalDetailsComponent } from './components/student-educational-details/student-educational-details.component';
+import { StudentCourseSelectionComponent } from './components/student-course-selection/student-course-selection.component';
 
 
 const routes: Routes = [
@@ -18,7 +19,8 @@ const routes: Routes = [
   { path: 'exam-application', component: ExamApplicationComponent },
   { path: 'studentPersonalDeatialsForm', component: StudentPersonalDetailsComponent },
   { path: 'studentAddressDeatialsForm', component: StudentAddressDetailsComponent },
-  { path: 'studentEducationalDeatialsForm', component: StudentEducationalDetailsComponent }
+  { path: 'studentEducationalDeatialsForm', component: StudentEducationalDetailsComponent },
+  { path: 'studentCourseDeatialsForm', component: StudentCourseSelectionComponent }
 ];
 
 @NgModule({

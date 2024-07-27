@@ -1,4 +1,5 @@
 export class StudentAddress{
+    studentId!:string;
     correspondenseAddress!:string;
     permanentAddress!:string;
     state!:string;

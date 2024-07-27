@@ -5,4 +5,5 @@ export class StudentPersonalData{
     gender!:string;
     email!:string;
     phoneNumber!:string;
+    _id?: any; 
 }
