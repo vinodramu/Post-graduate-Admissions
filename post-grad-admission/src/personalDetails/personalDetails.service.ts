@@ -1,26 +1,19 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Types } from 'mongoose';
+// personal-details.service.ts
+import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { PersonalDetails } from './schemas/personalDetails.schema';
+import { CreatePersonalDetailsDto } from './schemas/create-personal-details.dto';
 
-@Schema()
-export class PersonalDetails extends Document {
-    @Prop({ type: Types.ObjectId, ref: 'Student' })
-    studentId: Types.ObjectId;
 
-    @Prop()
-    name: string;
+@Injectable()
+export class PersonalDetailsService {
+  constructor(
+    @InjectModel(PersonalDetails.name) private personalDetailsModel: Model<PersonalDetails>,
+  ) {}
 
-    @Prop()
-    dateOfBirth: Date;
-
-    @Prop()
-    gender: string;
-
-    @Prop()
-    email: string;
-
-    @Prop()
-    phoneNumber: string;
+  async create(createPersonalDetailsDto: CreatePersonalDetailsDto): Promise<PersonalDetails> {
+    const createdPersonalDetails = new this.personalDetailsModel(createPersonalDetailsDto);
+    return createdPersonalDetails.save();
+  }
 }
-
-export const PersonalDetailsSchema =
-    SchemaFactory.createForClass(PersonalDetails);

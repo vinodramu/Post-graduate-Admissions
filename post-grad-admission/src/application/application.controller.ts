@@ -11,7 +11,6 @@ import {
 } from '@nestjs/common';
 import { ApplicationService } from './application.service';
 import { Application } from './schemas/application.schema';
-import { Student } from 'src/student/schemas/student.schema';
 
 @Controller('applications')
 export class ApplicationController {

@@ -20,7 +20,7 @@ export const EducationSchema = SchemaFactory.createForClass(Education);
 
 @Schema()
 export class EducationalDetails extends Document {
-  @Prop({ type: Types.ObjectId, ref: 'Student' })
+  @Prop({ type: Types.ObjectId, ref: 'PersonalDetails' })
   studentId: Types.ObjectId;
 
   @Prop({ type: [EducationSchema], required: true })

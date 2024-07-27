@@ -3,12 +3,7 @@ import { Document, Types } from 'mongoose';
 
 @Schema()
 export class PersonalDetails extends Document {
-  @Prop({ type: Types.ObjectId, ref: 'Student' })
-  studentId: Types.ObjectId;
-
-  @Prop({ type: Types.ObjectId, ref: 'Admin' })
-  AdminId: Types.ObjectId;
-
+  
   @Prop()
   name: string;
 

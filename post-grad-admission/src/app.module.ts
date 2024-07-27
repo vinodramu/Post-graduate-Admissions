@@ -6,8 +6,8 @@ import { MailerModule } from '@nestjs-modules/mailer';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 import { AuthModule } from './auth/auth.module';
 import { environment } from './environment';
-import { RegistrationModule } from './Registration/registrationModule';
 import { DocumentModule } from './document/document.module';
+import { PersonalDetailsModule } from './personalDetails/personalDetails.module';
 
 @Module({
   imports: [
@@ -40,8 +40,8 @@ import { DocumentModule } from './document/document.module';
     UserModule,
     MailerModule,
     AuthModule,
-    RegistrationModule,
-    DocumentModule
+    DocumentModule,
+    PersonalDetailsModule
 
   ],
 })

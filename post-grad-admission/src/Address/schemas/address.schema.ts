@@ -2,14 +2,8 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 @Schema()
 export class Address extends Document {
-  @Prop({ type: Types.ObjectId, ref: 'Student' })
-  studentId: Types.ObjectId;
-
-  @Prop({ type: Types.ObjectId, ref: 'Admin' })
-  AdminId: Types.ObjectId;
-
   @Prop({ type: Types.ObjectId, ref: 'PersonalDetails' })
-  personalDetailsId: Types.ObjectId;
+  studentId: Types.ObjectId;
 
   @Prop()
   correspondenseAddress: string;

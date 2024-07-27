@@ -3,7 +3,7 @@ import { Document, Types } from 'mongoose';
 
 @Schema()
 export class Application extends Document {
-  @Prop({ type: Types.ObjectId, ref: 'Student' })
+  @Prop({ type: Types.ObjectId, ref: 'PersonalDetails' })
   studentId: Types.ObjectId;
 
   @Prop()
@@ -14,12 +14,6 @@ export class Application extends Document {
 
   @Prop({ type: Types.ObjectId })
   courseId: Types.ObjectId;
-
-  @Prop()
-  examCenterAllotment: string;
-
-  @Prop()
-  roomAllotment: string;
 
   @Prop()
   fee: number;

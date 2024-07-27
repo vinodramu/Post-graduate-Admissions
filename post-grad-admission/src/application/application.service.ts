@@ -2,14 +2,12 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import mongoose, { isValidObjectId, Model, Types } from 'mongoose';
 import { Application } from './schemas/application.schema';
-import { StudentService } from 'src/student/student.service';
-import { Student } from 'src/student/schemas/student.schema';
 
 @Injectable()
 export class ApplicationService {
   constructor(
     @InjectModel(Application.name) private applicationModel: Model<Application>,
-    private studentService: StudentService
+
   ) {}
 
   // async createApplication(createApplicationDto: Application): Promise<Application> {
