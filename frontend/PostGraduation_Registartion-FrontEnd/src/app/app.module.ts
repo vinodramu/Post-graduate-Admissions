@@ -17,6 +17,10 @@ import { StudentComponent } from './components/student/student.component';
 import { PaymetComponent } from './components/paymet/paymet.component';
 import { ExamApplicationComponent } from './components/exam-application/exam-application.component';
 import { Environment } from './environment';
+import { StudentPersonalDetailsComponent } from './components/student-personal-details/student-personal-details.component';
+import { StudentAddressDetailsComponent } from './components/student-address-details/student-address-details.component';
+import { StudentEducationalDetailsComponent } from './components/student-educational-details/student-educational-details.component';
+import { StudentCourseSelectionComponent } from './components/student-course-selection/student-course-selection.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -24,7 +28,11 @@ import { Environment } from './environment';
     UserComponent,
     StudentComponent,
     PaymetComponent,
-    ExamApplicationComponent,  
+    ExamApplicationComponent,
+    StudentPersonalDetailsComponent,
+    StudentAddressDetailsComponent,
+    StudentEducationalDetailsComponent,
+    StudentCourseSelectionComponent,  
   ],
   imports: [
     BrowserModule,
