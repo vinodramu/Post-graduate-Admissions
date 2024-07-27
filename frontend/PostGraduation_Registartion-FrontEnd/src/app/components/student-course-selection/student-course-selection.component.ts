@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { StudentCourse } from 'src/app/models/studentCourse.model';
 import { StudentApplicationService } from 'src/app/services/student-application.service';
 
@@ -9,7 +10,7 @@ import { StudentApplicationService } from 'src/app/services/student-application.
   styleUrls: ['./student-course-selection.component.scss']
 })
 export class StudentCourseSelectionComponent implements OnInit {
-  studentForm!: FormGroup;
+  studentCourseForm!: FormGroup;
   courses: string[] = []
   fee!:number;
   courseId!:string;
@@ -18,11 +19,12 @@ export class StudentCourseSelectionComponent implements OnInit {
   studentCourses!:StudentCourse[];
   constructor(
     private formBuilder: FormBuilder,
-    private studentApplicationServices:StudentApplicationService
+    private studentApplicationServices:StudentApplicationService,
+    private router:Router
   ) { }
 
   ngOnInit() {
-    this.studentForm = this.formBuilder.group({
+    this.studentCourseForm = this.formBuilder.group({
       course: [this.courseName, Validators.required],
     });
     this.fetchDropdownData()
@@ -69,10 +71,18 @@ export class StudentCourseSelectionComponent implements OnInit {
     );
   }
 
-  get f() { return this.studentForm.controls; }
-
+  get f() { return this.studentCourseForm.controls; }
   onSubmit() {
     this.submitted = true;
-    console.log('Form submitted:');
-  }
+    if (this.studentCourseForm.valid) {
+     this.studentApplicationServices.saveCourseByCourseId(this.courseId,this.fee).subscribe(response => {
+      console.log('Data saved successfully:', response);
+      this.router.navigate(['/studentEducationalDeatialsForm']);
+    }, error => {
+      console.error('Error saving data:', error);
+    });
+     this.router.navigate(['/studentDocumentForm'])
+    }
+}
+
 }

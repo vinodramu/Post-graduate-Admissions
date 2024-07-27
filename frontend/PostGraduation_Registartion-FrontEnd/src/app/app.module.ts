@@ -21,6 +21,7 @@ import { StudentPersonalDetailsComponent } from './components/student-personal-d
 import { StudentAddressDetailsComponent } from './components/student-address-details/student-address-details.component';
 import { StudentEducationalDetailsComponent } from './components/student-educational-details/student-educational-details.component';
 import { StudentCourseSelectionComponent } from './components/student-course-selection/student-course-selection.component';
+import { StudentDocumentDetailsComponent } from './components/student-document-details/student-document-details.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -32,7 +33,8 @@ import { StudentCourseSelectionComponent } from './components/student-course-sel
     StudentPersonalDetailsComponent,
     StudentAddressDetailsComponent,
     StudentEducationalDetailsComponent,
-    StudentCourseSelectionComponent,  
+    StudentCourseSelectionComponent,
+    StudentDocumentDetailsComponent,  
   ],
   imports: [
     BrowserModule,

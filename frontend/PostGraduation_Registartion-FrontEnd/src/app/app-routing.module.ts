@@ -9,6 +9,7 @@ import { StudentPersonalDetailsComponent } from './components/student-personal-d
 import { StudentAddressDetailsComponent } from './components/student-address-details/student-address-details.component';
 import { StudentEducationalDetailsComponent } from './components/student-educational-details/student-educational-details.component';
 import { StudentCourseSelectionComponent } from './components/student-course-selection/student-course-selection.component';
+import { StudentDocumentDetailsComponent } from './components/student-document-details/student-document-details.component';
 
 
 const routes: Routes = [
@@ -20,7 +21,8 @@ const routes: Routes = [
   { path: 'studentPersonalDeatialsForm', component: StudentPersonalDetailsComponent },
   { path: 'studentAddressDeatialsForm', component: StudentAddressDetailsComponent },
   { path: 'studentEducationalDeatialsForm', component: StudentEducationalDetailsComponent },
-  { path: 'studentCourseDeatialsForm', component: StudentCourseSelectionComponent }
+  { path: 'studentCourseDeatialsForm', component: StudentCourseSelectionComponent },
+  { path: 'studentDocumentForm', component: StudentDocumentDetailsComponent }
 ];
 
 @NgModule({

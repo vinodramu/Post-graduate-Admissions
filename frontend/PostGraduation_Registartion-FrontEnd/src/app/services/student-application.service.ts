@@ -13,6 +13,7 @@ export class StudentApplicationService {
   constructor(private http: HttpClient,private enviironment:Environment) { }
 
   private apiUrl = this.enviironment.baseUrl1;
+  private apiUrl2 = this.enviironment.baseUrl2;
   getAllCourses(){
     return this.http.get<any>(`${this.apiUrl}/course`);
   }
@@ -25,6 +26,17 @@ export class StudentApplicationService {
     return this.http.get<any>("").pipe(
       map(response => response.courseId)
     );
+  }
+
+  saveCourseByCourseId(courseid:string,fees:number):Observable<any>{
+    const body={
+      studentId:localStorage.getItem('studentId'),
+      status:'' ,
+      submissionDate:null,
+      courseId:courseid,
+      fee:fees
+    }
+   return this.http.post<any>(`${this.apiUrl2}/applications`,body);
   }
 
 }
