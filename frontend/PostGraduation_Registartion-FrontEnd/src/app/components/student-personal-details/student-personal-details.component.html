@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Personal Details</title>
+</head>
+<body>
+    <div class="form-container">
+        <form [formGroup]="studentPersonalDetailsForm" (ngSubmit)="onSubmit()">
+            <h1>Student Personal Details</h1>
+
+            <!-- Personal Details Section -->
+            <div class="form-section">
+                <div class="card">
+                    <div class="form-grid">
+                        <div>
+                            <label for="name">Name</label>
+                            <input id="name" formControlName="name">
+                        </div>
+                        <div>
+                            <label for="dateOfBirth">Date of Birth</label>
+                            <input id="dateOfBirth" type="date" formControlName="dateOfBirth">
+                        </div>
+                        <div>
+                            <label for="gender">Gender</label>
+                            <select id="gender" formControlName="gender">
+                                <option *ngFor="let gender of genders" [value]="gender">{{gender}}</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="email">Email</label>
+                            <input id="email" type="email" formControlName="email">
+                        </div>
+                        <div>
+                            <label for="phoneNumber">Phone Number</label>
+                            <input id="phoneNumber" formControlName="phoneNumber">
+                        </div>
+                    </div>
+                    <div class="form-buttons">
+                        <button type="submit">Save</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
