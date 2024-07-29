@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Educational Details Form</title>
+</head>
+<body>
+    <div class="form-container">
+        <form [formGroup]="studentEducationalForm" (ngSubmit)="onSubmit()">
+            <h1>Student Educational Details Form</h1>
+            <!-- Educational Details Section -->
+            <div class="form-section">
+                <div class="card">
+                    <h2>10TH Details</h2>
+                    <div class="form-grid">
+                        <div>
+                            <label for="sscLevelOfEducation">SSC</label>
+                            <input id="sscLevelOfEducation" formControlName="sscLevelOfEducation">
+                        </div>
+                        <div>
+                            <label for="sscInstitution">Institution</label>
+                            <input id="sscInstitution" formControlName="sscInstitution">
+                        </div>
+                        <div>
+                            <label for="sscYearOfPassing">Year of Passing</label>
+                            <input id="sscYearOfPassing" type="number" formControlName="sscYearOfPassing">
+                        </div>
+                        <div>
+                            <label for="sscPercentage">Percentage/CGPA</label>
+                            <input id="sscPercentage" formControlName="sscPercentage">
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <h2>12TH Details</h2>
+                    <div class="form-grid">
+                        <div>
+                            <label for="interLevelOfEducation">Intermediate</label>
+                            <input id="interLevelOfEducation" formControlName="interLevelOfEducation">
+                        </div>
+                        <div>
+                            <label for="interInstitution">Institution</label>
+                            <input id="interInstitution" formControlName="interInstitution">
+                        </div>
+                        <div>
+                            <label for="interYearOfPassing">Year of Passing</label>
+                            <input id="interYearOfPassing" type="number" formControlName="interYearOfPassing">
+                        </div>
+                        <div>
+                            <label for="interPercentage">Percentage/CGPA</label>
+                            <input id="interPercentage" formControlName="interPercentage">
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <h2>Degree Details</h2>
+                    <div class="form-grid">
+                        <div>
+                            <label for="degreeLevelOfEducation">Degree</label>
+                            <input id="degreeLevelOfEducation" formControlName="degreeLevelOfEducation">
+                        </div>
+                        <div>
+                            <label for="degreeInstitution">Institution</label>
+                            <input id="degreeInstitution" formControlName="degreeInstitution">
+                        </div>
+                        <div>
+                            <label for="degreeYearOfPassing">Year of Passing</label>
+                            <input id="degreeYearOfPassing" type="number" formControlName="degreeYearOfPassing">
+                        </div>
+                        <div>
+                            <label for="degreePercentage">Percentage/CGPA</label>
+                            <input id="degreePercentage" formControlName="degreePercentage">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-buttons">
+                <button type="submit">Save</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
