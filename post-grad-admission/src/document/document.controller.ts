@@ -49,12 +49,22 @@ export class DocumentController {
       tenthCertificate?: Express.Multer.File[];
     }
   ): Promise<DocumentEntity> {
-    return this.documentService.uploadFiles(studentId, files);
+    try {
+      return await this.documentService.uploadFiles(studentId, files);
+    } catch (error) {
+      throw new NotFoundException(
+        `Error uploading files for student ID ${studentId}`
+      );
+    }
   }
 
   @Get()
   async getAllDocuments(): Promise<DocumentEntity[]> {
-    return this.documentService.getAllDocuments();
+    try {
+      return await this.documentService.getAllDocuments();
+    } catch (error) {
+      throw new NotFoundException('Error retrieving all documents');
+    }
   }
 
   @Get('studentPhoto/:documentId')
@@ -62,15 +72,22 @@ export class DocumentController {
     @Param('documentId') documentId: string,
     @Res() res: Response
   ): Promise<void> {
-    const document = await this.documentEntityModel.findById(documentId).exec();
-    if (!document) {
-      throw new NotFoundException(`Document with ID ${documentId} not found`);
-    }
+    try {
+      const document = await this.documentEntityModel
+        .findById(documentId)
+        .exec();
+      if (!document) {
+        throw new NotFoundException(`Document with ID ${documentId} not found`);
+      }
 
-    const studentPhoto = document.studentPhoto;
-    const fileStreamstudent =
-      await this.gridFSService.getFileStream(studentPhoto);
-    fileStreamstudent.pipe(res);
+      const studentPhoto = document.studentPhoto;
+      const fileStream = await this.gridFSService.getFileStream(studentPhoto);
+      fileStream.pipe(res);
+    } catch (error) {
+      throw new NotFoundException(
+        `Error retrieving student photo for document ID ${documentId}`
+      );
+    }
   }
 
   @Get('aadharPhoto/:documentId')
@@ -78,14 +95,22 @@ export class DocumentController {
     @Param('documentId') documentId: string,
     @Res() res: Response
   ): Promise<void> {
-    const document = await this.documentEntityModel.findById(documentId).exec();
-    if (!document) {
-      throw new NotFoundException(`Document with ID ${documentId} not found`);
-    }
+    try {
+      const document = await this.documentEntityModel
+        .findById(documentId)
+        .exec();
+      if (!document) {
+        throw new NotFoundException(`Document with ID ${documentId} not found`);
+      }
 
-    const aadharPhoto = document.aadharPhoto;
-    const fileStreaadhar = await this.gridFSService.getFileStream(aadharPhoto);
-    fileStreaadhar.pipe(res);
+      const aadharPhoto = document.aadharPhoto;
+      const fileStream = await this.gridFSService.getFileStream(aadharPhoto);
+      fileStream.pipe(res);
+    } catch (error) {
+      throw new NotFoundException(
+        `Error retrieving aadhar photo for document ID ${documentId}`
+      );
+    }
   }
 
   @Get('signature/:documentId')
@@ -93,13 +118,21 @@ export class DocumentController {
     @Param('documentId') documentId: string,
     @Res() res: Response
   ): Promise<void> {
-    const document = await this.documentEntityModel.findById(documentId).exec();
-    if (!document) {
-      throw new NotFoundException(`Document with ID ${documentId} not found`);
+    try {
+      const document = await this.documentEntityModel
+        .findById(documentId)
+        .exec();
+      if (!document) {
+        throw new NotFoundException(`Document with ID ${documentId} not found`);
+      }
+      const signature = document.signature;
+      const fileStream = await this.gridFSService.getFileStream(signature);
+      fileStream.pipe(res);
+    } catch (error) {
+      throw new NotFoundException(
+        `Error retrieving signature for document ID ${documentId}`
+      );
     }
-    const signature = document.signature;
-    const fileStresignature = await this.gridFSService.getFileStream(signature);
-    fileStresignature.pipe(res);
   }
 
   @Get('10thCertificate/:documentId')
@@ -107,14 +140,22 @@ export class DocumentController {
     @Param('documentId') documentId: string,
     @Res() res: Response
   ): Promise<void> {
-    const document = await this.documentEntityModel.findById(documentId).exec();
-    if (!document) {
-      throw new NotFoundException(`Document with ID ${documentId} not found`);
+    try {
+      const document = await this.documentEntityModel
+        .findById(documentId)
+        .exec();
+      if (!document) {
+        throw new NotFoundException(`Document with ID ${documentId} not found`);
+      }
+      const tenthCertificate = document.tenthCertificate;
+      const fileStream =
+        await this.gridFSService.getFileStream(tenthCertificate);
+      fileStream.pipe(res);
+    } catch (error) {
+      throw new NotFoundException(
+        `Error retrieving 10th certificate for document ID ${documentId}`
+      );
     }
-    const tenthCertificate = document.tenthCertificate;
-    const fileStreTenthCertificate =
-      await this.gridFSService.getFileStream(tenthCertificate);
-    fileStreTenthCertificate.pipe(res);
   }
 
   @Get('12thCertificate/:documentId')
@@ -122,14 +163,22 @@ export class DocumentController {
     @Param('documentId') documentId: string,
     @Res() res: Response
   ): Promise<void> {
-    const document = await this.documentEntityModel.findById(documentId).exec();
-    if (!document) {
-      throw new NotFoundException(`Document with ID ${documentId} not found`);
+    try {
+      const document = await this.documentEntityModel
+        .findById(documentId)
+        .exec();
+      if (!document) {
+        throw new NotFoundException(`Document with ID ${documentId} not found`);
+      }
+      const twelthCertificate = document.twelthCertificate;
+      const fileStream =
+        await this.gridFSService.getFileStream(twelthCertificate);
+      fileStream.pipe(res);
+    } catch (error) {
+      throw new NotFoundException(
+        `Error retrieving 12th certificate for document ID ${documentId}`
+      );
     }
-    const twelthCertificate = document.twelthCertificate;
-    const fileStreTwelthCertificate =
-      await this.gridFSService.getFileStream(twelthCertificate);
-    fileStreTwelthCertificate.pipe(res);
   }
 
   @Get('graduationCertificate/:documentId')
@@ -137,14 +186,23 @@ export class DocumentController {
     @Param('documentId') documentId: string,
     @Res() res: Response
   ): Promise<void> {
-    const document = await this.documentEntityModel.findById(documentId).exec();
-    if (!document) {
-      throw new NotFoundException(`Document with ID ${documentId} not found`);
+    try {
+      const document = await this.documentEntityModel
+        .findById(documentId)
+        .exec();
+      if (!document) {
+        throw new NotFoundException(`Document with ID ${documentId} not found`);
+      }
+      const graduationCertificate = document.graduationCertificate;
+      const fileStream = await this.gridFSService.getFileStream(
+        graduationCertificate
+      );
+      fileStream.pipe(res);
+    } catch (error) {
+      throw new NotFoundException(
+        `Error retrieving graduation certificate for document ID ${documentId}`
+      );
     }
-    const graduationCertificate = document.graduationCertificate;
-    const fileStreGraduationCertificate =
-      await this.gridFSService.getFileStream(graduationCertificate);
-    fileStreGraduationCertificate.pipe(res);
   }
 
   @Put('/:documentId')
@@ -170,35 +228,60 @@ export class DocumentController {
       tenthCertificate?: Express.Multer.File[];
     }
   ): Promise<void> {
-    const document = await this.documentEntityModel.findById(documentId).exec();
-    if (!document) {
-      throw new NotFoundException(`Document with ID ${documentId} not found`);
-    }
-    for (const [fieldName, fileArray] of Object.entries(files)) {
-      if (fileArray && fileArray.length > 0) {
-        const file = fileArray[0];
-        const fileStream = file.buffer;
-        const fileType = file.mimetype;
-        if (document[fieldName]) {
-          await this.gridFSService.deleteFile(document[fieldName]);
-        }
-        const uploadedFile = await this.gridFSService.uploadFile(
-          file.originalname,
-          fileStream,
-          fileType
-        );
-        document[fieldName] = uploadedFile.id;
+    try {
+      const document = await this.documentEntityModel
+        .findById(documentId)
+        .exec();
+      if (!document) {
+        throw new NotFoundException(`Document with ID ${documentId} not found`);
       }
+      for (const [fieldName, fileArray] of Object.entries(files)) {
+        if (fileArray && fileArray.length > 0) {
+          const file = fileArray[0];
+          const fileStream = file.buffer;
+          const fileType = file.mimetype;
+          if (document[fieldName]) {
+            await this.gridFSService.deleteFile(document[fieldName]);
+          }
+          const uploadedFile = await this.gridFSService.uploadFile(
+            file.originalname,
+            fileStream,
+            fileType
+          );
+          document[fieldName] = uploadedFile.id;
+        }
+      }
+      await document.save();
+    } catch (error) {
+      throw new NotFoundException(
+        `Error updating files for document ID ${documentId}`
+      );
     }
-
-    await document.save();
   }
+
   @Get('file/:fileId')
   async getFile(
     @Param('fileId') fileId: string,
     @Res() res: Response
   ): Promise<void> {
-    const fileStream = await this.gridFSService.getFileStream(fileId);
-    fileStream.pipe(res);
+    try {
+      const fileStream = await this.gridFSService.getFileStream(fileId);
+      fileStream.pipe(res);
+    } catch (error) {
+      throw new NotFoundException(`Error retrieving file with ID ${fileId}`);
+    }
+  }
+
+  @Get('student/:studentId')
+  async getDocumentsByStudentId(
+    @Param('studentId') studentId: string
+  ): Promise<DocumentEntity> {
+    try {
+      return await this.documentService.getDocumentsByStudentId(studentId);
+    } catch (error) {
+      throw new NotFoundException(
+        `Error retrieving documents for student ID ${studentId}`
+      );
+    }
   }
 }

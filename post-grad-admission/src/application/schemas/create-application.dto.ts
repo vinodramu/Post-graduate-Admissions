@@ -1,25 +1,28 @@
 import {
-  IsDateString,
+  IsString,
   IsNotEmpty,
+  IsDate,
+  IsPositive,
   IsNumber,
   IsOptional,
-  IsString,
-  Min,
 } from 'class-validator';
 
 export class CreateApplicationDto {
   @IsNotEmpty()
   studentId: string;
+
   @IsString()
-  @IsNotEmpty()
-  status: string;
-  @IsDateString()
   @IsOptional()
+  status?: string;
+
+  @IsDate()
   submissionDate: Date;
+
   @IsNotEmpty()
   courseId: string;
+
   @IsNumber()
-  @Min(0)
+  @IsPositive()
   @IsNotEmpty()
   fee: number;
 }
