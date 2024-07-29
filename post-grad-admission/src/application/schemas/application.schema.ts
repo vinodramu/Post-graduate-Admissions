@@ -3,21 +3,24 @@ import { Document, Types } from 'mongoose';
 
 @Schema()
 export class Application extends Document {
-  @Prop({ type: Types.ObjectId, ref: 'PersonalDetails' })
+  @Prop({ type: Types.ObjectId, ref: 'PersonalDetails', required: true })
   studentId: Types.ObjectId;
 
-  @Prop()
+  @Prop({ required: true, enum: ['Pending', 'Approved', 'Rejected'] })
   status: string;
 
-  @Prop()
+  @Prop({ required: true })
   submissionDate: Date;
 
-  @Prop({ type: Types.ObjectId })
+  @Prop({ type: Types.ObjectId, ref: 'Course', required: true })
   courseId: Types.ObjectId;
 
-  @Prop()
+  @Prop({ required: true, min: 0 })
   fee: number;
 }
 
 export const ApplicationSchema = SchemaFactory.createForClass(Application);
-//coment
+
+ApplicationSchema.path('fee').validate(function (value: number) {
+  return value >= 0;
+}, 'Fee must be a non-negative number');

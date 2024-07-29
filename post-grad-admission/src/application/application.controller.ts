@@ -1,9 +1,8 @@
-// application.controller.ts
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
 import { ApplicationService } from './application.service';
-
 import { Application } from './schemas/application.schema';
 import { CreateApplicationDto } from './schemas/create-application.dto';
+import { UpdateApplicationDto } from './schemas/update-application.dto';
 
 @Controller('applications')
 export class ApplicationController {
@@ -27,5 +26,13 @@ export class ApplicationController {
     } catch (error) {
       console.log(error);
     }
+  }
+
+  @Put('/:id')
+  async update(
+    @Param('id') id: string,
+    @Body() updateApplicationDto: UpdateApplicationDto
+  ): Promise<Application> {
+    return this.applicationService.update(id, updateApplicationDto);
   }
 }

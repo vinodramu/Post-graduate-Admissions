@@ -6,24 +6,23 @@ export class DocumentEntity extends Document {
   @Prop({ type: Types.ObjectId, ref: 'PersonalDetails' })
   studentId: Types.ObjectId;
 
-  @Prop()
+  @Prop({ required: true })
   aadharPhoto: string;
 
-  @Prop()
+  @Prop({ required: true })
   studentPhoto: string;
 
-  @Prop()
+  @Prop({ required: true })
   signature: string;
 
-  @Prop()
+  @Prop({ required: true })
   graduationCertificate: string;
 
-  @Prop()
+  @Prop({ required: true })
   twelthCertificate: string;
 
-  @Prop()
+  @Prop({ required: true })
   tenthCertificate: string;
 }
 
 export const DocumentSchema = SchemaFactory.createForClass(DocumentEntity);
-//coment
