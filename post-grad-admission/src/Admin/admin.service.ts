@@ -54,19 +54,20 @@ export class AdminService {
                 .filter(user => user.role === 'student')
                 .map(async (user: any) => {
                     this.logger.log(`Fetching details for student: ${user._id}`);
-                    const personalDetails = await (await this.personalDetailsModel.findOne({email: user.email})).populate('')
+                    const personalDetails = (await this.personalDetailsModel.findOne({email: user.email}))
                     const id = personalDetails._id
-
-        //             this.logger.log(`personal details ${personalDetails}, ${personalDetails._id}`);
-                    // const address: any = await this.addressModel.find().exec()
-                    // const addressDetails = address.map((address)=>{if(address._id===id){ return address}})
-                    
-        //             const applicationDetails: any = await this.applicationModel.find({studentId: personalDetails._id}).populate('Course').exec()  
+                    this.logger.log(`personal details ${personalDetails}, ${personalDetails._id}`);
+                    const address: any = (await this.addressModel.find().exec()).filter(address=>address.studentId==id)
+                    this.logger.log(`address details ${address}, ${personalDetails._id}`);                   
+                    const applications: any = (await this.applicationModel.find().exec()).filter(application=>application.studentId==id) 
+                    const education: any = (await this.educationalDetailsModel.find().exec()).filter(education=>education.studentId==id) 
+                    const documents: any = (await this.documentModel.find().exec()).filter(document=>document.studentId==id) 
         const studentDetails = {
             ...personalDetails.toObject(),
-            // addressDetails,
-           
-        //     applicationDetails
+            address,
+            applications,
+            education,
+            documents
                     };
                     return studentDetails;
                 })) 

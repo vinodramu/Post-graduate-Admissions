@@ -1,5 +1,5 @@
 // user.controller.ts
-import { Controller, Post, Body, Res, Get, Param, Query } from '@nestjs/common';
+import { Controller, Post, Body, Get, Param } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from 'src/dto/create-user.dto';
 import { SendOtpDto } from 'src/dto/otp.dto';
