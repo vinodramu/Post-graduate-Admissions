@@ -8,6 +8,7 @@ import { Address } from 'src/Address/schemas/address.schema';
 import { EducationalDetails } from 'src/education/schema/education.schema';
 import { Application } from 'src/application/schemas/application.schema';
 import { DocumentEntity } from 'src/document/schemas/document.schema';
+import { UpdatePersonalDetailsDto } from './schemas/update-personal-details.dto';
 
 @Injectable()
 export class PersonalDetailsService {
@@ -29,6 +30,23 @@ export class PersonalDetailsService {
       createPersonalDetailsDto
     );
     return createdPersonalDetails.save();
+  }
+
+  async updatePersonalDetails(
+    personalDetailsId: string,
+    updatePersonalDetailsDto: UpdatePersonalDetailsDto
+  ): Promise<PersonalDetails> {
+    const updatedPersonalDetails = await this.personalDetailsModel
+      .findByIdAndUpdate(personalDetailsId, updatePersonalDetailsDto, {
+        new: true,
+      })
+      .exec();
+    if (!updatedPersonalDetails) {
+      throw new NotFoundException(
+        `Personal details with ID ${personalDetailsId} not found`
+      );
+    }
+    return updatedPersonalDetails;
   }
 
   async findByEmail(email: string): Promise<PersonalDetails> {

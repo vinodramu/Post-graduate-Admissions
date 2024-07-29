@@ -4,6 +4,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Address } from './schemas/address.schema';
 import { CreateAddressDto } from './schemas/create-address.dto';
+import { UpdateAddressDto } from './schemas/update-address.dto';
 
 @Injectable()
 export class AddressService {
@@ -24,5 +25,20 @@ export class AddressService {
       );
     }
     return address;
+  }
+
+  async updateAddressByStudentId(
+    studentId: string,
+    updateAddressDto: UpdateAddressDto
+  ): Promise<Address> {
+    const updatedAddress = await this.addressModel
+      .findOneAndUpdate({ studentId }, updateAddressDto, { new: true })
+      .exec();
+    if (!updatedAddress) {
+      throw new NotFoundException(
+        `Address for student ID ${studentId} not found`
+      );
+    }
+    return updatedAddress;
   }
 }

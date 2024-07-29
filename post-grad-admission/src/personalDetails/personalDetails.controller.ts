@@ -6,10 +6,12 @@ import {
   NotFoundException,
   Param,
   Post,
+  Put,
 } from '@nestjs/common';
 import { PersonalDetailsService } from './personalDetails.service';
 import { CreatePersonalDetailsDto } from './schemas/create-personal-details.dto';
 import { PersonalDetails } from './schemas/personalDetails.schema';
+import { UpdatePersonalDetailsDto } from './schemas/update-personal-details.dto';
 
 @Controller('personalDetails')
 export class PersonalDetailsController {
@@ -22,6 +24,17 @@ export class PersonalDetailsController {
     @Body() createPersonalDetailsDto: CreatePersonalDetailsDto
   ): Promise<PersonalDetails> {
     return this.personalDetailsService.create(createPersonalDetailsDto);
+  }
+
+  @Put('/:id')
+  async update(
+    @Param('id') id: string,
+    @Body() updatePersonalDetailsDto: UpdatePersonalDetailsDto
+  ): Promise<PersonalDetails> {
+    return this.personalDetailsService.updatePersonalDetails(
+      id,
+      updatePersonalDetailsDto
+    );
   }
 
   @Get('/:email')
