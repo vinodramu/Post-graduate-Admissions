@@ -1,63 +1,70 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Address Details</title>
-</head>
-<body>
-    <div class="form-container">
-        <form [formGroup]="studentAddressForm" (ngSubmit)="onSubmit()">
-            <h1>Student Address Details</h1>
-            <div class="form-section">
-                <div class="card">
-                    <div class="form-grid">
-                        <div class="mb-3">
-                            <label for="correspondenseAddress" class="form-label">Temporary Address</label>
-                            <input id="correspondenseAddress" formControlName="correspondenseAddress" class="form-control" />
-                            <div *ngIf="submitted && f['correspondenseAddress'].errors" class="text-danger">
-                                <div *ngIf="f['correspondenseAddress'].errors['required']">Address is required</div>
-                            </div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="permanentAddress" class="form-label">Permanent Address</label>
-                            <input id="permanentAddress" formControlName="permanentAddress" class="form-control" />
-                            <div *ngIf="submitted && f['permanentAddress'].errors" class="text-danger">
-                                <div *ngIf="f['permanentAddress'].errors['required']">Address is required</div>
-                            </div>
-                        </div>
-                        <div>
-                            <label for="country">Country</label>
-                            <select id="country" formControlName="country" (change)="onCountryChange($event)">
-                                <option *ngFor="let country of countries" [value]="country">{{country}}</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label for="state">State</label>
-                            <select id="state" formControlName="state">
-                                <option *ngFor="let state of states" [value]="state">{{state}}</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label for="city">City</label>
-                            <select id="city" formControlName="city">
-                                <option *ngFor="let city of cities" [value]="city">{{city}}</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label for="pincode">Pincode</label>
-                            <select id="pincode" formControlName="pincode">
-                                <option *ngFor="let pincode of pincodes" [value]="pincode">{{pincode}}</option>
-                            </select>
-                        </div>
-                    </div>
+<div class="form-container">
+    <form [formGroup]="studentAddressForm" (ngSubmit)="onSubmit()">
+      <h1>Student Address Details</h1>
+      <div class="form-section">
+        <div class="card">
+          <div class="form-grid">
+            <div class="mb-3">
+              <label for="correspondenseAddress" class="form-label">Temporary Address</label>
+              <input id="correspondenseAddress" formControlName="correspondenseAddress" class="form-control" />
+              <div *ngIf="submitted && f['correspondenseAddress'].errors" class="text-danger">
+                <div *ngIf="f['correspondenseAddress'].errors['required']">Address is required</div>
+              </div>
+            </div>
+  
+            <div class="mb-3">
+              <label for="permanentAddress" class="form-label">Permanent Address</label>
+              <input id="permanentAddress" formControlName="permanentAddress" class="form-control" />
+              <div *ngIf="submitted && f['permanentAddress'].errors" class="text-danger">
+                <div *ngIf="f['permanentAddress'].errors['required']">Address is required</div>
+              </div>
+            </div>
+  
+            <div class="mb-3">
+              <label for="country" class="form-label">Country</label>
+              <select id="country" formControlName="country" class="form-control" (change)="onCountryChange($event)">
+                <option *ngFor="let country of countries" [value]="country">{{country}}</option>
+              </select>
+              <div *ngIf="submitted && f['country'].errors" class="text-danger">
+                <div *ngIf="f['country'].errors['required']">Country is required</div>
+              </div>
+            </div>
+  
+            <div class="mb-3">
+                <label for="state" class="form-label">State</label>
+                <select id="state" formControlName="state" class="form-control">
+                  <option *ngFor="let state of states" [value]="state">{{state}}</option>
+                </select>
+                <div *ngIf="submitted && f['state'].errors" class="text-danger">
+                  <div *ngIf="f['state'].errors['required']">State is required</div>
                 </div>
+              </div>
+  
+            <div class="mb-3">
+              <label for="city" class="form-label">City</label>
+              <select id="city" formControlName="city" class="form-control">
+                <option *ngFor="let city of cities" [value]="city">{{city}}</option>
+              </select>
+              <div *ngIf="submitted && f['city'].errors" class="text-danger">
+                <div *ngIf="f['city'].errors['required']">City is required</div>
+              </div>
             </div>
-            <div class="form-buttons">
-                <button type="submit">Submit</button>
+  
+            <div class="mb-3">
+              <label for="pincode" class="form-label">Pincode</label>
+              <select id="pincode" formControlName="pincode" class="form-control">
+                <option *ngFor="let pincode of pincodes" [value]="pincode">{{pincode}}</option>
+              </select>
+              <div *ngIf="submitted && f['pincode'].errors" class="text-danger">
+                <div *ngIf="f['pincode'].errors['required']">Pincode is required</div>
+              </div>
             </div>
-        </form>
-    </div>
-</body>
-</html>
+          </div>
+        </div>
+      </div>
+      <div class="form-buttons">
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </div>
+    </form>
+  </div>
+  

@@ -109,3 +109,17 @@ body {
     margin: 5px 0;
   }
   
+  .form-grid {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+}
+.form-section {
+    margin-bottom: 2rem;
+}
+.form-buttons {
+    margin-top: 1rem;
+}
+.text-danger {
+    color: #dc3545;
+}

@@ -32,4 +32,7 @@ export class StudentPersonalDetailsService {
     return this.http.post<StudentPersonalData>(`${this.apiUrl}/personalDetails`,studentPersonalData);
   }
 
+  updateStudentPersonalData(studentPersonalData:StudentPersonalData):Observable<StudentPersonalData>{
+    return this.http.put<StudentPersonalData>(`${this.apiUrl}/personalDetails/${studentPersonalData._id}`,studentPersonalData);
+  }
 }

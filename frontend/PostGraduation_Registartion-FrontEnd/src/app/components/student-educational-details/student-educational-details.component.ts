@@ -10,31 +10,34 @@ import { StudentEducationService } from 'src/app/services/student-education.serv
   styleUrls: ['./student-educational-details.component.scss']
 })
 export class StudentEducationalDetailsComponent implements OnInit {
-  submitted=false;
-  isStudentEducationPresent!:boolean;
+  submitted = false;
+  isStudentEducationPresent = false;
   studentEducationalForm!: FormGroup;
-  studentEducationalData!:StudentEducationdata[];
+  studentEducationalData!: StudentEducationdata[];
+
   constructor(
     private formBuilder: FormBuilder,
-    private studentEducationService:StudentEducationService,
-    private router:Router
+    private studentEducationService: StudentEducationService,
+    private router: Router
   ) { }
 
   ngOnInit() {
     this.studentEducationalForm = this.formBuilder.group({
       degreeLevelOfEducation: [{ value: 'UnderGraduation', disabled: true }, Validators.required],
-      degreeInstitution: [ '', Validators.required],
-      degreeYearOfPassing: ['', Validators.required],
-      degreePercentage: ['', Validators.required],
+      degreeInstitution: ['', [Validators.required, Validators.minLength(2)]],
+      degreeYearOfPassing: ['', [Validators.required, Validators.pattern('^[0-9]{4}$')]],
+      degreePercentage: ['', [Validators.required, Validators.min(0), Validators.max(100)]],
       interLevelOfEducation: [{ value: 'Intermediate', disabled: true }, Validators.required],
-      interInstitution: ['', Validators.required],
-      interYearOfPassing: ['', Validators.required],
-      interPercentage: ['', Validators.required],
+      interInstitution: ['', [Validators.required, Validators.minLength(2)]],
+      interYearOfPassing: ['', [Validators.required, Validators.pattern('^[0-9]{4}$')]],
+      interPercentage: ['', [Validators.required, Validators.min(0), Validators.max(100)]],
       sscLevelOfEducation: [{ value: 'SSC', disabled: true }, Validators.required],
-      sscInstitution: ['', Validators.required],
-      sscYearOfPassing: ['', Validators.required],
-      sscPercentage: ['', Validators.required],
+      sscInstitution: ['', [Validators.required, Validators.minLength(2)]],
+      sscYearOfPassing: ['', [Validators.required, Validators.pattern('^[0-9]{4}$')]],
+      sscPercentage: ['', [Validators.required, Validators.min(0), Validators.max(100)]],
     });
+
+    this.getEducationalDataByStudentId();
   }
 
   private mapFormToEducationData(formValue: any): StudentEducationdata[] {
@@ -44,57 +47,88 @@ export class StudentEducationalDetailsComponent implements OnInit {
     educationDataList.push({
       levelOfEducation: 'SSC',
       institution: formValue.sscInstitution,
-      yearOfPassing: +formValue.sscYearOfPassing, // Convert to number
-      percentage: +formValue.sscPercentage, // Convert to number
+      yearOfPassing: +formValue.sscYearOfPassing,
+      percentage: +formValue.sscPercentage,
     });
 
     // Intermediate Data
     educationDataList.push({
-      levelOfEducation: 'Inter',
+      levelOfEducation: 'Intermediate',
       institution: formValue.interInstitution,
-      yearOfPassing: +formValue.interYearOfPassing, // Convert to number
-      percentage: +formValue.interPercentage, // Convert to number
+      yearOfPassing: +formValue.interYearOfPassing,
+      percentage: +formValue.interPercentage,
     });
 
     // Degree Data
     educationDataList.push({
       levelOfEducation: 'UnderGraduation',
       institution: formValue.degreeInstitution,
-      yearOfPassing: +formValue.degreeYearOfPassing, // Convert to number
-      percentage: +formValue.degreePercentage, // Convert to number
+      yearOfPassing: +formValue.degreeYearOfPassing,
+      percentage: +formValue.degreePercentage,
     });
-
 
     return educationDataList;
   }
-  getEducationalDataByStudentId(){
-    //
+
+  getEducationalDataByStudentId() {
     this.studentEducationService.getEducationDetailsByStudentId().subscribe((data: StudentEducationdata[]) => {
-      this.studentEducationalData = data;
-      if (this.studentEducationalData!=null) {
-        this.isStudentEducationPresent=true;
-      } 
+      if (data && data.length > 0) {
+        this.studentEducationalData = data;
+        this.isStudentEducationPresent = true;
+
+        // Populate form with retrieved data
+        this.populateForm(data);
+      }
+    }, error => {
+      console.error('Error fetching educational data:', error);
+    });
+  }
+
+  private populateForm(data: StudentEducationdata[]) {
+    // Assuming the data array is in the same order as the form fields
+    const sscData = data.find(d => d.levelOfEducation === 'SSC');
+    const interData = data.find(d => d.levelOfEducation === 'Intermediate');
+    const degreeData = data.find(d => d.levelOfEducation === 'UnderGraduation');
+
+    this.studentEducationalForm.patchValue({
+      sscInstitution: sscData?.institution || '',
+      sscYearOfPassing: sscData?.yearOfPassing || '',
+      sscPercentage: sscData?.percentage || '',
+      interInstitution: interData?.institution || '',
+      interYearOfPassing: interData?.yearOfPassing || '',
+      interPercentage: interData?.percentage || '',
+      degreeInstitution: degreeData?.institution || '',
+      degreeYearOfPassing: degreeData?.yearOfPassing || '',
+      degreePercentage: degreeData?.percentage || '',
     });
   }
 
   get f() { return this.studentEducationalForm.controls; }
 
   onSubmit(): void {
-    if (this.studentEducationalForm.valid) {
-      this.submitted = true;
-      this.studentEducationalData=this.mapFormToEducationData(this.studentEducationalForm.value);
-      if(this.isStudentEducationPresent){
-        // updtae API
-      }else{
+    this.submitted = true;
+    if (this.studentEducationalForm.invalid) {
+      return;
+    }
+
+    this.studentEducationalData = this.mapFormToEducationData(this.studentEducationalForm.value);
+    if (this.isStudentEducationPresent) {
+      // Update API
+      // this.studentEducationService.updateEducationalData(this.studentEducationalData)
+      //   .subscribe(response => {
+      //     console.log('Data updated successfully:', response);
+      //     this.router.navigate(['/studentCourseDetailsForm']);
+      //   }, error => {
+      //     console.error('Error updating data:', error);
+      //   });
+    } else {
       this.studentEducationService.saveEducationalData(this.studentEducationalData)
         .subscribe(response => {
           console.log('Data saved successfully:', response);
-          this.router.navigate(['/studentCourseDeatialsForm']);
+          this.router.navigate(['/studentCourseDetailsForm']);
         }, error => {
           console.error('Error saving data:', error);
         });
-    }}else {
-      console.log('Form is invalid');
     }
   }
 }
