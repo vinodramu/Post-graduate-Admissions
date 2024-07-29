@@ -192,7 +192,7 @@ export class DocumentController {
     }
 
     await document.save();
-  } 
+  }
   @Get('file/:fileId')
   async getFile(
     @Param('fileId') fileId: string,

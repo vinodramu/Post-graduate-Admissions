@@ -13,7 +13,7 @@ import { GridFSService } from 'src/file-upload/gridFS.service';
 export class DocumentService {
   constructor(
     @InjectModel(DocumentEntity.name)
-    private documentEntityModel: Model<DocumentEntity>,
+    private readonly documentEntityModel: Model<DocumentEntity>,
     private readonly gridFSService: GridFSService
   ) {}
 
