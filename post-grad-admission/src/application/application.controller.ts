@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Put,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { ApplicationService } from './application.service';
 import { Application } from './schemas/application.schema';
 import { CreateApplicationDto } from './schemas/create-application.dto';
@@ -12,7 +20,12 @@ export class ApplicationController {
   async create(
     @Body() createApplicationDto: CreateApplicationDto
   ): Promise<Application> {
-    return this.applicationService.create(createApplicationDto);
+    try {
+      return await this.applicationService.create(createApplicationDto);
+    } catch (error) {
+      console.error(error);
+      throw new InternalServerErrorException('Failed to create application');
+    }
   }
 
   @Get('/:studentId')
@@ -20,19 +33,28 @@ export class ApplicationController {
     @Param('studentId') studentId: string
   ): Promise<Application[]> {
     try {
-      const applications =
-        await this.applicationService.getApplicationsByStudentId(studentId);
-      return applications;
+      return await this.applicationService.getApplicationsByStudentId(
+        studentId
+      );
     } catch (error) {
-      console.log(error);
+      console.error(error);
+      throw new InternalServerErrorException('Failed to retrieve applications');
     }
   }
 
-  @Put('/:id')
-  async update(
-    @Param('id') id: string,
+  @Put('/:studentId')
+  async updateApplicationByStudentId(
+    @Param('studentId') studentId: string,
     @Body() updateApplicationDto: UpdateApplicationDto
   ): Promise<Application> {
-    return this.applicationService.update(id, updateApplicationDto);
+    try {
+      return await this.applicationService.updateApplicationByStudentId(
+        studentId,
+        updateApplicationDto
+      );
+    } catch (error) {
+      console.error(error);
+      throw new InternalServerErrorException('Failed to update application');
+    }
   }
 }

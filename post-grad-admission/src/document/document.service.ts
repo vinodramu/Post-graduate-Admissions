@@ -1,6 +1,7 @@
 import {
   BadRequestException,
   Injectable,
+  Logger,
   NotFoundException,
 } from '@nestjs/common';
 import { Express } from 'express';
@@ -28,6 +29,7 @@ export class DocumentService {
       tenthCertificate?: Express.Multer.File[];
     }
   ): Promise<DocumentEntity> {
+    Logger.log(`Start : DocumentService : uploadFiles : id ${studentId}`);
     if (!studentId) {
       throw new BadRequestException('Student ID is required');
     }
@@ -47,7 +49,6 @@ export class DocumentService {
         : null,
     };
 
-    // Upload files to GridFS
     const uploadedFiles = await Promise.all([
       fileBuffers.aadharPhoto
         ? this.gridFSService.uploadFile(
@@ -103,6 +104,7 @@ export class DocumentService {
       tenthCertificate: uploadedFiles[5]?.id ?? null,
     });
 
+    Logger.log(`End : DocumentService : uploadFiles : id ${studentId}`);
     return document.save();
   }
 
@@ -127,6 +129,9 @@ export class DocumentService {
   // }
 
   async getDocumentWithFiles(documentId: string): Promise<any> {
+    Logger.log(
+      `Start : DocumentService : getDocumentWithFiles : id ${documentId}`
+    );
     // Find the document by ID
     const document = await this.documentEntityModel.findById(documentId);
 
@@ -151,6 +156,8 @@ export class DocumentService {
         files[key] = await this.gridFSService.getFile(key);
       }
     }
+
+    
 
     return {
       document,

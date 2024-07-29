@@ -1,4 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { IsDate } from 'class-validator';
 import { Document, Types } from 'mongoose';
 
 @Schema()
@@ -6,11 +7,12 @@ export class Application extends Document {
   @Prop({ type: Types.ObjectId, ref: 'PersonalDetails', required: true })
   studentId: Types.ObjectId;
 
-  @Prop({ required: true, enum: ['Pending', 'Approved', 'Rejected'] })
-  status: string;
+  @Prop({ enum: ['Pending', 'Approved', 'Rejected'] })
+  status?: string;
 
-  @Prop({ required: true })
-  submissionDate: Date;
+  @Prop()
+  @IsDate()
+  submissionDate?: Date;
 
   @Prop({ type: Types.ObjectId, ref: 'Course', required: true })
   courseId: Types.ObjectId;
@@ -20,7 +22,3 @@ export class Application extends Document {
 }
 
 export const ApplicationSchema = SchemaFactory.createForClass(Application);
-
-ApplicationSchema.path('fee').validate(function (value: number) {
-  return value >= 0;
-}, 'Fee must be a non-negative number');

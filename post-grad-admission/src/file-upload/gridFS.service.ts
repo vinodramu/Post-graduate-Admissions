@@ -7,8 +7,8 @@ export class GridFSService {
   private bucket: GridFSBucket;
 
   constructor() {
-    const client = new MongoClient('mongodb://192.168.0.102:27017'); // Replace with your MongoDB URI
-    this.bucket = new GridFSBucket(client.db('studentregistration')); // Replace with your database name
+    const client = new MongoClient('mongodb://192.168.0.102:27017');
+    this.bucket = new GridFSBucket(client.db('studentregistration'));
   }
 
   async uploadFile(
