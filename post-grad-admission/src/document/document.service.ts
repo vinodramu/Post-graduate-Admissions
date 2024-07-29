@@ -3,6 +3,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
+import { Express } from 'express';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { DocumentEntity } from 'src/document/schemas/document.schema';
@@ -155,9 +156,5 @@ export class DocumentService {
       document,
       files,
     };
-  }
-
-  async findByStudentId(studentId: string): Promise<DocumentEntity | null> {
-    return this.documentEntityModel.findOne({ studentId }).exec();
   }
 }

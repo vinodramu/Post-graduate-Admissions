@@ -12,7 +12,7 @@ export class Application extends Document {
   @Prop()
   submissionDate: Date;
 
-  @Prop({ type: Types.ObjectId, ref: 'Course'})
+  @Prop({ type: Types.ObjectId, ref: 'Course' })
   courseId: Types.ObjectId;
 
   @Prop()
