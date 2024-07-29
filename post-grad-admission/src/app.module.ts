@@ -10,7 +10,8 @@ import { DocumentModule } from './document/document.module';
 import { PersonalDetailsModule } from './personalDetails/personalDetails.module';
 import { AddressModule } from './Address/address.module';
 import { EducationalDetailsModule } from './education/education.module';
-import { ApplicationModule } from './application/application.module';import { AdminModule } from './Admin/admin.module';
+import { ApplicationModule } from './application/application.module';
+import { AdminModule } from './Admin/admin.module';
 import { CourseModule } from './courses/course.module';
 @Module({
   imports: [
@@ -43,11 +44,13 @@ import { CourseModule } from './courses/course.module';
     UserModule,
     MailerModule,
     AuthModule,
+    PersonalDetailsModule,
     DocumentModule,
     AddressModule,
     EducationalDetailsModule,
     ApplicationModule,
     AdminModule,
-    CourseModule  ],
+    CourseModule,
+  ],
 })
 export class AppModule {}

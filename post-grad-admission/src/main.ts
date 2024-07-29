@@ -10,8 +10,8 @@ async function bootstrap() {
     console.log('Application module created');
     app.enableCors();
     console.log('CORS enabled');
-    const port = 4000;
-    const host = '192.168.0.102';
+    const port = 3000;
+    const host = '192.168.0.109';
     await app.listen(port, host);
     console.log(`Application listening on ${host}:${port}`);
   } catch (error) {

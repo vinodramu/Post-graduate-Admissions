@@ -3,7 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Application } from './schemas/application.schema';
 import { CreateApplicationDto } from './schemas/create-application.dto';
-import { UpdateApplicationDto } from './schemas/update-application.dto';
+
 
 @Injectable()
 export class ApplicationService {
@@ -28,12 +28,12 @@ export class ApplicationService {
     return applications;
   }
 
-  async update(
-    id: string,
-    updateApplicationDto: UpdateApplicationDto
-  ): Promise<Application> {
-    return this.applicationModel
-      .findByIdAndUpdate(id, updateApplicationDto, { new: true })
-      .exec();
-  }
+  // async update(
+  //   id: string,
+  //   updateApplicationDto: UpdateApplicationDto
+  // ): Promise<Application> {
+  //   return this.applicationModel
+  //     .findByIdAndUpdate(id, updateApplicationDto, { new: true })
+  //     .exec();
+  // }
 }
