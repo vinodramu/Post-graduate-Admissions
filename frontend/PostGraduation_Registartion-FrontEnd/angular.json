@@ -20,6 +20,10 @@
             "outputPath": "dist/post-graduation-registartion-front-end",
             "index": "src/index.html",
             "main": "src/main.ts",
+            "allowedCommonJsDependencies": [
+              "ag-grid-angular",
+              "ag-grid-community"
+            ],
             "polyfills": [
               "zone.js"
             ],
@@ -30,8 +34,13 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "src/styles.scss"
+              "src/styles.scss",
+              "node_modules/ag-grid-community/styles/ag-grid.css",
+              "node_modules/ag-grid-community/styles/ag-theme-alpine.css"
+              
+               
             ],
             "scripts": []
           },
@@ -97,29 +106,15 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss",
-              "@angular/material/prebuilt-themes/indigo-pink.css"
-
+              "src/styles.scss"
             ],
             "scripts": []
-          }
-        },
-        "lint": {
-          "builder": "@angular-eslint/builder:lint",
-          "options": {
-            "lintFilePatterns": [
-              "src/**/*.ts",
-              "src/**/*.html"
-            ]
           }
         }
       }
     }
   },
   "cli": {
-    "analytics": "7309bdde-0f8a-47de-8606-64000508814f",
-    "schematicCollections": [
-      "@angular-eslint/schematics"
-    ]
+    "analytics": "7309bdde-0f8a-47de-8606-64000508814f"
   }
 }
