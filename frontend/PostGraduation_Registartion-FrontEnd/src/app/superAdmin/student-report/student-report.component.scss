@@ -1,0 +1,14 @@
+.action-dropdown {
+  width: 100%;
+  padding: 5px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.action-dropdown option {
+  padding: 5px;
+}
+
+.action-dropdown i {
+  margin-right: 8px; /* Space between icon and text */
+}
