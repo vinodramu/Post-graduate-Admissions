@@ -17,24 +17,40 @@
                         <div>
                             <label for="name">Name</label>
                             <input id="name" formControlName="name">
+                            <div *ngIf="studentPersonalDetailsForm.get('name')?.invalid && submitted">
+                                <small *ngIf="studentPersonalDetailsForm.get('name')?.errors?.['required']">Name is required.</small>
+                            </div>
                         </div>
                         <div>
                             <label for="dateOfBirth">Date of Birth</label>
                             <input id="dateOfBirth" type="date" formControlName="dateOfBirth">
+                            <div *ngIf="studentPersonalDetailsForm.get('dateOfBirth')?.invalid && submitted">
+                                <small *ngIf="studentPersonalDetailsForm.get('dateOfBirth')?.errors?.['required']">Date of Birth is required.</small>
+                            </div>
                         </div>
                         <div>
                             <label for="gender">Gender</label>
                             <select id="gender" formControlName="gender">
                                 <option *ngFor="let gender of genders" [value]="gender">{{gender}}</option>
                             </select>
+                            <div *ngIf="studentPersonalDetailsForm.get('gender')?.invalid && submitted">
+                                <small *ngIf="studentPersonalDetailsForm.get('gender')?.errors?.['required']">Gender is required.</small>
+                            </div>
                         </div>
                         <div>
                             <label for="email">Email</label>
                             <input id="email" type="email" formControlName="email">
+                            <div *ngIf="studentPersonalDetailsForm.get('email')?.invalid && submitted">
+                                <small *ngIf="studentPersonalDetailsForm.get('email')?.errors?.['required']">Email is required.</small>
+                                <small *ngIf="studentPersonalDetailsForm.get('email')?.errors?.['email']">Invalid email format.</small>
+                            </div>
                         </div>
                         <div>
                             <label for="phoneNumber">Phone Number</label>
                             <input id="phoneNumber" formControlName="phoneNumber">
+                            <div *ngIf="studentPersonalDetailsForm.get('phoneNumber')?.invalid && submitted">
+                                <small *ngIf="studentPersonalDetailsForm.get('phoneNumber')?.errors?.['required']">Phone Number is required.</small>
+                            </div>
                         </div>
                     </div>
                     <div class="form-buttons">

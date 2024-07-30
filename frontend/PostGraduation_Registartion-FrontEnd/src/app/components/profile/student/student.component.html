@@ -1,0 +1,30 @@
+<form [formGroup]="studentForm" class="container mt-4">
+    <h2 class="text-center mb-4">Student Details</h2>
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label for="studentId" class="form-label">ID:</label>
+        <input id="studentId" formControlName="studentId" class="form-control" />
+      </div>
+      <div class="col-md-6 mb-3">
+        <label for="name" class="form-label">Name:</label>
+        <input id="name" formControlName="name" class="form-control" />
+      </div>
+      <div class="col-md-6 mb-3">
+        <label for="email" class="form-label">Email:</label>
+        <input id="email" formControlName="email" class="form-control" />
+      </div>
+      <div class="col-md-6 mb-3">
+        <label for="gpa" class="form-label">GPA:</label>
+        <input id="gpa" formControlName="gpa" class="form-control" />
+      </div>
+      <div class="col-md-6 mb-3">
+        <label for="enrollmentDate" class="form-label">Enrollment Date:</label>
+        <input id="enrollmentDate" formControlName="enrollmentDate" type="date" class="form-control" />
+      </div>
+   
+    <div class="position-absolute bottom-0 end-1 p-4">
+        <button type="button" class="btn btn-primary btn-sm custom-btn-sm">Verified</button>
+      </div>
+    </div>
+  </form>
+  

@@ -27,6 +27,13 @@ import { StudentAddressDetailsComponent } from './components/student-address-det
 import { StudentEducationalDetailsComponent } from './components/student-educational-details/student-educational-details.component';
 import { StudentCourseSelectionComponent } from './components/student-course-selection/student-course-selection.component';
 import { StudentDocumentDetailsComponent } from './components/student-document-details/student-document-details.component';
+import { EditStudentComponent } from './superAdmin/student-report/edit-student/edit-student.component';
+import { MatTabsModule } from '@angular/material/tabs'
+import { StudentReportComponent } from './superAdmin/student-report/student-report.component';
+import { AgGridModule } from 'ag-grid-angular';
+import { RouterModule } from '@angular/router';
+
+import { StudentUniversityRegistrationComponent } from './components/student-university-registration/student-university-registration.component';
 
 @NgModule({
   declarations: [
@@ -45,15 +52,19 @@ import { StudentDocumentDetailsComponent } from './components/student-document-d
     StudentAddressDetailsComponent,
     StudentEducationalDetailsComponent,
     StudentCourseSelectionComponent,
-    StudentDocumentDetailsComponent,  
+    StudentDocumentDetailsComponent, 
+    StudentReportComponent,
+    EditStudentComponent,
+    StudentUniversityRegistrationComponent,
+
 
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-
+    MatTabsModule,
     FormsModule,
-
+  
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
@@ -64,6 +75,8 @@ import { StudentDocumentDetailsComponent } from './components/student-document-d
     MatDatepickerModule,
     MatNativeDateModule,
     MatSnackBarModule,
+    AgGridModule,
+    RouterModule,
 
   ],
   providers: [ { provide: Environment, useClass: Environment}],

@@ -8,11 +8,11 @@ import { Component } from '@angular/core';
 export class ChairpersonLoginComponent {
 
   
-  userId: string = '';
-  password: string = '';
-  userIdError: string = '';
-  passwordError: string = '';
-  loginError: string = '';
+  userId!: string;
+  password!: string;
+  userIdError!: string;
+  passwordError!: string;
+  loginError!: string;
 
   // Hardcoded credentials
   readonly validUserId = 'admin';

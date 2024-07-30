@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { GridApi, GridOptions } from 'ag-grid-community';
 import { HttpClient } from '@angular/common/http';
-import { GridApi } from 'ag-grid-community';
-import { ActionCellRendererComponent } from './action-cell-renderer/action-cell-renderer.component';
 
 @Component({
   selector: 'app-student-report',
@@ -9,53 +9,86 @@ import { ActionCellRendererComponent } from './action-cell-renderer/action-cell-
   styleUrls: ['./student-report.component.scss']
 })
 export class StudentReportComponent implements OnInit {
-  private gridApi!: GridApi;
-
-  columnDefs = [
-    { headerName: 'Student ID', field: 'studentId' },
+  columnDefs: any[] = [
+    { headerName: 'Student ID', field: '_id' },
     { headerName: 'Name', field: 'name' },
     { headerName: 'Email', field: 'email' },
-    { headerName: 'GPA', field: 'gpa' },
-    { headerName: 'Enrollment Date', field: 'enrollmentDate' },
-    { headerName: 'Actions', cellRenderer: 'actionRenderer' }
+    { headerName: 'Actions', cellRenderer: 'actionCellRenderer' }
   ];
 
   rowData: any[] = [];
-  paginationPageSize = 5;
-  currentPage = 1;
-  totalRecords = 0;
 
-  frameworkComponents = {
-    actionRenderer: ActionCellRendererComponent
+  gridOptions: GridOptions = {
+    pagination: true,
+    rowModelType: 'clientSide',
+    paginationPageSize: 10,
+    context: { 
+      onView: this.onView.bind(this),
+      router: this.router // Pass router to context
+    },
+    components: {
+      actionCellRenderer: this.actionCellRenderer.bind(this)
+    }
   };
 
-  constructor(private http: HttpClient) { }
+  gridApi!: GridApi;
+
+  constructor(private router: Router, private http: HttpClient) { }
 
   ngOnInit(): void {
-    this.fetchData();
-  }
-
-  fetchData(): void {
-    this.http.get<any>(`http://192.168.0.102:4000/superAdmin/list/students?page=${this.currentPage}&limit=${this.paginationPageSize}`)
-      .subscribe(data => {
-        console.log('Fetched data:', data); // Check the response
-        this.rowData = data.students;
-        this.totalRecords = data.total;
-      });
+    this.loadStudentData();
   }
 
   onGridReady(params: any): void {
     this.gridApi = params.api;
+    params.api.sizeColumnsToFit();
+    params.api.setRowData(this.rowData);
   }
 
-  onPageChanged(page: number): void {
-    if (page >= 1 && page <= this.totalPages()) {
-      this.currentPage = page;
-      this.fetchData();
-    }
+  loadStudentData(): void {
+    this.http.get<any[]>('http://192.168.0.102:4000/admin/students').subscribe(
+      (data) => {
+        this.rowData = data;
+        if (this.gridApi) {
+          (this.gridApi as any).setRowData(this.rowData);
+        }
+      },
+      (error) => {
+        console.error('Error fetching student data:', error);
+      }
+    );
   }
 
-  totalPages(): number {
-    return Math.ceil(this.totalRecords / this.paginationPageSize);
+  onView(studentId: string): void {
+    console.log('Navigating to student-view with ID:', studentId); // Debugging line
+    this.router.navigate(['/student-view', studentId]);
+  }
+
+  actionCellRenderer(params: any): HTMLElement {
+    const eGui = document.createElement('div');
+    eGui.innerHTML = `
+      <select class="action-dropdown">
+        <option value="">More Information</option>
+        <option value="profile"><i class="fas fa-eye"></i> Profile Details</option>
+        <option value="education"><i class="fas fa-edit"></i> Educational Details</option>
+        <option value="document"><i class="fas fa-trash"></i> Documents</option>
+      </select>
+    `;
+
+    const selectElement = eGui.querySelector('.action-dropdown') as HTMLSelectElement;
+    selectElement.addEventListener('change', (event: Event) => {
+      const action = (event.target as HTMLSelectElement).value;
+      const studentId = params.data._id; // Use _id from API response
+
+      if (action === 'profile') {
+        (params.context.router as Router).navigate(['/studentPersonalDetailsForm', studentId]);
+      } else if (action === 'education') {
+        (params.context.router as Router).navigate(['/studentEducationalDeatialsForm', studentId]);
+      } else if (action === 'document') {
+        (params.context.router as Router).navigate(['/student-documents', studentId]);
+      }
+    });
+
+    return eGui;
   }
 }

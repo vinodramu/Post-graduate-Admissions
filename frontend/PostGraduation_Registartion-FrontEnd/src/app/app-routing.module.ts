@@ -14,6 +14,8 @@ import { StudentAddressDetailsComponent } from './components/student-address-det
 import { StudentEducationalDetailsComponent } from './components/student-educational-details/student-educational-details.component';
 import { StudentCourseSelectionComponent } from './components/student-course-selection/student-course-selection.component';
 import { StudentDocumentDetailsComponent } from './components/student-document-details/student-document-details.component';
+import { StudentReportComponent } from './superAdmin/student-report/student-report.component';
+import { StudentUniversityRegistrationComponent } from './components/student-university-registration/student-university-registration.component';
 
 
 
@@ -29,10 +31,20 @@ const routes: Routes = [
   {path:'payment',component:PaymetComponent},
   { path: 'exam-application', component: ExamApplicationComponent },
   { path: 'studentPersonalDeatialsForm', component: StudentPersonalDetailsComponent },
+  { path: 'studentPersonalDetailsForm/:PersonalId', component: StudentPersonalDetailsComponent },
   { path: 'studentAddressDeatialsForm', component: StudentAddressDetailsComponent },
   { path: 'studentEducationalDeatialsForm', component: StudentEducationalDetailsComponent },
   { path: 'studentCourseDeatialsForm', component: StudentCourseSelectionComponent },
-  { path: 'studentDocumentForm', component: StudentDocumentDetailsComponent }
+  { path: 'studentDocumentForm', component: StudentDocumentDetailsComponent },
+  { path: 'studentReport', component: StudentReportComponent },
+  { path: 'studentUniversityRegistration', component: StudentUniversityRegistrationComponent, children:[
+    { path: 'studentPersonalDeatialsForm', component: StudentPersonalDetailsComponent },
+    { path: 'studentPersonalDetailsForm/:PersonalId', component: StudentPersonalDetailsComponent },
+    { path: 'studentAddressDeatialsForm', component: StudentAddressDetailsComponent },
+    { path: 'studentEducationalDeatialsForm', component: StudentEducationalDetailsComponent },
+    { path: 'studentCourseDeatialsForm', component: StudentCourseSelectionComponent },
+    { path: 'studentDocumentForm', component: StudentDocumentDetailsComponent },
+  ] },
 
 ];
 

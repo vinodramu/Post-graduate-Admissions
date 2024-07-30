@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { StudentPersonalData } from 'src/app/models/studentPersonalData.model';
 import { StudentPersonalDetailsService } from 'src/app/services/student-personal-details.service';
 
@@ -11,26 +11,40 @@ import { StudentPersonalDetailsService } from 'src/app/services/student-personal
 })
 export class StudentPersonalDetailsComponent implements OnInit {
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private studentPersonaldetailService:StudentPersonalDetailsService,
-    private router:Router
-  ) { }
-  submitted=false;
+  submitted = false;
   studentPersonalDetailsForm!: FormGroup;
   genders = ['Male', 'Female', 'Other'];
-  studentPersonalData!:StudentPersonalData;
-  isStudentPersonalDetailsPresent=false;
+  studentPersonalData!: StudentPersonalData;
+  isStudentPersonalDetailsPresent = false;
+
+  constructor(
+    private formBuilder: FormBuilder,
+    private studentPersonaldetailService: StudentPersonalDetailsService,
+    private router: Router,
+    private route: ActivatedRoute // Inject ActivatedRoute
+  ) { }
+
   ngOnInit() {
-    this.fetchStudentPersonalDetails(`${localStorage.getItem('userEmail')}`)
+    // Retrieve PersonalId from route parameters as a string
+    const personalId = this.route.snapshot.paramMap.get('PersonalId')!;
+    
+    // Fetch personal details based on PersonalId
+    if (personalId) {
+      this.fetchStudentPersonalDetailsByPersonalId(personalId);
+    } else {
+      // Handle case when PersonalId is not available
+      console.error('PersonalId is not provided.');
+    }
+
     this.studentPersonalDetailsForm = this.formBuilder.group({
-      name: [`${localStorage.getItem('userName')}`, Validators.required],
-      dateOfBirth: [this.studentPersonalData?.dateOfBirth ? new Date(this.studentPersonalData.dateOfBirth) : '', Validators.required],
-      gender: [this.studentPersonalData?.gender || '', Validators.required],
-      email: [`${localStorage.getItem('userEmail')}`, [Validators.required, Validators.email]],
-      phoneNumber: [`${localStorage.getItem('userPhone')}`, Validators.required], 
+      name: ['', Validators.required],
+      dateOfBirth: ['', Validators.required],
+      gender: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      phoneNumber: ['', Validators.required],
     });
   }
+
   private mapFormToStudentPersonalData(formValue: any): void {
     this.studentPersonalData = {
       name: formValue.name,
@@ -40,13 +54,20 @@ export class StudentPersonalDetailsComponent implements OnInit {
       phoneNumber: formValue.phoneNumber
     };
   }
-  fetchStudentPersonalDetails(userEmail: string): void {
-    this.studentPersonaldetailService.getStudentPersonalDetails(userEmail)
+
+  fetchStudentPersonalDetailsByPersonalId(PersonalId: string): void {
+    this.studentPersonaldetailService.getStudentPersonalDetailsByPersonalId(PersonalId)
       .subscribe((data: StudentPersonalData) => {
         this.studentPersonalData = data;
-        if (this.studentPersonalData!=null) {
-          this.isStudentPersonalDetailsPresent=true;
-        } 
+        if (this.studentPersonalData) {
+          this.isStudentPersonalDetailsPresent = true;
+          // Populate form with fetched data
+          this.studentPersonalDetailsForm.patchValue(this.studentPersonalData);
+        } else {
+          console.error('No data found for the given PersonalId.');
+        }
+      }, error => {
+        console.error('Error fetching data:', error);
       });
   }
 
@@ -54,18 +75,29 @@ export class StudentPersonalDetailsComponent implements OnInit {
     if (this.studentPersonalDetailsForm.valid) {
       this.submitted = true;
       this.mapFormToStudentPersonalData(this.studentPersonalDetailsForm.value);
-      if(this.isStudentPersonalDetailsPresent==null){
-        // updtae API
-      }else{
-      this.studentPersonaldetailService.saveStudentPersonalData(this.studentPersonalData)
-        .subscribe(response => {
-          console.log('Data saved successfully:', response);
-          localStorage.setItem('studentId', response._id);
-          this.router.navigate(['/studentAddressDeatialsForm']);
-        }, error => {
-          console.error('Error saving data:', error);
-        });
-    }}else {
+      
+      if (!this.isStudentPersonalDetailsPresent) {
+        // Handle new entry
+        this.studentPersonaldetailService.saveStudentPersonalData(this.studentPersonalData)
+          .subscribe(response => {
+            console.log('Data saved successfully:', response);
+            localStorage.setItem('studentId', response._id);
+            this.router.navigate(['/studentAddressDeatialsForm']);
+          }, error => {
+            console.error('Error saving data:', error);
+          });
+      } else {
+        // Update existing entry
+        this.studentPersonaldetailService.saveStudentPersonalData(this.studentPersonalData)
+          .subscribe(response => {
+            console.log('Data updated successfully:', response);
+            localStorage.setItem('studentId', response._id);
+            this.router.navigate(['/studentAddressDeatialsForm']);
+          }, error => {
+            console.error('Error updating data:', error);
+          });
+      }
+    } else {
       console.log('Form is invalid');
     }
   }

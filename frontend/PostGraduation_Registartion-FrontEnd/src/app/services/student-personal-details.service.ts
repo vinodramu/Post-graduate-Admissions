@@ -9,12 +9,12 @@ import { map, Observable } from 'rxjs';
 })
 export class StudentPersonalDetailsService {
 
-  constructor(private http: HttpClient, private enviironment: Environment) { }
+  constructor(private http: HttpClient, private environment: Environment) { }
 
-  private apiUrl = this.enviironment.baseUrl2;
+  private apiUrl = this.environment.baseUrl2;
 
-  getStudentPersonalDetails(userEmail: string): Observable<StudentPersonalData> {
-    return this.http.get<StudentPersonalData>(`${this.apiUrl}/personalDetails/${userEmail}`)
+  getStudentPersonalDetailsByPersonalId(PersonalId: string): Observable<StudentPersonalData> {
+    return this.http.get<StudentPersonalData>(`${this.apiUrl}/personalDetails/getById/${PersonalId}`)
       .pipe(
         map((data: any) => {
           return {
@@ -28,8 +28,7 @@ export class StudentPersonalDetailsService {
       );
   }
 
-  saveStudentPersonalData(studentPersonalData:StudentPersonalData):Observable<StudentPersonalData>{
-    return this.http.post<StudentPersonalData>(`${this.apiUrl}/personalDetails`,studentPersonalData);
+  saveStudentPersonalData(studentPersonalData: StudentPersonalData): Observable<StudentPersonalData> {
+    return this.http.post<StudentPersonalData>(`${this.apiUrl}/personalDetails`, studentPersonalData);
   }
-
 }

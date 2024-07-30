@@ -7,26 +7,28 @@ import { Router } from '@angular/router';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent {
-
+  showTabs: boolean = false;
   constructor(private router: Router) { }
+
   createUser() {
-    // Add your logic for creating a userconsole.log('Create User button clicked');
+    // Add your logic for creating a user
+    console.log('Create User button clicked');
   }
+
   login() {
-    // Add your logic for loginconsole.log('Login button clicked');
+    // Add your logic for login
+    console.log('Login button clicked');
   }
+
+
   navigateToAdminLogin(): void {
-    this.router.navigate(['/adminLogin']);
+    this.router.navigate(['/studentUniversityRegistration']);
   }
   navigateToSuperAdminLogin(): void {
-    this.router.navigate(['/superAdminLogin']);
+    
   }
   navigateToExaminationLogin(): void {
-    this.router.navigate(['/examinationLogin']);
+    
   }
-  navigateToChairpersonLogin(): void {
-    this.router.navigate(['/chairpersonLogin']);
-  }
-
 
 }
