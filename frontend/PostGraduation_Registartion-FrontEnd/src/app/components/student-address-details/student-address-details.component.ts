@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { StudentAddress } from 'src/app/models/studentAddress.model';
@@ -16,8 +16,9 @@ export class StudentAddressDetailsComponent implements OnInit {
   studentAddressForm!: FormGroup;
   countries: string[] = [];
   states: string[] = [];
-  cities: string[] = ['11', 'bangalore'];
-  pincodes: string[] = ['517257'];
+  cities: string[] = [];
+  @Input()
+  pincodes: string[] = ['560017'];
   studentAddress!: StudentAddress;
 
   constructor(
@@ -42,11 +43,12 @@ export class StudentAddressDetailsComponent implements OnInit {
   }
 
   fetchDropdownData() {
-    // get countries
-    this.commonService.getAllCountries().subscribe(data => {
-      this.countries = data.map((country: any) => country.name);
+    // Get countries
+    this.commonService.getCountries().subscribe(data => {
+      console.log('Countries data:', data);  // Log the response data
+      this.countries = data.map((country: any) => country.country_name);
     }, error => {
-      console.error('Error fetching college data:', error);
+      console.error('Error fetching country data:', error);
     });
   }
 
@@ -54,12 +56,41 @@ export class StudentAddressDetailsComponent implements OnInit {
     const target = event.target as HTMLSelectElement;
     const selectedCountry = target.value;
 
-    this.commonService.getStatesByCountry(selectedCountry).subscribe(state => {
-      this.states = state;
-      console.log('States:', this.states);
+    this.commonService.getStatesByCountry(selectedCountry).subscribe(data => {
+      console.log('States data:', data);  // Log the response data
+      this.states = data.map((state: any) => state.state_name);
       this.studentAddressForm.controls['state'].setValue('');
+      this.cities = []; // Clear cities when country changes
+    }, error => {
+      console.error('Error fetching state data:', error);
     });
   }
+
+  onStateChange(event: Event): void {
+    const target = event.target as HTMLSelectElement;
+    const selectedState = target.value;
+
+    this.commonService.getCitiesByState(selectedState).subscribe(data => {
+      console.log('Cities data:', data);  // Log the response data
+      this.cities = data.map((city: any) => city.city_name);
+      this.studentAddressForm.controls['city'].setValue('');
+    }, error => {
+      console.error('Error fetching city data:', error);
+    });
+  }
+  onCityChange(event: Event): void {
+  const target = event.target as HTMLSelectElement;
+  const selectedCity = target.value;
+
+  this.commonService.getPincodesByCity(selectedCity).subscribe(data => {
+    console.log('Pincodes data:', data);  // Log the response data
+    this.pincodes = data;
+    this.studentAddressForm.controls['pincode'].setValue('');
+  }, error => {
+    console.error('Error fetching pincode data:', error);
+  });
+}
+
 
   private mapFormToStudentAddressData(formValue: any): void {
     this.studentAddress = {
@@ -80,8 +111,19 @@ export class StudentAddressDetailsComponent implements OnInit {
       this.studentAddress = data;
       if (this.studentAddress != null) {
         this.isStudentAddressPresent = true;
+        // Update the form with the received data
         this.studentAddressForm.patchValue(this.studentAddress);
-      } 
+        // Fetch states for the stored country
+        this.commonService.getStatesByCountry(this.studentAddress.country).subscribe(stateData => {
+          this.states = stateData.map((state: any) => state.state_name);
+          this.studentAddressForm.controls['state'].setValue(this.studentAddress.state);
+        });
+        // Fetch cities for the stored state
+        this.commonService.getCitiesByState(this.studentAddress.state).subscribe(cityData => {
+          this.cities = cityData.map((city: any) => city.city_name);
+          this.studentAddressForm.controls['city'].setValue(this.studentAddress.city);
+        });
+      }
     });
   }
 
