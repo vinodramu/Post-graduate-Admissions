@@ -104,23 +104,23 @@ export class StudentCourseSelectionComponent implements OnInit {
       return;
     }
   
-    if (this.courseId) {
-      // Update existing record
-      this.studentApplicationServices.updateCourseByCourseId(this.courseId, this.fee).subscribe(
-        response => {
-          console.log('Data updated successfully:', response);
-          this.router.navigate(['/studentDocumentForm']);
-        },
-        error => {
-          console.error('Error updating data:', error);
-        }
-      );
-    } else {
+    // if (this.courseId) {
+    //   // Update existing record
+    //   this.studentApplicationServices.updateCourseByCourseId(this.courseId, this.fee).subscribe(
+    //     response => {
+    //       console.log('Data updated successfully:', response);
+    //       this.router.navigate(['/studentUniversityRegistration/studentDocumentForm']);
+    //     },
+    //     error => {
+    //       console.error('Error updating data:', error);
+    //     }
+    //   );
+    // } else {
       // Save new record
       this.studentApplicationServices.saveCourseByCourseId(this.courseId, this.fee).subscribe(
         response => {
           console.log('Data saved successfully:', response);
-          this.router.navigate(['/studentDocumentForm']);
+          this.router.navigate(['/studentUniversityRegistration/studentDocumentForm']);
         },
         error => {
           console.error('Error saving data:', error);
@@ -128,5 +128,5 @@ export class StudentCourseSelectionComponent implements OnInit {
       );
     }
   }
-}
+
 

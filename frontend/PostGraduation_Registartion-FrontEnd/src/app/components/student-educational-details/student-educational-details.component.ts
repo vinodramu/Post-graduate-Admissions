@@ -117,7 +117,7 @@ export class StudentEducationalDetailsComponent implements OnInit {
       this.studentEducationService.updateEducationalData(this.studentEducationalData)
         .subscribe(response => {
           console.log('Data updated successfully:', response);
-          this.router.navigate(['/studentCourseDeatialsForm']);
+          this.router.navigate(['/studentUniversityRegistration/studentCourseDeatialsForm']);
         }, error => {
           console.error('Error updating data:', error);
         });
@@ -125,7 +125,7 @@ export class StudentEducationalDetailsComponent implements OnInit {
       this.studentEducationService.saveEducationalData(this.studentEducationalData)
         .subscribe(response => {
           console.log('Data saved successfully:', response);
-          this.router.navigate(['/studentCourseDeatialsForm']);
+          this.router.navigate(['/studentUniversityRegistration/studentCourseDeatialsForm']);
         }, error => {
           console.error('Error saving data:', error);
         });

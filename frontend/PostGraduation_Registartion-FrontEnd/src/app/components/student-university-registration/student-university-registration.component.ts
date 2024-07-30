@@ -22,11 +22,18 @@ export class StudentUniversityRegistrationComponent implements OnInit {
           case 'studentPersonalDeatialsForm':
             this.selectedTab = 0;
             break;
-          case 'studentEducationalDeatialsForm':
+          case 'studentAddressDeatialsForm':
             this.selectedTab = 1;
             break;
-          case 'studentDocumentForm':
+          case 'studentEducationalDeatialsForm':
             this.selectedTab = 2;
+            break;
+
+          case 'studentCourseDeatialsForm':
+            this.selectedTab = 3;
+            break;
+          case 'studentDocumentForm':
+            this.selectedTab = 4;
             break;
           default:
             this.selectedTab = 0; // Default tab
@@ -41,10 +48,18 @@ export class StudentUniversityRegistrationComponent implements OnInit {
       case 0:
         this.router.navigate(['studentPersonalDeatialsForm'], { relativeTo: this.route });
         break;
+
       case 1:
-        this.router.navigate(['studentEducationalDeatialsForm'], { relativeTo: this.route });
+        this.router.navigate(['studentAddressDeatialsForm'], { relativeTo: this.route });
         break;
+
       case 2:
+        this.router.navigate(['studentEducationalDeatialsForm'], { relativeTo: this.route });
+        break;   
+      case 3:
+        this.router.navigate(['studentCourseDeatialsForm'], { relativeTo: this.route });
+        break;
+      case 4:
         this.router.navigate(['studentDocumentForm'], { relativeTo: this.route });
         break;
     }

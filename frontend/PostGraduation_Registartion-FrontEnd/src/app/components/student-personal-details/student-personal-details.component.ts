@@ -79,7 +79,7 @@ export class StudentPersonalDetailsComponent implements OnInit {
           .subscribe(response => {
             console.log('Data updated successfully:', response);
             localStorage.setItem('studentId', response._id);
-            this.router.navigate(['/studentAddressDeatialsForm']);
+            this.router.navigate(['/studentUniversityRegistration/studentAddressDeatialsForm']);
           }, error => {
             console.error('Error updating data:', error);
           });
@@ -89,7 +89,7 @@ export class StudentPersonalDetailsComponent implements OnInit {
           .subscribe(response => {
             console.log('Data saved successfully:', response);
             localStorage.setItem('studentId', response._id);
-            this.router.navigate(['/studentAddressDeatialsForm']);
+            this.router.navigate(['/studentUniversityRegistration/studentAddressDeatialsForm']);
           }, error => {
             console.error('Error saving data:', error);
           });

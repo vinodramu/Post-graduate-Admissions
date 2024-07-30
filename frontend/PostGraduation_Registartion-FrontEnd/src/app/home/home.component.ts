@@ -46,7 +46,7 @@ export class HomeComponent {
       response => {
         this.loginError = false;
         console.log(response)
-        this.router.navigate(['/studentPersonalDeatialsForm']);
+        this.router.navigate(['/studentUniversityRegistration']);
       },
       error => {
         console.log(error)
