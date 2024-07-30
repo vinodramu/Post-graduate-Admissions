@@ -39,12 +39,15 @@ export class ApplicationService {
   async updateApplicationByStudentId(
     studentId: string,
     updateApplication: UpdateApplicationDto
-  ): Promise<Application> {
+  ): Promise<Application | any> {
     Logger.log(
       `Start : ApplicationService : updateApplicationByStudentId  id : ${studentId} value : ${updateApplication}`
     );
+    const app: any = await this.applicationModel.find().exec();
+    app.filter((application) => application.studentId == studentId);
+    Logger.log(app);
     const application = await this.applicationModel
-      .findByIdAndUpdate({ studentId: studentId }, updateApplication, {
+      .updateOne(app._id, updateApplication, {
         new: true,
       })
       .exec();

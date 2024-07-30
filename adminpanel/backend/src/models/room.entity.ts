@@ -6,7 +6,7 @@ export class Room extends Document {
     @Prop({ required: true, unique: true })
     roomId: string;
 
-    @Prop({ type: Types.ObjectId, ref: 'ExamCenter', unique: true })
+    @Prop({ type: Types.ObjectId, ref: 'ExamCenter' })
     centerId: Types.ObjectId;
 
     @Prop({ required: true })
@@ -17,4 +17,3 @@ export class Room extends Document {
 }
 
 export const RoomSchema = SchemaFactory.createForClass(Room);
-//coment

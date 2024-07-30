@@ -20,4 +20,7 @@ export class StudentAddressService {
   saveStudentAddressData(studentAddressData:StudentAddress):Observable<StudentAddress>{
     return this.http.post<StudentAddress>(`${this.apiUrl}/address`,studentAddressData);
   }
+  updateStudentAddressData(studentAddressData:StudentAddress):Observable<StudentAddress>{
+    return this.http.put<StudentAddress>(`${this.apiUrl}/address/student/${studentAddressData.studentId}`,studentAddressData);
+  }
 }

@@ -7,29 +7,30 @@ import {
 @Schema()
 export class Payment extends MongooseDocument {
   @Prop({ required: true, unique: true })
-  payment_id: string;
+  OrderId: string;
 
-  @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'Student', required: true })
-  student_id: MongooseSchema.Types.ObjectId;
+  @Prop({
+    type: MongooseSchema.Types.ObjectId,
+    ref: 'PersonalDetails',
+    required: true,
+  })
+  studentId: MongooseSchema.Types.ObjectId;
 
   @Prop({
     type: MongooseSchema.Types.ObjectId,
     ref: 'Application',
     required: true,
   })
-  application_id: MongooseSchema.Types.ObjectId;
+  applicationId: MongooseSchema.Types.ObjectId;
 
   @Prop({ required: true })
   amount: number;
 
   @Prop({ required: true })
-  payment_mode: string;
+  receiptId: string;
 
   @Prop({ required: true })
-  transaction_id: string;
-
-  @Prop({ required: true })
-  payment_date: Date;
+  paymentDate: Date;
 
   @Prop({ required: true })
   status: string;

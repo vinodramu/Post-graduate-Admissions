@@ -10,7 +10,10 @@ export class Admin extends Document {
   password: string;
 
   @Prop({ type: Types.ObjectId, ref: 'PersonalDetails', unique: true })
-  personalDetailsId: Types.ObjectId;
+  personalDetailsId?: Types.ObjectId;
+
+  @Prop({ type: Types.ObjectId, ref: 'Address', unique: true })
+  addrressDetailsId?: Types.ObjectId;
 }
 
 export const AdminSchema = SchemaFactory.createForClass(Admin);

@@ -1,13 +1,14 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { SuperAdminModule } from './modules/superadmin.module';
-// import { AdminModule } from './modules/admin.module';
-import { ExaminationCenterModule } from './modules/examinationcenter.module';
+import { ExaminationCenterModule } from './examination-center/examinationcenter.module';
 import { MongooseModule } from '@nestjs/mongoose';
-import { CourseModule } from './modules/course.module';
+import { CourseModule } from './course/course.module';
 import { MailerModule } from '@nestjs-modules/mailer'
 import { join } from 'path';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
+import { CollegeModule } from './college/college.module';
+import { SuperAdminModule } from './super-admin/superadmin.module';
+import { AdminModule } from './admin/admin.module';
 
 @Module({
   imports: [
@@ -35,7 +36,8 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
       }
     }),
     SuperAdminModule,
-    // AdminModule,
+    CollegeModule,
+    AdminModule,
     ExaminationCenterModule,
     CourseModule
   ],

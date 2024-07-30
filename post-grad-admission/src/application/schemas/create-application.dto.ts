@@ -7,9 +7,7 @@ import {
   IsNumber,
   IsOptional,
 } from 'class-validator';
-
 export class CreateApplicationDto {
-  @IsMongoId()
   @IsNotEmpty()
   studentId: string;
 

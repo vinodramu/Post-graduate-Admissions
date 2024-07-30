@@ -1,9 +1,10 @@
 // address.controller.ts
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
 import { AddressService } from './address.service';
 
 import { Address } from './schemas/address.schema';
 import { CreateAddressDto } from './schemas/create-address.dto';
+import { UpdateAddressDto } from './schemas/update-address.dto';
 
 @Controller('address')
 export class AddressController {
@@ -25,5 +26,16 @@ export class AddressController {
     } catch (error) {
       console.log(error);
     }
+  }
+
+  @Put('student/:studentId')
+  async updateAddressByStudentId(
+    @Param('studentId') studentId: string,
+    @Body() updateAddressDto: UpdateAddressDto
+  ): Promise<Address> {
+    return this.addressService.updateAddressByStudentId(
+      studentId,
+      updateAddressDto
+    );
   }
 }

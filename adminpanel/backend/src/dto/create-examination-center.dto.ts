@@ -5,13 +5,9 @@ export class CreateExaminationCenterDto {
     readonly name: string;
 
     @IsString()
-    readonly location: string;
+    readonly city: string;
 
     @IsNumber()
     @IsOptional()
     readonly capacity?: number;
-
-    @IsString()
-    @IsOptional()
-    readonly contactNumber?: string;
 }
