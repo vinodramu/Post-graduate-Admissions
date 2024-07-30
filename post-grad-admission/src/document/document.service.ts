@@ -112,6 +112,18 @@ export class DocumentService {
     return this.documentEntityModel.find().exec();
   }
 
+  async getDocumentsByStudentId(studentId: string): Promise<DocumentEntity> {
+    const document = await this.documentEntityModel
+      .findOne({ studentId })
+      .exec();
+    if (!document) {
+      throw new NotFoundException(
+        `Documents not found for student ID ${studentId}`
+      );
+    }
+    return document;
+  }
+
   // async getFileByDocumentId(documentId: string): Promise<NodeJS.ReadableStream> {
   //   const document = await this.documentEntityModel.findById(documentId).exec();
   //   if (!document) {
@@ -156,8 +168,6 @@ export class DocumentService {
         files[key] = await this.gridFSService.getFile(key);
       }
     }
-
-    
 
     return {
       document,

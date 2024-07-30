@@ -2,7 +2,6 @@ import {
   IsString,
   IsNotEmpty,
   IsDate,
-  IsMongoId,
   IsPositive,
   IsNumber,
   IsOptional,
@@ -16,10 +15,8 @@ export class CreateApplicationDto {
   status?: string;
 
   @IsDate()
-  @IsOptional()
-  submissionDate?: Date;
+  submissionDate: Date;
 
-  @IsMongoId()
   @IsNotEmpty()
   courseId: string;
 

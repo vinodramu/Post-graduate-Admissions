@@ -26,5 +26,12 @@ export class StudentEducationService {
       }
     return this.http.post<any>(`${this.apiUrl}/educationalDetails`,body)
   }
+  updateEducationalData(educationalData:StudentEducationdata[]){
+    const body ={
+      studentId: localStorage.getItem('studentId'),
+      education: educationalData 
+      }
+    return this.http.put<any>(`${this.apiUrl}/educationalDetails/${body.studentId}`,body)
+  }
 
 }

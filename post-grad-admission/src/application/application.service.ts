@@ -41,13 +41,13 @@ export class ApplicationService {
     updateApplication: UpdateApplicationDto
   ): Promise<Application | any> {
     Logger.log(
-      `Start : ApplicationService : updateApplicationByStudentId  id : ${studentId} value : ${updateApplication}`
+      `Start : ApplicationService : updateApplicationByStudentId  id : ${studentId} value : ${JSON.stringify(updateApplication)}`
     );
     const app: any = await this.applicationModel.find().exec();
     app.filter((application) => application.studentId == studentId);
     Logger.log(app);
     const application = await this.applicationModel
-      .updateOne(app._id, updateApplication, {
+.findOneAndUpdate({ studentId }, updateApplication, {
         new: true,
       })
       .exec();
@@ -57,7 +57,7 @@ export class ApplicationService {
       );
     }
     Logger.log(
-      `End : ApplicationService : updateApplicationByStudentId  id : ${studentId} value : ${updateApplication}`
+      `End : ApplicationService : updateApplicationByStudentId  id : ${studentId} value : ${JSON.stringify(updateApplication)}`
     );
     return application;
   }

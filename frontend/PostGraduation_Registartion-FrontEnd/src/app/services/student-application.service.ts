@@ -28,15 +28,31 @@ export class StudentApplicationService {
     );
   }
 
+  getApplicationByStudentId(): Observable<any> {
+    const studentId = localStorage.getItem('studentId');
+    return this.http.get<any>(`${this.apiUrl2}/applications/getapplicationByStudentId/${studentId}`);
+  }
+
   saveCourseByCourseId(courseid:string,fees:number):Observable<any>{
     const body={
       studentId:localStorage.getItem('studentId'),
-      status:'' ,
-      submissionDate:null,
+      status:'pending' ,
+      submissionDate:Date.now,
       courseId:courseid,
       fee:fees
     }
    return this.http.post<any>(`${this.apiUrl2}/applications`,body);
+  }
+
+  updateCourseByCourseId(courseid:string,fees:number):Observable<any>{
+    const body={
+      studentId:localStorage.getItem('studentId'),
+      status:'pending' ,
+      submissionDate:Date.now,
+      courseId:courseid,
+      fee:fees
+    }
+   return this.http.put<any>(`${this.apiUrl2}/applications/student/${body.studentId}`,body);
   }
 
 }

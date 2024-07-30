@@ -4,6 +4,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { EducationalDetails } from './schema/education.schema';
 import { CreateEducationalDetailsDto } from './schema/create-educational-details.dto';
+import { UpdateEducationalDetailsDto } from './schema/update-educational-details.dto';
 
 @Injectable()
 export class EducationalDetailsService {
@@ -33,5 +34,25 @@ export class EducationalDetailsService {
       );
     }
     return educationalDetails;
+  }
+
+  async updateEducationalDetails(
+    studentId: string,
+    updateData: Partial<UpdateEducationalDetailsDto>
+  ): Promise<EducationalDetails> {
+    const updatedEducationalDetails =
+      await this.educationalDetailsModel.findOneAndUpdate(
+        { studentId },
+        { $set: updateData },
+        { new: true, runValidators: true }
+      );
+
+    if (!updatedEducationalDetails) {
+      throw new NotFoundException(
+        `EducationalDetails not found for student ID ${studentId}`
+      );
+    }
+
+    return updatedEducationalDetails;
   }
 }

@@ -7,12 +7,12 @@ export class Application extends Document {
   @Prop({ type: Types.ObjectId, ref: 'PersonalDetails', required: true })
   studentId: Types.ObjectId;
 
-  @Prop({ enum: ['Pending', 'Approved', 'Rejected'] })
+  @Prop({ default: 'pending' })
   status?: string;
 
-  @Prop()
+  @Prop({ default: Date.now })
   @IsDate()
-  submissionDate?: Date;
+  submissionDate: Date;
 
   @Prop({ type: Types.ObjectId, ref: 'Course', required: true })
   courseId: Types.ObjectId;

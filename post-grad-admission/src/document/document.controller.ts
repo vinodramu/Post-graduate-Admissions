@@ -274,4 +274,17 @@ export class DocumentController {
       throw new NotFoundException(`Error retrieving file with ID ${fileId}`);
     }
   }
+
+  @Get('student/:studentId')
+  async getDocumentsByStudentId(
+    @Param('studentId') studentId: string
+  ): Promise<DocumentEntity> {
+    try {
+      return await this.documentService.getDocumentsByStudentId(studentId);
+    } catch (error) {
+      throw new NotFoundException(
+        `Error retrieving documents for student ID ${studentId}`
+      );
+    }
+  }
 }

@@ -1,8 +1,9 @@
 // educational-details.controller.ts
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
 import { EducationalDetailsService } from './education.service';
 import { CreateEducationalDetailsDto } from './schema/create-educational-details.dto';
 import { EducationalDetails } from './schema/education.schema';
+import { UpdateEducationalDetailsDto } from './schema/update-educational-details.dto';
 
 @Controller('educationalDetails')
 export class EducationalDetailsController {
@@ -30,5 +31,16 @@ export class EducationalDetailsController {
     } catch (error) {
       console.log(error);
     }
+  }
+
+  @Put(':studentId')
+  async update(
+    @Param('studentId') studentId: string,
+    @Body() updateData: Partial<UpdateEducationalDetailsDto>
+  ): Promise<EducationalDetails> {
+    return this.educationalDetailsService.updateEducationalDetails(
+      studentId,
+      updateData
+    );
   }
 }
