@@ -36,6 +36,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { StudentUniversityRegistrationComponent } from './components/student-university-registration/student-university-registration.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { TabGroupComponent } from './components/student-university-registration/tab-group/tab-group.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +58,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     StudentDocumentDetailsComponent, 
     StudentReportComponent,
     EditStudentComponent,
-    StudentUniversityRegistrationComponent
+    StudentUniversityRegistrationComponent,
+    TabGroupComponent
 
   ],
   imports: [

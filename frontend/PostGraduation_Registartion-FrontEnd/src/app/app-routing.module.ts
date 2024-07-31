@@ -21,6 +21,8 @@ import { StudentUniversityRegistrationComponent } from './components/student-uni
 
 const routes: Routes = [
 
+  
+  { path: 'admin-dashboard', component: StudentReportComponent },
   { path: 'adminLogin', component: AdminLoginComponent },
   { path: 'superAdminLogin', component: SuperAdminLoginComponent },
   { path: 'examinationLogin', component: ExaminationLoginComponent },

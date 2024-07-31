@@ -46,7 +46,8 @@ export class HomeComponent {
       response => {
         this.loginError = false;
         console.log(response)
-        this.router.navigate(['/studentUniversityRegistration']);
+        // this.router.navigate(['/studentUniversityRegistration']);
+        this.redirectBasedOnRole()
       },
       error => {
         console.log(error)
@@ -54,6 +55,17 @@ export class HomeComponent {
       }
     );
   }
+
+  private redirectBasedOnRole(): void {
+    const role = this.authService.getRole();
+    if (role === 'student') {
+      this.router.navigate(['/studentUniversityRegistration']); // Replace with your student path
+    } else if (role === 'admin') {
+      this.router.navigate(['/admin-dashboard']); // Replace with your admin path
+    } else {
+      this.router.navigate(['']); // Fallback path
+    }
+  } 
  
   onForgotPassword(event: Event) {
     event.preventDefault();

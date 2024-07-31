@@ -18,6 +18,7 @@ export class AuthService {
         if (response && response.accessToken) {
           localStorage.setItem('accessToken', response.accessToken);
           localStorage.setItem('userEmail',userEmail)
+          localStorage.setItem('role', response.role);
         }
       })
     );
@@ -25,5 +26,9 @@ export class AuthService {
 
   getToken(): string | null {
     return localStorage.getItem('accessToken');
+  }
+
+  getRole(): string | null {
+    return localStorage.getItem('role'); // Method to retrieve the user role
   }
 }
