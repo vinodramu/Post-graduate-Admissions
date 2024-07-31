@@ -72,17 +72,11 @@ mat-tab-group:hover {
 .mat-tab-label {
   color: rgb(196, 20, 20); /* Tab label color */
   position: relative;
+  transition: background-color 0.3s, color 0.3s;
 }
 
-.mat-tab-label:hover::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: -8px;
-  height: 3px;
-  background-color: #ffeb3b; /* Hover underline color */
-  border-radius: 3px;
+.mat-tab-label:hover {
+  background-color: #f0f0f0; /* Hover background color */
 }
 
 .mat-tab-label-active {
@@ -90,16 +84,22 @@ mat-tab-group:hover {
   color: #ffeb3b; /* Active tab text color */
 }
 
-mat-tab {
-  padding: 10px;
-  background-color: #c52828; /* Tab content background color */
-  border-radius: 0 0 8px 8px;
-  animation: fadeIn 0.3s ease-in-out;
+.mat-tab-label-active:hover {
+  background-color: #303f9f; /* Keep the active tab color on hover */
+  color: #ffeb3b; /* Keep the active tab text color on hover */
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+mat-tab-group {
+  margin: 1px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  background-color: #f5f5f5; /* Background color for tab group */
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+mat-tab-group:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
 .tab-content {
@@ -129,4 +129,12 @@ mat-tab {
   mat-tab-group {
     margin: 8px;
   }
+}
+.mat-tab-label.active {
+  font-weight: bold;
+  color: #007bff; /* Change color to your preference */
+}
+
+.mat-tab-group .mat-tab-label {
+  transition: color 0.3s ease;
 }

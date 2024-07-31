@@ -115,7 +115,7 @@ export class ExamApplicationComponent implements OnInit {
 
   fetchDropdownData() {
     // get countries
-    this.commonService.getAllCountries().subscribe(data => {
+    this.commonService.getCountries().subscribe(data => {
       this.countries = data.map((country: any) => country.name);
     }, error => {
       console.error('Error fetching college data:', error);
