@@ -67,17 +67,20 @@ export class DocumentController {
     }
   }
 
-  @Get('studentPhoto/:documentId')
-  async getStudentPhotoByDocumentId(
-    @Param('documentId') documentId: string,
+  @Get('studentPhoto/:studentId')
+  async getStudentPhotoByStudentId(
+    @Param('studentId') studentId: string,
     @Res() res: Response
   ): Promise<void> {
     try {
+      // const document = await this.documentEntityModel
+      //   .findById(documentId)
+      //   .exec();
       const document = await this.documentEntityModel
-        .findById(documentId)
+        .findOne({ studentId: studentId })
         .exec();
       if (!document) {
-        throw new NotFoundException(`Document with ID ${documentId} not found`);
+        throw new NotFoundException(`Document with ID ${studentId} not found`);
       }
 
       const studentPhoto = document.studentPhoto;
@@ -85,22 +88,22 @@ export class DocumentController {
       fileStream.pipe(res);
     } catch (error) {
       throw new NotFoundException(
-        `Error retrieving student photo for document ID ${documentId}`
+        `Error retrieving student photo for document ID ${studentId}`
       );
     }
   }
 
-  @Get('aadharPhoto/:documentId')
+  @Get('aadharPhoto/:studentId')
   async getAadharPhotoByDocumentId(
-    @Param('documentId') documentId: string,
+    @Param('studentId') studentId: string,
     @Res() res: Response
   ): Promise<void> {
     try {
       const document = await this.documentEntityModel
-        .findById(documentId)
+        .findById(studentId)
         .exec();
       if (!document) {
-        throw new NotFoundException(`Document with ID ${documentId} not found`);
+        throw new NotFoundException(`Document with ID ${studentId} not found`);
       }
 
       const aadharPhoto = document.aadharPhoto;
@@ -108,7 +111,7 @@ export class DocumentController {
       fileStream.pipe(res);
     } catch (error) {
       throw new NotFoundException(
-        `Error retrieving aadhar photo for document ID ${documentId}`
+        `Error retrieving aadhar photo for document ID ${studentId}`
       );
     }
   }

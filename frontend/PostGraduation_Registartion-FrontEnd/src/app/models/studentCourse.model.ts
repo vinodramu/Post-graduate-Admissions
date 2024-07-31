@@ -3,5 +3,5 @@ export class StudentCourse{
     courseName!:string;
     fee!:number;
     status!: string;
-  submissionDate!: Date;
+    submissionDate!: Date;
 }

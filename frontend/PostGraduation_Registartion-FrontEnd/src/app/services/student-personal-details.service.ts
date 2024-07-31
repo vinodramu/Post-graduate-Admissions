@@ -18,6 +18,7 @@ export class StudentPersonalDetailsService {
       .pipe(
         map((data: any) => {
           return {
+            _id:data._id,
             name: data.name,
             dateOfBirth: new Date(data.dateOfBirth),
             gender: data.gender,
@@ -33,6 +34,6 @@ export class StudentPersonalDetailsService {
   }
 
   updateStudentPersonalData(studentPersonalData:StudentPersonalData):Observable<StudentPersonalData>{
-    return this.http.put<StudentPersonalData>(`${this.apiUrl}/personalDetails/${studentPersonalData._id}`,studentPersonalData);
+    return this.http.put<StudentPersonalData>(`${this.apiUrl}/personalDetails/${localStorage.getItem('studentId')}`,studentPersonalData);
   }
 }

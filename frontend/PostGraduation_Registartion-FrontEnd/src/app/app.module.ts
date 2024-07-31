@@ -32,8 +32,10 @@ import { MatTabsModule } from '@angular/material/tabs'
 import { StudentReportComponent } from './superAdmin/student-report/student-report.component';
 import { AgGridModule } from 'ag-grid-angular';
 import { RouterModule } from '@angular/router';
-
+import { MatSelectModule } from '@angular/material/select';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { StudentUniversityRegistrationComponent } from './components/student-university-registration/student-university-registration.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -55,8 +57,7 @@ import { StudentUniversityRegistrationComponent } from './components/student-uni
     StudentDocumentDetailsComponent, 
     StudentReportComponent,
     EditStudentComponent,
-    StudentUniversityRegistrationComponent,
-
+    StudentUniversityRegistrationComponent
 
   ],
   imports: [
@@ -64,7 +65,7 @@ import { StudentUniversityRegistrationComponent } from './components/student-uni
     AppRoutingModule,
     MatTabsModule,
     FormsModule,
-  
+    MatSelectModule,
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
@@ -77,7 +78,8 @@ import { StudentUniversityRegistrationComponent } from './components/student-uni
     MatSnackBarModule,
     AgGridModule,
     RouterModule,
-
+    MatCheckboxModule,
+    BrowserAnimationsModule
   ],
   providers: [ { provide: Environment, useClass: Environment}],
   bootstrap: [AppComponent]

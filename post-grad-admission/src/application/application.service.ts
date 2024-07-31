@@ -1,6 +1,7 @@
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+
 import { CreateApplicationsDto } from './schemas/create-application.dto';
 import { Application, ApplicationsDetails } from './schemas/application.schema';
 import { UpdateApplicationsDto } from './schemas/update-application.dto';
@@ -8,11 +9,13 @@ import { UpdateApplicationsDto } from './schemas/update-application.dto';
 @Injectable()
 export class ApplicationService {
   constructor(
+   
     @InjectModel(ApplicationsDetails.name)
     private applicationModel: Model<ApplicationsDetails>
   ) {}
 
   async create(
+ 
     createApplicationDetailsDto: CreateApplicationsDto
   ): Promise<ApplicationsDetails> {
     const createApplicationDto = new this.applicationModel(
@@ -21,6 +24,8 @@ export class ApplicationService {
     return createApplicationDto.save();
   }
 
+  
+ 
   async getApplicationDetailsByStudentId(
     studentId: string
   ): Promise<ApplicationsDetails> {

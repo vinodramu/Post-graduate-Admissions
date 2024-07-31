@@ -1,35 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Course Selection</title>
-</head>
-<body>
-    <div class="form-container">
-        <form [formGroup]="studentCourseForm" (ngSubmit)="onSubmit()">
-            <h1>Select Course</h1>
-            <div class="form-section">
-                <div class="card">
-                    <div class="form-grid">
-                        <div class="course">
-                            <label for="course">Course</label>
-                            <select id="course" formControlName="course" (change)="onCourseChange($event)">
-                                <option value="" disabled>Select a course</option>
-                                <option *ngFor="let course of courses" [value]="course">{{course}}</option>
-                            </select>
-                            <div *ngIf="f['course'].touched && f['course'].invalid" class="error-message">
-                                <div *ngIf="f['course'].errors?.['required']">Course selection is required.</div>
-                            </div>
-                        </div>
-                    </div>
-                    <h3>FEE: {{fee | currency}}</h3>
-                </div>
-            </div>
-            <div class="form-buttons">
-                <button type="submit" [disabled]="studentCourseForm.invalid">Submit</button>
-            </div>
-        </form>
-    </div>
-</body>
-</html>
+<div class="form-container">
+    <form [formGroup]="studentCourseForm" (ngSubmit)="onSubmit()">
+      <h1>Select Courses</h1>
+      <div class="form-group">
+        <label for="courses">Courses</label>
+        <div class="dropdown">
+          <div type="button" class="dropdown-button" (click)="toggleDropdown()">
+            {{ selectedCourses.length > 0 ? selectedCourses.join(', ') : 'Select Courses' }}
+          </div>
+          <div class="dropdown-content" [class.show]="dropdownOpen">
+            <label *ngFor="let course of courses">
+              <input 
+                type="checkbox" 
+                [value]="course" 
+                (change)="onCourseChange($event)"
+                [checked]="isCourseSelected(course)"
+              />
+              {{ course }}
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="form-buttons">
+        <button type="submit" [disabled]="studentCourseForm.invalid">Submit</button>
+      </div>
+    </form>
+  </div>
+  

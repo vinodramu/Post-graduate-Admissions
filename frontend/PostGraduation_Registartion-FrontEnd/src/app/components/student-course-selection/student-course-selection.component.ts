@@ -12,11 +12,12 @@ import { StudentApplicationService } from 'src/app/services/student-application.
 export class StudentCourseSelectionComponent implements OnInit {
   studentCourseForm!: FormGroup;
   courses: string[] = [];
-  fee!: number;
-  courseId!: string;
-  courseName = '';
-  submitted = false;
   studentCourses!: StudentCourse[];
+  totalFee: number = 0;
+  studentId!: string;
+  selectedCourses: string[] = [];
+  dropdownOpen: boolean = false;
+  isCoursesExist = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -26,98 +27,125 @@ export class StudentCourseSelectionComponent implements OnInit {
 
   ngOnInit() {
     this.studentCourseForm = this.formBuilder.group({
-      course: ['', Validators.required], // Add Validators here
+      selectedCourses: [[], Validators.required]
     });
-
+    this.studentId = localStorage.getItem('studentId') as string;
     this.fetchDropdownData();
-    this.getCourseNameByStudentId();
-    this.getApplicationDetailsByStudentId() // Ensure to call this if needed
+    this.loadExistingData();
+
+    this.studentCourseForm.get('selectedCourses')?.valueChanges.subscribe(() => {
+      this.calculateTotalFee();
+    });
   }
 
   fetchDropdownData() {
     this.studentApplicationServices.getAllCourses().subscribe(data => {
       this.courses = data.map((course: any) => course.courseName);
       this.studentCourses = data;
-      console.log(this.courses);
     }, error => {
       console.error('Error fetching college data:', error);
     });
   }
 
-  onCourseChange(event: Event): void {
-    const target = event.target as HTMLSelectElement;
-    const selectedCourseName = target.value;
-    const selectedCourse = this.studentCourses.find(course => course.courseName === selectedCourseName);
-    if (selectedCourse) {
-      this.fee = selectedCourse.fee;
-      this.courseId = selectedCourse.courseId;
+  calculateTotalFee() {
+    this.totalFee = this.selectedCourses.reduce((acc: number, courseId: string) => {
+      const selectedCourse = this.studentCourses.find(course => course.courseId === courseId);
+      return acc + (selectedCourse?.fee || 0);
+    }, 0);
+  }
+
+  loadExistingData() {
+    this.studentApplicationServices.getApplicationByStudentId().subscribe(data => {
+      if (data && data.application) {
+        const existingCourses = data.application.map((courseData: any) => {
+          const selectedCourse = this.studentCourses.find(course => course.courseId === courseData.courseId);
+          return selectedCourse?.courseName;
+        }).filter((courseName: any): courseName is string => !!courseName); // Filter out undefined values
+
+        this.selectedCourses = existingCourses;
+        this.calculateTotalFee();
+        this.isCoursesExist = existingCourses.length > 0; // Set isCoursesExist based on existing courses
+        this.studentCourseForm.patchValue({ selectedCourses: this.selectedCourses });
+      }
+    }, error => {
+      console.error('Error loading existing data:', error);
+    });
+  }
+
+  onCourseChange(event: any) {
+    const courseName = event.target.value as string;
+    if (event.target.checked) {
+      if (!this.selectedCourses.includes(courseName)) {
+        this.selectedCourses.push(courseName);
+      }
     } else {
-      console.log('Course not found');
+      this.selectedCourses = this.selectedCourses.filter(name => name !== courseName);
     }
+    this.studentCourseForm.patchValue({ selectedCourses: this.selectedCourses });
+    this.calculateTotalFee();
   }
 
-  getCourseNameByStudentId() {
-    this.studentApplicationServices.getCourseIdByStudentId().subscribe(
-      (id: string) => {
-        this.courseId = id;
-        console.log('Course ID:', this.courseId); 
-        const selectedCourse = this.studentCourses.find(course => course.courseId === this.courseId);
-        if (selectedCourse) {
-          this.fee = selectedCourse.fee;
-          this.courseName = selectedCourse.courseName;
-        } else {
-          console.log('Course not found');
-        }
-      },
-      error => {
-        console.error('Error fetching course ID:', error);
-      }
-    );
-  }
-  getApplicationDetailsByStudentId(): void {
-    this.studentApplicationServices.getApplicationByStudentId().subscribe(
-      (application: any) => {
-        console.log('Application Details:', application);
-        const selectedCourse = this.studentCourses.find(course => course.courseId === this.courseId);
-        if (selectedCourse) {
-          this.fee = selectedCourse.fee;
-          this.courseName = selectedCourse.courseName;
-        } else {
-          console.log('Course not found');
-        }
-      },
-      error => {
-        console.error('Error fetching application details:', error);
-      }
-    );
+  isCourseSelected(courseName: string): boolean {
+    return this.selectedCourses.includes(courseName);
   }
 
-
-
-  get f() { return this.studentCourseForm.controls; }
+  toggleDropdown() {
+    this.dropdownOpen = !this.dropdownOpen;
+  }
 
   onSubmit() {
-    this.submitted = true;
+    // Mark all form controls as touched to trigger validation messages
+    this.studentCourseForm.markAllAsTouched();
   
     // Stop if form is invalid
     if (this.studentCourseForm.invalid) {
       return;
     }
   
-    // if (this.courseId) {
-    //   // Update existing record
-    //   this.studentApplicationServices.updateCourseByCourseId(this.courseId, this.fee).subscribe(
-    //     response => {
-    //       console.log('Data updated successfully:', response);
-    //       this.router.navigate(['/studentUniversityRegistration/studentDocumentForm']);
-    //     },
-    //     error => {
-    //       console.error('Error updating data:', error);
-    //     }
-    //   );
-    // } else {
-      // Save new record
-      this.studentApplicationServices.saveCourseByCourseId(this.courseId, this.fee).subscribe(
+    // Get the selected courses from the form
+    const selectedCoursesData = this.studentCourseForm.get('selectedCourses')?.value;
+    console.log(selectedCoursesData)
+  
+    // Ensure the selectedCoursesData is an array of strings
+    if (!Array.isArray(selectedCoursesData)) {
+      console.error('selectedCoursesData is not an array');
+      return;
+    }
+  
+    // Convert form data to the expected format for API
+    const application = selectedCoursesData.map((courses: string) => {
+      const selectedCourse = this.studentCourses.find(course => course.courseName === courses);
+  
+      // Handle the case where the course is not found
+      if (!selectedCourse) {
+        console.error(`Course not found: ${courses}`);
+        return null;
+      }
+  
+      return {
+        courseId: selectedCourse.courseId,
+      };
+    }).filter((application): application is { courseId: string } => application !== null); // Filter out null entries and assert type
+  
+    // Construct the request body
+    const requestBody = {
+      studentId: this.studentId,
+      application: application
+    };
+  
+    // Send the formatted request body
+    if (this.isCoursesExist) {
+      this.studentApplicationServices.updateCoursesByCourseId(requestBody).subscribe(
+        response => {
+          console.log('Courses updated successfully:', response);
+          this.router.navigate(['/studentUniversityRegistration/studentDocumentForm']);
+        },
+        error => {
+          console.error('Error updating courses:', error);
+        }
+      );
+    } else {
+      this.studentApplicationServices.saveSelectedCourses(requestBody).subscribe(
         response => {
           console.log('Data saved successfully:', response);
           this.router.navigate(['/studentUniversityRegistration/studentDocumentForm']);
@@ -128,5 +156,4 @@ export class StudentCourseSelectionComponent implements OnInit {
       );
     }
   }
-
-
+}

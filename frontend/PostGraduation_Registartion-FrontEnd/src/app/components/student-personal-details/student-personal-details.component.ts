@@ -50,11 +50,11 @@ export class StudentPersonalDetailsComponent implements OnInit {
  
   fetchStudentPersonalDetails(userEmail: string): void {
     this.studentPersonalDetailsService.getStudentPersonalDetails(userEmail)
-      .subscribe((data: StudentPersonalData) => {
+      .subscribe((data:StudentPersonalData) => {
         this.studentPersonalData = data;
         if (this.studentPersonalData != null) {
           this.isStudentPersonalDetailsPresent = true;
- 
+          localStorage.setItem('studentId',data._id);
           // Populate the form with data from API response
           this.studentPersonalDetailsForm.patchValue({
             name: this.studentPersonalData.name,

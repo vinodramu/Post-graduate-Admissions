@@ -142,7 +142,7 @@ export class ExamApplicationComponent implements OnInit {
   onCourseChange(event: Event): void {
     const target = event.target as HTMLSelectElement;
     const selectedCourseName = target.value;
-    const selectedCourse = this.studentCourses.find(course => course.courseName === selectedCourseName);
+    const selectedCourse = this.studentCourses.find(course => course.courseId === selectedCourseName);
     if (selectedCourse) {
       this.fee = selectedCourse.fee;
       this.courseId=selectedCourse.courseId;
