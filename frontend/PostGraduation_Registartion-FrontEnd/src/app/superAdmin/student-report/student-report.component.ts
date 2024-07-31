@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { GridApi, GridOptions } from 'ag-grid-community';
 import { HttpClient } from '@angular/common/http';
+import { Environment } from 'src/app/environment';
 
 @Component({
   selector: 'app-student-report',
@@ -15,7 +16,8 @@ export class StudentReportComponent implements OnInit {
     { headerName: 'Email', field: 'email' },
     { headerName: 'Actions', cellRenderer: 'actionCellRenderer' }
   ];
-
+  
+  private apiUrl = this.enviironment.baseUrl1;
   rowData: any[] = [];
 
   gridOptions: GridOptions = {
@@ -33,7 +35,7 @@ export class StudentReportComponent implements OnInit {
 
   gridApi!: GridApi;
 
-  constructor(private router: Router, private http: HttpClient) { }
+  constructor(private router: Router, private http: HttpClient,  private enviironment: Environment) { }
 
   ngOnInit(): void {
     this.loadStudentData();
@@ -46,7 +48,7 @@ export class StudentReportComponent implements OnInit {
   }
 
   loadStudentData(): void {
-    this.http.get<any[]>('http://192.168.0.102:4000/admin/students').subscribe(
+    this.http.get<any[]>(`${this.apiUrl}/admin/students`).subscribe(
       (data) => {
         this.rowData = data;
         if (this.gridApi) {

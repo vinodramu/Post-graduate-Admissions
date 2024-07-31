@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { TabGroupComponent } from './tab-group/tab-group.component';
@@ -13,6 +13,7 @@ export class StudentUniversityRegistrationComponent implements OnInit {
   selectedTab = 0;
   tabsVisible = false;
   menuVisible = false;
+  isComponentVisible = false; // Controls component visibility
 
   tabs = [
     { label: 'Student Personal Details', path: 'studentPersonalDeatialsForm' },
@@ -28,17 +29,18 @@ export class StudentUniversityRegistrationComponent implements OnInit {
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe(() => {
-      const currentPath = this.router.url;
-      if (this.isPathInTabs(currentPath)) {
+      const url = this.router.url;
+      if (this.isPathInTabs(url)) {
+        this.isComponentVisible = true;
         this.tabsVisible = true;
-        this.setActiveTabByPath(currentPath);
+        this.setActiveTabByPath(url);
       } else {
-        this.clearTabState(); // Hide tabs if URL doesn't match any path
+        this.isComponentVisible = false;
+        this.clearTabState();
       }
     });
 
-    // Initial check to handle the case if the component is loaded directly or refreshed
-    this.checkInitialPath();
+    // this.initializeDefaultTab();
   }
 
   isPathInTabs(path: string): boolean {
@@ -51,8 +53,10 @@ export class StudentUniversityRegistrationComponent implements OnInit {
       const index = this.tabs.indexOf(tab);
       this.selectedTab = index;
       if (this.tabGroup) {
-        this.tabGroup.changeTab(index); // Update TabGroupComponent if necessary
+        this.tabGroup.changeTab(index);
       }
+    } else {
+      this.clearTabState();
     }
   }
 
@@ -74,16 +78,15 @@ export class StudentUniversityRegistrationComponent implements OnInit {
   showTabs() {
     this.tabsVisible = true;
     this.menuVisible = false;
-    this.selectedTab = 0;
-    this.router.navigate(['studentPersonalDeatialsForm'], { relativeTo: this.route });
+    this.selectedTab = 0; // Optionally set the default tab index
+    this.router.navigate([this.tabs[0].path], { relativeTo: this.route }); // Navigate to the default tab's path
   }
 
-  private checkInitialPath() {
-    const initialPath = this.router.url;
-    if (this.isPathInTabs(initialPath)) {
-      this.tabsVisible = true;
-    } else {
-      this.clearTabState();
+  initializeDefaultTab() {
+    if (this.tabs.length > 0) {
+      const defaultPath = this.tabs[0].path;
+      this.router.navigate([defaultPath], { relativeTo: this.route });
+      this.setActiveTabByPath(defaultPath);
     }
   }
 }
