@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs/operators';
+import { TabGroupComponent } from './tab-group/tab-group.component';
 
 @Component({
   selector: 'app-student-university-registration',
@@ -7,62 +9,62 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./student-university-registration.component.scss']
 })
 export class StudentUniversityRegistrationComponent implements OnInit {
+  @ViewChild(TabGroupComponent) tabGroup!: TabGroupComponent;
   selectedTab = 0;
   tabsVisible = false;
-  menuVisible = false; // Track menu visibility
+  menuVisible = false;
+
+  tabs = [
+    { label: 'Student Personal Details', path: 'studentPersonalDeatialsForm' },
+    { label: 'Student Address Details', path: 'studentAddressDeatialsForm' },
+    { label: 'Student Educational Details', path: 'studentEducationalDeatialsForm' },
+    { label: 'Student Course Details', path: 'studentCourseDeatialsForm' },
+    { label: 'Student Document Details', path: 'studentDocumentForm' }
+  ];
 
   constructor(private router: Router, private route: ActivatedRoute) {}
 
   ngOnInit() {
-    // Subscribe to route changes to handle tab selection based on URL
-    this.route.firstChild?.url.subscribe(urlSegments => {
-      if (urlSegments.length > 0) {
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe(() => {
+      const currentPath = this.router.url;
+      if (this.isPathInTabs(currentPath)) {
         this.tabsVisible = true;
-        switch (urlSegments[0]?.path) {
-          case 'studentPersonalDeatialsForm':
-            this.selectedTab = 0;
-            break;
-          case 'studentAddressDeatialsForm':
-            this.selectedTab = 1;
-            break;
-          case 'studentEducationalDeatialsForm':
-            this.selectedTab = 2;
-            break;
-
-          case 'studentCourseDeatialsForm':
-            this.selectedTab = 3;
-            break;
-          case 'studentDocumentForm':
-            this.selectedTab = 4;
-            break;
-          default:
-            this.selectedTab = 0; // Default tab
-        }
+        this.setActiveTabByPath(currentPath);
+      } else {
+        this.clearTabState(); // Hide tabs if URL doesn't match any path
       }
     });
+
+    // Initial check to handle the case if the component is loaded directly or refreshed
+    this.checkInitialPath();
+  }
+
+  isPathInTabs(path: string): boolean {
+    return this.tabs.some(t => path.includes(t.path));
+  }
+
+  setActiveTabByPath(path: string) {
+    const tab = this.tabs.find(t => path.includes(t.path));
+    if (tab) {
+      const index = this.tabs.indexOf(tab);
+      this.selectedTab = index;
+      if (this.tabGroup) {
+        this.tabGroup.changeTab(index); // Update TabGroupComponent if necessary
+      }
+    }
+  }
+
+  clearTabState() {
+    this.tabsVisible = false;
+    this.menuVisible = false;
+    this.selectedTab = 0;
   }
 
   onTabChange(index: number) {
     this.selectedTab = index;
-    switch (index) {
-      case 0:
-        this.router.navigate(['studentPersonalDeatialsForm'], { relativeTo: this.route });
-        break;
-
-      case 1:
-        this.router.navigate(['studentAddressDeatialsForm'], { relativeTo: this.route });
-        break;
-
-      case 2:
-        this.router.navigate(['studentEducationalDeatialsForm'], { relativeTo: this.route });
-        break;   
-      case 3:
-        this.router.navigate(['studentCourseDeatialsForm'], { relativeTo: this.route });
-        break;
-      case 4:
-        this.router.navigate(['studentDocumentForm'], { relativeTo: this.route });
-        break;
-    }
+    this.router.navigate([this.tabs[index].path], { relativeTo: this.route });
   }
 
   toggleMenu() {
@@ -71,8 +73,17 @@ export class StudentUniversityRegistrationComponent implements OnInit {
 
   showTabs() {
     this.tabsVisible = true;
-    this.menuVisible = false; // Hide the menu when tabs are shown
-    this.selectedTab = 0; // Default to the first tab (Personal Details)
-    this.router.navigate(['studentPersonalDeatialsForm'], { relativeTo: this.route }); // Navigate to the default tab
+    this.menuVisible = false;
+    this.selectedTab = 0;
+    this.router.navigate(['studentPersonalDeatialsForm'], { relativeTo: this.route });
+  }
+
+  private checkInitialPath() {
+    const initialPath = this.router.url;
+    if (this.isPathInTabs(initialPath)) {
+      this.tabsVisible = true;
+    } else {
+      this.clearTabState();
+    }
   }
 }

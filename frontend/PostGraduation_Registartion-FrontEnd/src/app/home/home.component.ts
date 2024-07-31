@@ -61,7 +61,7 @@ export class HomeComponent {
   }
 
   navigateToAdminLogin(): void {
-    this.router.navigate(['/studentUniversityRegistration']);
+    this.router.navigate(['/studentReport']);
   }
   navigateToSuperAdminLogin(): void {
     
