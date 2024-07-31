@@ -6,9 +6,9 @@ import { PersonalDetails } from './schemas/personalDetails.schema';
 import { CreatePersonalDetailsDto } from './schemas/create-personal-details.dto';
 import { Address } from 'src/Address/schemas/address.schema';
 import { EducationalDetails } from 'src/education/schema/education.schema';
-import { Application } from 'src/application/schemas/application.schema';
 import { DocumentEntity } from 'src/document/schemas/document.schema';
 import { UpdatePersonalDetailsDto } from './schemas/update-personal-details.dto';
+import { ApplicationsDetails } from 'src/application/schemas/application.schema';
 
 @Injectable()
 export class PersonalDetailsService {
@@ -18,7 +18,7 @@ export class PersonalDetailsService {
     @InjectModel(Address.name) private addressModel: Model<Address>,
     @InjectModel(EducationalDetails.name)
     private educationalDetailsModel: Model<EducationalDetails>,
-    @InjectModel(Application.name) private applicationModel: Model<Application>,
+    @InjectModel(ApplicationsDetails.name) private applicationModel: Model<ApplicationsDetails>,
     @InjectModel(DocumentEntity.name)
     private documentEntityModel: Model<DocumentEntity>
   ) {}

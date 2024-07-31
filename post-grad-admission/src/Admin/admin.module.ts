@@ -5,7 +5,7 @@ import { AuthService } from 'src/auth/auth.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from 'src/user/user.entity';
 import { Address, AddressSchema } from 'src/Address/schemas/address.schema';
-import { ApplicationSchema } from 'src/application/schemas/application.schema';
+import { ApplicationsDetails, ApplicationsDetailsSchema } from 'src/application/schemas/application.schema';
 import { Course, CourseSchema } from 'src/courses/course.entity';
 import {
   DocumentEntity,
@@ -21,7 +21,6 @@ import {
   PersonalDetails,
   PersonalDetailsSchema,
 } from 'src/personalDetails/schemas/personalDetails.schema';
-import { Application } from 'twilio/lib/twiml/VoiceResponse';
 import { ApplicationService } from 'src/application/application.service';
 
 @Module({
@@ -30,7 +29,7 @@ import { ApplicationService } from 'src/application/application.service';
       { name: User.name, schema: UserSchema },
       { name: DocumentEntity.name, schema: DocumentSchema },
       { name: PersonalDetails.name, schema: PersonalDetailsSchema },
-      { name: Application.name, schema: ApplicationSchema },
+      { name: ApplicationsDetails.name, schema: ApplicationsDetailsSchema },
       { name: Address.name, schema: AddressSchema },
       { name: Education.name, schema: EducationSchema },
       { name: Course.name, schema: CourseSchema },

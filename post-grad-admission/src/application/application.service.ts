@@ -1,61 +1,61 @@
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Application } from './schemas/application.schema';
-import { CreateApplicationDto } from './schemas/create-application.dto';
-import { UpdateApplicationDto } from './schemas/update-application.dto';
+import { CreateApplicationsDto } from './schemas/create-application.dto';
+import { Application, ApplicationsDetails } from './schemas/application.schema';
+import { UpdateApplicationsDto } from './schemas/update-application.dto';
 
 @Injectable()
 export class ApplicationService {
   constructor(
-    @InjectModel(Application.name) private applicationModel: Model<Application>
+    @InjectModel(ApplicationsDetails.name)
+    private applicationModel: Model<ApplicationsDetails>
   ) {}
 
   async create(
-    createApplicationDto: CreateApplicationDto
-  ): Promise<Application> {
-    Logger.log(`Start : ApplicationService : create `);
-    const createdApplication = new this.applicationModel(createApplicationDto);
-    Logger.log(`End : ApplicationService : create `);
-    return createdApplication.save();
+    createApplicationDetailsDto: CreateApplicationsDto
+  ): Promise<ApplicationsDetails> {
+    const createApplicationDto = new this.applicationModel(
+      createApplicationDetailsDto
+    );
+    return createApplicationDto.save();
   }
 
-  async getApplicationsByStudentId(studentId: string): Promise<Application[]> {
-    Logger.log(
-      `Start : ApplicationService : getApplicationsByStudentId  id : ${studentId}`
-    );
-    const applications = await this.applicationModel.find({ studentId }).exec();
-    if (!applications || applications.length === 0) {
-      throw new NotFoundException(
-        `No applications found for student ID ${studentId}`
-      );
-    }
-    Logger.log(
-      `End : ApplicationService : getApplicationsByStudentId  id : ${studentId}`
-    );
-    return applications;
-  }
-
-  async updateApplicationByStudentId(
-    studentId: string,
-    updateApplication: UpdateApplicationDto
-  ): Promise<Application> {
-    Logger.log(
-      `Start : ApplicationService : updateApplicationByStudentId  id : ${studentId} value : ${JSON.stringify(updateApplication)}`
-    );
-    const application = await this.applicationModel
-      .findOneAndUpdate({ studentId }, updateApplication, {
-        new: true,
-      })
+  async getApplicationDetailsByStudentId(
+    studentId: string
+  ): Promise<ApplicationsDetails> {
+    const applicationDetails = await this.applicationModel
+      .findOne({ studentId })
       .exec();
-    if (!application) {
-      throw new NotFoundException(
-        `No applications found for student ID ${studentId}`
-      );
+  
+      if (!applicationDetails) {
+        return { studentId, application: [] } as unknown as ApplicationsDetails; // Return an empty array inside an object with the application field
+      }
+    
+    return applicationDetails;
+  }
+
+  async updateApplicationDetails(
+    studentId: string,
+    updateData: Partial<UpdateApplicationsDto>
+  ): Promise<ApplicationsDetails> {
+    const applicationDetails = await this.applicationModel.findOne({ studentId });
+
+    if (!applicationDetails) {
+      throw new NotFoundException(`ApplicationDetails not found for student ID ${studentId}`);
     }
-    Logger.log(
-      `End : ApplicationService : updateApplicationByStudentId  id : ${studentId} value : ${JSON.stringify(updateApplication)}`
-    );
-    return application;
+
+    applicationDetails.application = []; // Empty the application array
+
+    if (updateData.application) {
+      // Convert the DTO to the Application type
+      const newApplications: Application[] = updateData.application.map(app => ({
+        courseId: app.courseId
+      })) as Application[]
+      applicationDetails.application = newApplications;
+    }
+
+    const updatedEducationalDetails = await applicationDetails.save();
+    return updatedEducationalDetails;
   }
 }

@@ -1,24 +1,25 @@
+import { IsNotEmpty } from 'class-validator';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { IsDate } from 'class-validator';
 import { Document, Types } from 'mongoose';
 
 @Schema()
 export class Application extends Document {
-  @Prop({ type: Types.ObjectId, ref: 'PersonalDetails', required: true })
-  studentId: Types.ObjectId;
+  @Prop({ required: true })
+  @IsNotEmpty()
+  courseId: string;
 
-  @Prop({ default: 'pending' })
-  status?: string;
-
-  @Prop({ default: Date.now })
-  @IsDate()
-  submissionDate: Date;
-
-  @Prop({ type: Types.ObjectId, ref: 'Course', required: true })
-  courseId: Types.ObjectId;
-
-  @Prop({ required: true, min: 0 })
-  fee: number;
 }
 
 export const ApplicationSchema = SchemaFactory.createForClass(Application);
+
+@Schema()
+export class ApplicationsDetails extends Document {
+  @Prop({ type: Types.ObjectId, ref: 'PersonalDetails' })
+  studentId: Types.ObjectId;
+
+  @Prop({ type: [ApplicationSchema], required: true })
+  application: Application[];
+}
+
+export const ApplicationsDetailsSchema =
+  SchemaFactory.createForClass(ApplicationsDetails);

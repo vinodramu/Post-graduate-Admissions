@@ -17,8 +17,8 @@ import {
   DocumentSchema,
 } from 'src/document/schemas/document.schema';
 import {
-  Application,
-  ApplicationSchema,
+  ApplicationsDetails,
+  ApplicationsDetailsSchema,
 } from 'src/application/schemas/application.schema';
 
 @Module({
@@ -28,7 +28,7 @@ import {
       { name: Address.name, schema: AddressSchema },
       { name: EducationalDetails.name, schema: EducationalDetailsSchema },
       { name: DocumentEntity.name, schema: DocumentSchema },
-      { name: Application.name, schema: ApplicationSchema },
+      { name: ApplicationsDetails.name, schema: ApplicationsDetailsSchema },
     ]),
   ],
   controllers: [PersonalDetailsController],

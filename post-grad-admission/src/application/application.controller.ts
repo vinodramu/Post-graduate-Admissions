@@ -9,55 +9,38 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { ApplicationService } from './application.service';
-import { Application } from './schemas/application.schema';
-import { CreateApplicationDto } from './schemas/create-application.dto';
-import { UpdateApplicationDto } from './schemas/update-application.dto';
+import { ApplicationsDetails } from './schemas/application.schema';
+import { CreateApplicationsDto } from './schemas/create-application.dto';
+import { UpdateApplicationsDto } from './schemas/update-application.dto';
 
 @Controller('applications')
 export class ApplicationController {
   constructor(private readonly applicationService: ApplicationService) {}
 
-  @Post()
+  @Post('/create')
   async create(
-    @Body() createApplicationDto: CreateApplicationDto
-  ): Promise<Application> {
-    try {
-      return await this.applicationService.create(createApplicationDto);
-    } catch (error) {
-      console.error(error);
-      throw new InternalServerErrorException('Failed to create application');
-    }
+    @Body() createApplicationDetailsDto: CreateApplicationsDto
+  ): Promise<ApplicationsDetails> {
+    return this.applicationService.create(createApplicationDetailsDto);
   }
-
-  @Get('getapplicationByStudentId/:studentId')
-  async getApplicationsByStudentId(
+  
+  @Get('getApplicationByStudentId/:studentId')
+  async getApplicationDetailsByStudentId(
     @Param('studentId') studentId: string
-  ): Promise<Application[]> {
-    try {
-      const applications =
-        await this.applicationService.getApplicationsByStudentId(studentId);
-      return applications;
-    } catch (error) {
-      console.log(error);
-      console.error(error);
-      throw new InternalServerErrorException('Failed to retrieve applications');
+  ): Promise<ApplicationsDetails> {
+    const applicationDetails = await this.applicationService.getApplicationDetailsByStudentId(studentId);
+    if (!applicationDetails) {
+      throw new NotFoundException(`Application details not found for student ID ${studentId}`);
     }
+    return applicationDetails;
   }
 
-  @Put('student/:studentId')
-  async updateApplicationByStudentId(
+  @Put(':studentId')
+  async update(
     @Param('studentId') studentId: string,
-    @Body() updateApplication: UpdateApplicationDto
-  ): Promise<Application> {
-    try {
-      return await this.applicationService.updateApplicationByStudentId(
-        studentId,
-        updateApplication
-      );
-    } catch (error) {
-      throw new NotFoundException(
-        `Error updating application for student ID ${studentId}`
-      );
-    }
+    @Body() updateData: Partial<UpdateApplicationsDto>
+  ): Promise<ApplicationsDetails> {
+    return this.applicationService.updateApplicationDetails(studentId, updateData);
   }
+
 }

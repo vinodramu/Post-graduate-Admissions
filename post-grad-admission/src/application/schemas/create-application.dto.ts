@@ -1,28 +1,18 @@
-import {
-  IsString,
-  IsNotEmpty,
-  IsDate,
-  IsPositive,
-  IsNumber,
-  IsOptional,
-} from 'class-validator';
+// src/applications/dto/create-applications.dto.ts
+import { IsArray, IsNotEmpty, ValidateNested } from 'class-validator';
+import { Type } from 'class-transformer';
 
-export class CreateApplicationDto {
+export class CreateApplicationsDto {
   @IsNotEmpty()
   studentId: string;
 
-  @IsString()
-  @IsOptional()
-  status?: string;
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => ApplicationDto)
+  application: ApplicationDto[];
+}
 
-  @IsDate()
-  submissionDate: Date;
-
+export class ApplicationDto {
   @IsNotEmpty()
   courseId: string;
-
-  @IsNumber()
-  @IsPositive()
-  @IsNotEmpty()
-  fee: number;
 }

@@ -2,13 +2,13 @@ import { Injectable, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { Address } from 'src/Address/schemas/address.schema';
-import { Application } from 'src/application/schemas/application.schema';
 import { Course } from 'src/courses/course.entity';
 import { DocumentEntity } from 'src/document/schemas/document.schema';
 import { EducationalDetails } from 'src/education/schema/education.schema';
 import { PersonalDetails } from 'src/personalDetails/schemas/personalDetails.schema';
 import { User } from 'src/user/user.entity';
 import { GridFSBucket } from 'mongodb';
+import { ApplicationsDetails } from 'src/application/schemas/application.schema';
 
 @Injectable()
 export class AdminService {
@@ -21,8 +21,8 @@ export class AdminService {
     private readonly documentModel: Model<DocumentEntity>,
     @InjectModel(PersonalDetails.name)
     private readonly personalDetailsModel: Model<PersonalDetails>,
-    @InjectModel(Application.name)
-    private readonly applicationModel: Model<Application>,
+    @InjectModel(ApplicationsDetails.name)
+    private readonly applicationModel: Model<ApplicationsDetails>,
     @InjectModel(Address.name)
     private readonly addressModel: Model<Address>,
     @InjectModel(EducationalDetails.name)
@@ -74,7 +74,7 @@ export class AdminService {
           this.logger.log(`address details ${address}, ${personalDetails._id}`);
           const applications: any = (
             await this.applicationModel.find().exec()
-          ).filter((application) => application.studentId == id);
+          ).filter((applications) => applications.studentId == id);
           const education: any = (
             await this.educationalDetailsModel.find().exec()
           ).filter((education) => education.studentId == id);

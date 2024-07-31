@@ -1,33 +1,19 @@
-import { PartialType } from '@nestjs/mapped-types';
-import { CreateApplicationDto } from './create-application.dto';
-import {
-  IsString,
-  IsDate,
-  IsMongoId,
-  IsPositive,
-  IsNumber,
-  IsOptional,
-} from 'class-validator';
+// src/applications/dto/create-applications.dto.ts
+import { IsArray, IsNotEmpty, ValidateNested } from 'class-validator';
+import { Type } from 'class-transformer';
 
-export class UpdateApplicationDto extends PartialType(CreateApplicationDto) {
-  @IsMongoId()
-  @IsOptional()
-  studentId?: string;
+export class UpdateApplicationsDto {
+  @IsNotEmpty()
+  studentId: string;
 
-  @IsString()
-  @IsOptional()
-  status?: string;
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => ApplicationDto)
+  application: ApplicationDto[];
+}
 
-  @IsDate()
-  @IsOptional()
-  submissionDate?: Date;
-
-  @IsMongoId()
-  @IsOptional()
+export class ApplicationDto {
+  @IsNotEmpty()
   courseId?: string;
 
-  @IsNumber()
-  @IsPositive()
-  @IsOptional()
-  fee?: number;
 }
