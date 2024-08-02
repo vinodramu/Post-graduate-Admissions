@@ -1,0 +1,19 @@
+<div class="header" fxLayout="row" fxLayoutAlign="space-between center">
+  <div class="title-container" fxFlex="70">
+    <h1>University Registration</h1>
+  </div>
+  <div class="profile-container" fxFlex="30" fxLayout="row" fxLayoutAlign="end center">
+    <img src="assets/profile.jpg" alt="Profile Image" class="profile-image" (click)="toggleMenu()">
+    <div class="menu" *ngIf="menuVisible">
+      <button (click)="showTabs()">Edit Profile</button>
+    </div>
+  </div>
+</div>
+
+<app-tab-group 
+  *ngIf="tabsVisible" 
+  [(selectedTab)]="selectedTab" 
+  (tabChange)="onTabChange($event)">
+</app-tab-group>
+
+<router-outlet></router-outlet>

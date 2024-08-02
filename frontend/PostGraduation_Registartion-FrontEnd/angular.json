@@ -20,6 +20,10 @@
             "outputPath": "dist/post-graduation-registartion-front-end",
             "index": "src/index.html",
             "main": "src/main.ts",
+            "allowedCommonJsDependencies": [
+              "ag-grid-angular",
+              "ag-grid-community"
+            ],
             "polyfills": [
               "zone.js"
             ],
@@ -30,8 +34,13 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "src/styles.scss"
+              "src/styles.scss",
+              "node_modules/ag-grid-community/styles/ag-grid.css",
+              "node_modules/ag-grid-community/styles/ag-theme-alpine.css"
+              
+               
             ],
             "scripts": []
           },
