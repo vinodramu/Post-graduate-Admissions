@@ -24,16 +24,16 @@ export class AuthService {
   async login(
     email: string,
     password: string
-  ): Promise<{ accessToken: string } | { error: string }> {
+  ): Promise<{ accessToken: string; role?: string } | { error: string }> {
     const user = await this.validate(email, password);
 
     if (!user.phoneVerified) {
       return { error: 'Phone number not verified' };
     }
-
-    const payload = { email: user.email };
+    const payload = { email: user.email, role: user.role }; 
+    // const payload = { email: user.email };
     const accessToken = jwt.sign(payload, this.jwtSecret, { expiresIn: '1h' });
 
-    return { accessToken };
+    return { accessToken,  role: user.role };
   }
 }

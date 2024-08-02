@@ -1,5 +1,5 @@
 // personal-details.service.ts
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { PersonalDetails } from './schemas/personalDetails.schema';
@@ -9,10 +9,13 @@ import { EducationalDetails } from 'src/education/schema/education.schema';
 import { DocumentEntity } from 'src/document/schemas/document.schema';
 import { UpdatePersonalDetailsDto } from './schemas/update-personal-details.dto';
 import { ApplicationsDetails } from 'src/application/schemas/application.schema';
+import { User } from 'src/user/user.entity';
 
 @Injectable()
 export class PersonalDetailsService {
   constructor(
+    @InjectModel(PersonalDetails.name)
+    private userModel: Model<User>,
     @InjectModel(PersonalDetails.name)
     private personalDetailsModel: Model<PersonalDetails>,
     @InjectModel(Address.name) private addressModel: Model<Address>,
@@ -100,4 +103,22 @@ export class PersonalDetailsService {
     }
     return personalDetails;
   }
+
+
+  async findAlls(): Promise<any> {
+    const personalDetails = await this.personalDetailsModel.find().exec();
+    const addresses = await this.addressModel.find().exec();
+    const applicationsDetails = await this.applicationModel.find().exec();
+    const documents = await this.documentEntityModel.find().exec();
+    const educationalDetails = await this.educationalDetailsModel.find().exec();
+
+    return {
+      personalDetails,
+      addresses,
+      applicationsDetails,
+      documents,
+      educationalDetails,
+    };
+  }
+
 }
