@@ -17,7 +17,7 @@ export class StudentReportComponent implements OnInit {
     { headerName: 'Actions', cellRenderer: 'actionCellRenderer' }
   ];
   
-  private apiUrl = this.enviironment.baseUrl1;
+  private apiUrl = this.enviironment.baseUrl2;
   rowData: any[] = [];
 
   gridOptions: GridOptions = {
@@ -48,9 +48,13 @@ export class StudentReportComponent implements OnInit {
   }
 
   loadStudentData(): void {
-    this.http.get<any[]>(`${this.apiUrl}/admin/students`).subscribe(
+    this.http.get<any>(`${this.apiUrl}/personalDetails/getall/students`).subscribe(
       (data) => {
-        this.rowData = data;
+        this.rowData = data.personalDetails.map((detail: any) => ({
+          _id: detail._id,
+          name: detail.name,
+          email: detail.email
+        }));
         if (this.gridApi) {
           (this.gridApi as any).setRowData(this.rowData);
         }
@@ -71,9 +75,11 @@ export class StudentReportComponent implements OnInit {
     eGui.innerHTML = `
       <select class="action-dropdown">
         <option value="">More Information</option>
-        <option value="profile"><i class="fas fa-eye"></i> Profile Details</option>
-        <option value="education"><i class="fas fa-edit"></i> Educational Details</option>
-        <option value="document"><i class="fas fa-trash"></i> Documents</option>
+        <option value="profile"><i class="fas fa-eye"></i> Student Personal Details</option>
+        <option value="address"><i class="fas fa-eye"></i> Student Address Details</option>
+        <option value="education"><i class="fas fa-eye"></i> Student Educational Details</option>
+        <option value="course"><i class="fas fa-edit"></i> Student Course Details</option>
+        <option value="document"><i class="fas fa-trash"></i> Student Documents</option>
       </select>
     `;
 
@@ -83,11 +89,15 @@ export class StudentReportComponent implements OnInit {
       const studentId = params.data._id; // Use _id from API response
 
       if (action === 'profile') {
-        (params.context.router as Router).navigate(['/studentPersonalDetailsForm', studentId]);
+        (params.context.router as Router).navigate(['/studentUniversityRegistration/studentPersonalDeatialsForm',studentId]);
+      } else if (action === 'address') {
+        (params.context.router as Router).navigate(['/studentUniversityRegistration/studentAddressDeatialsForm',studentId]);
       } else if (action === 'education') {
-        (params.context.router as Router).navigate(['/studentEducationalDeatialsForm', studentId]);
+        (params.context.router as Router).navigate(['/studentUniversityRegistration/studentEducationalDeatialsForm',studentId]);
+      } else if (action === 'course') {
+        (params.context.router as Router).navigate(['/studentUniversityRegistration/studentCourseDeatialsForm',studentId]);
       } else if (action === 'document') {
-        (params.context.router as Router).navigate(['/student-documents', studentId]);
+        (params.context.router as Router).navigate(['/studentUniversityRegistration/studentDocumentForm',studentId]);
       }
     });
 

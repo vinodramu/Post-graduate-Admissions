@@ -13,8 +13,8 @@ export class StudentAddressService {
 
   private apiUrl = this.enviironment.baseUrl2;
 
-  getStudentAddressByStudentId():Observable<StudentAddress>{
-    return this.http.get<StudentAddress>(`${this.apiUrl}/address/${localStorage.getItem('studentId')}`);
+  getStudentAddressByStudentId(personalId: string):Observable<StudentAddress>{
+    return this.http.get<StudentAddress>(`${this.apiUrl}/address/${personalId}`);
   }
 
   saveStudentAddressData(studentAddressData:StudentAddress):Observable<StudentAddress>{

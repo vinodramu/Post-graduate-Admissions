@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { StudentEducationdata } from 'src/app/models/studentEducatioData.model';
 import { StudentEducationService } from 'src/app/services/student-education.service';
 
@@ -14,11 +14,13 @@ export class StudentEducationalDetailsComponent implements OnInit {
   isStudentEducationPresent = false;
   studentEducationalForm!: FormGroup;
   studentEducationalData!: StudentEducationdata[];
+  personalId: string | null = null;
 
   constructor(
     private formBuilder: FormBuilder,
     private studentEducationService: StudentEducationService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit() {
@@ -36,8 +38,16 @@ export class StudentEducationalDetailsComponent implements OnInit {
       sscYearOfPassing: ['', [Validators.required, Validators.pattern('^[0-9]{4}$')]],
       sscPercentage: ['', [Validators.required, Validators.min(0), Validators.max(100)]],
     });
-
-    this.getEducationalDataByStudentId();
+    this.route.paramMap.subscribe(params => {
+      
+     this.personalId = params.get('PersonalId');
+      if (this.personalId) {
+        this.isStudentEducationPresent = true;
+        this.getEducationalDataByStudentId(this.personalId);
+      } else {
+        console.error('No PersonalId provided in route');
+      }
+    });
   }
 
   private mapFormToEducationData(formValue: any): StudentEducationdata[] {
@@ -70,8 +80,8 @@ export class StudentEducationalDetailsComponent implements OnInit {
     return educationDataList;
   }
 
-  getEducationalDataByStudentId() {
-    this.studentEducationService.getEducationDetailsByStudentId().subscribe((data: StudentEducationdata[]) => {
+  getEducationalDataByStudentId(personalId: string) {
+    this.studentEducationService.getEducationDetailsByStudentId(personalId).subscribe((data: StudentEducationdata[]) => {
       if (data && data.length > 0) {
         this.studentEducationalData = data;
         this.isStudentEducationPresent = true;
@@ -117,7 +127,7 @@ export class StudentEducationalDetailsComponent implements OnInit {
       this.studentEducationService.updateEducationalData(this.studentEducationalData)
         .subscribe(response => {
           console.log('Data updated successfully:', response);
-          this.router.navigate(['/studentUniversityRegistration/studentCourseDeatialsForm']);
+          this.router.navigate(['/studentUniversityRegistration/studentCourseDeatialsForm',this.personalId]);
         }, error => {
           console.error('Error updating data:', error);
         });

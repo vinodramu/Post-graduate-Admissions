@@ -13,8 +13,8 @@ export class StudentEducationService {
 
   private apiUrl = this.enviironment.baseUrl2;
 
-  getEducationDetailsByStudentId():Observable<StudentEducationdata[]>{
-    return this.http.get<any>(`${this.apiUrl}/educationalDetails/${localStorage.getItem('studentId')}`).pipe(
+  getEducationDetailsByStudentId(personalId: string):Observable<StudentEducationdata[]>{
+    return this.http.get<any>(`${this.apiUrl}/educationalDetails/${personalId}`).pipe(
       map(response => response.education)
     );
   }

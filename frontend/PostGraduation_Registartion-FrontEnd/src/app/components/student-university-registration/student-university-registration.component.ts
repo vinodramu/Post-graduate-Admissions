@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { TabGroupComponent } from './tab-group/tab-group.component';
@@ -8,12 +8,12 @@ import { TabGroupComponent } from './tab-group/tab-group.component';
   templateUrl: './student-university-registration.component.html',
   styleUrls: ['./student-university-registration.component.scss']
 })
-export class StudentUniversityRegistrationComponent implements OnInit {
+export class StudentUniversityRegistrationComponent implements OnInit, AfterViewInit {
   @ViewChild(TabGroupComponent) tabGroup!: TabGroupComponent;
   selectedTab = 0;
   tabsVisible = false;
   menuVisible = false;
-  isComponentVisible = false; // Controls component visibility
+  isComponentVisible = false;
 
   tabs = [
     { label: 'Student Personal Details', path: 'studentPersonalDeatialsForm' },
@@ -39,8 +39,13 @@ export class StudentUniversityRegistrationComponent implements OnInit {
         this.clearTabState();
       }
     });
+  }
 
-    // this.initializeDefaultTab();
+  ngAfterViewInit() {
+    // Ensure the tabGroup reference is available after the view initializes
+    if (this.isPathInTabs(this.router.url)) {
+      this.setActiveTabByPath(this.router.url);
+    }
   }
 
   isPathInTabs(path: string): boolean {
@@ -52,6 +57,7 @@ export class StudentUniversityRegistrationComponent implements OnInit {
     if (tab) {
       const index = this.tabs.indexOf(tab);
       this.selectedTab = index;
+      this.tabsVisible = true; // Make sure tabs are visible when setting the active tab
       if (this.tabGroup) {
         this.tabGroup.changeTab(index);
       }

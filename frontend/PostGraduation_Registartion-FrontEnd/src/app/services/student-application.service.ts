@@ -23,9 +23,9 @@ export class StudentApplicationService {
     return this.http.get<any>(`${this.apiUrl}/course`);
   }
 
-  getApplicationByStudentId(): Observable<any> {
-    const studentId = localStorage.getItem('studentId');
-    return this.http.get<any>(`${this.apiUrl2}/applications/getApplicationByStudentId/${studentId}`);
+  getApplicationByStudentId(personalId: string): Observable<any> {
+    //const studentId = localStorage.getItem('studentId');
+    return this.http.get<any>(`${this.apiUrl2}/applications/getApplicationByStudentId/${personalId}`);
   }
 
   // saveCourseByCourseId(courseid:string,fees:number):Observable<any>{

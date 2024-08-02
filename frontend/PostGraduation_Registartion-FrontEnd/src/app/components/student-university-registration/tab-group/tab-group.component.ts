@@ -3,8 +3,7 @@ import { Component, Input, Output, EventEmitter, ViewEncapsulation } from '@angu
 @Component({
   selector: 'app-tab-group',
   templateUrl: './tab-group.component.html',
-  styleUrls: ['./tab-group.component.scss'],
-  encapsulation: ViewEncapsulation.None // Disable view encapsulation
+  styleUrls: ['./tab-group.component.scss']
 })
 export class TabGroupComponent {
   private _selectedTab: number = 0;
@@ -23,7 +22,7 @@ export class TabGroupComponent {
   @Output() tabChange = new EventEmitter<number>();
 
   tabs = [
-    { label: 'Student Personal Details', path: 'studentPersonalDeatialsForm', active: true },
+    { label: 'Student Personal Details', path: 'studentPersonalDeatialsForm', active: false },
     { label: 'Student Address Details', path: 'studentAddressDeatialsForm', active: false },
     { label: 'Student Educational Details', path: 'studentEducationalDeatialsForm',active: false },
     { label: 'Student Course Details', path: 'studentCourseDeatialsForm',active: false },

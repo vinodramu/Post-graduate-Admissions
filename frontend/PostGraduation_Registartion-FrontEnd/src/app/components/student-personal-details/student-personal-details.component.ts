@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { StudentPersonalData } from 'src/app/models/studentPersonalData.model';
 import { StudentPersonalDetailsService } from 'src/app/services/student-personal-details.service';
- 
+
 @Component({
   selector: 'app-student-personal-details',
   templateUrl: './student-personal-details.component.html',
@@ -15,18 +15,28 @@ export class StudentPersonalDetailsComponent implements OnInit {
   genders = ['Male', 'Female', 'Other'];
   studentPersonalData!: StudentPersonalData;
   isStudentPersonalDetailsPresent = false;
- 
+  personalId: string | null = null;
   constructor(
     private formBuilder: FormBuilder,
     private studentPersonalDetailsService: StudentPersonalDetailsService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) { }
- 
+
   ngOnInit() {
     this.initializeForm();
-    this.fetchStudentPersonalDetails(`${localStorage.getItem('userEmail')}`);
+    this.route.paramMap.subscribe(params => {
+        this.personalId = params.get('PersonalId');
+      if (this.personalId) {
+        this.isStudentPersonalDetailsPresent = true;
+        this.fetchStudentPersonalDetailsByPersonalId(this.personalId);
+      } else {
+        console.error('No PersonalId provided in route');
+        this.fetchStudentPersonalDetails(`${localStorage.getItem('userEmail')}`);
+      }
+    });
   }
- 
+
   private initializeForm() {
     this.studentPersonalDetailsForm = this.formBuilder.group({
       name: ['', [Validators.required, Validators.minLength(2)]],
@@ -36,10 +46,10 @@ export class StudentPersonalDetailsComponent implements OnInit {
       phoneNumber: ['', [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
     });
   }
- 
+
   private mapFormToStudentPersonalData(formValue: any): void {
     this.studentPersonalData = {
-      _id:localStorage.getItem('studentId') as string,
+      _id: localStorage.getItem('studentId') as string,
       name: formValue.name,
       dateOfBirth: new Date(formValue.dateOfBirth),
       gender: formValue.gender,
@@ -47,49 +57,67 @@ export class StudentPersonalDetailsComponent implements OnInit {
       phoneNumber: formValue.phoneNumber
     };
   }
- 
+
   fetchStudentPersonalDetails(userEmail: string): void {
     this.studentPersonalDetailsService.getStudentPersonalDetails(userEmail)
       .subscribe((data: StudentPersonalData) => {
         this.studentPersonalData = data;
         if (this.studentPersonalData != null) {
           this.isStudentPersonalDetailsPresent = true;
- 
-          // Populate the form with data from API response
           this.studentPersonalDetailsForm.patchValue({
             name: this.studentPersonalData.name,
             dateOfBirth: this.formatDateForForm(this.studentPersonalData.dateOfBirth),
-            gender: this.studentPersonalData.gender, // Set gender from API response
+            gender: this.studentPersonalData.gender,
             email: this.studentPersonalData.email,
             phoneNumber: this.studentPersonalData.phoneNumber
           });
         }
       });
   }
- 
+
+  fetchStudentPersonalDetailsByPersonalId(PersonalId: string): void {
+    this.studentPersonalDetailsService.getStudentPersonalDetailsByPersonalId(PersonalId)
+      .subscribe((data: StudentPersonalData) => {
+        this.studentPersonalData = data;
+        if (this.studentPersonalData != null) {
+          this.isStudentPersonalDetailsPresent = true;
+          this.studentPersonalDetailsForm.patchValue({
+            name: this.studentPersonalData.name,
+            dateOfBirth: this.formatDateForForm(this.studentPersonalData.dateOfBirth),
+            gender: this.studentPersonalData.gender,
+            email: this.studentPersonalData.email,
+            phoneNumber: this.studentPersonalData.phoneNumber
+          });
+        }
+      });
+  }
+
   onSubmit(): void {
     this.submitted = true;
- 
+
     if (this.studentPersonalDetailsForm.valid) {
       this.mapFormToStudentPersonalData(this.studentPersonalDetailsForm.value);
-     
+
       if (this.isStudentPersonalDetailsPresent) {
-        // Call update API if student details are present
-        this.studentPersonalDetailsService.updateStudentPersonalData(this.studentPersonalData)
+        // Update API call
+        this.studentPersonalData._id = this.personalId
+        this.studentPersonalDetailsService.updateStudentPersonalData(this.studentPersonalData,this.studentPersonalData._id)
           .subscribe(response => {
             console.log('Data updated successfully:', response);
             localStorage.setItem('studentId', response._id);
-            this.router.navigate(['/studentUniversityRegistration/studentAddressDeatialsForm']);
+            // Navigate to the next component, e.g., StudentAddressDetailsFormComponent
+            this.router.navigate(['/studentUniversityRegistration/studentAddressDeatialsForm', response._id]);
           }, error => {
             console.error('Error updating data:', error);
           });
       } else {
-        // Call create API if student details are not present
+        // Create API call if needed
         this.studentPersonalDetailsService.saveStudentPersonalData(this.studentPersonalData)
           .subscribe(response => {
             console.log('Data saved successfully:', response);
             localStorage.setItem('studentId', response._id);
-            this.router.navigate(['/studentUniversityRegistration/studentAddressDeatialsForm']);
+            // Navigate to the next component, e.g., StudentAddressDetailsFormComponent
+            this.router.navigate(['/studentUniversityRegistration/studentAddressDeatialsForm', response._id]);
           }, error => {
             console.error('Error saving data:', error);
           });
@@ -98,12 +126,12 @@ export class StudentPersonalDetailsComponent implements OnInit {
       console.log('Form is invalid');
     }
   }
- 
+
   private formatDateForForm(date: Date): string {
     const d = new Date(date);
     return d.toISOString().split('T')[0]; // Format date as yyyy-mm-dd
   }
- 
+
   get formControls() {
     return this.studentPersonalDetailsForm.controls;
   }

@@ -28,12 +28,27 @@ export class StudentPersonalDetailsService {
         })
       );
   }
+  getStudentPersonalDetailsByPersonalId(personalId: string): Observable<StudentPersonalData> {
+    return this.http.get<StudentPersonalData>(`${this.apiUrl}/personalDetails/getById/${personalId}`)
+      .pipe(
+        map((data: any) => {
+          return {
+            _id:data._id,
+            name: data.name,
+            dateOfBirth: new Date(data.dateOfBirth),
+            gender: data.gender,
+            email: data.email,
+            phoneNumber: data.phoneNumber
+          } as StudentPersonalData;
+        })
+      );
+  }
 
   saveStudentPersonalData(studentPersonalData:StudentPersonalData):Observable<StudentPersonalData>{
     return this.http.post<StudentPersonalData>(`${this.apiUrl}/personalDetails`,studentPersonalData);
   }
 
-  updateStudentPersonalData(studentPersonalData:StudentPersonalData):Observable<StudentPersonalData>{
-    return this.http.put<StudentPersonalData>(`${this.apiUrl}/personalDetails/${localStorage.getItem('studentId')}`,studentPersonalData);
+  updateStudentPersonalData(studentPersonalData:StudentPersonalData,personalId:string):Observable<StudentPersonalData>{
+    return this.http.put<StudentPersonalData>(`${this.apiUrl}/personalDetails/${personalId}`,studentPersonalData);
   }
 }

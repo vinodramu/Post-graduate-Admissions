@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { StudentAddress } from 'src/app/models/studentAddress.model';
 import { CommonService } from 'src/app/services/common.service';
 import { StudentAddressService } from 'src/app/services/student-address.service';
@@ -20,12 +20,14 @@ export class StudentAddressDetailsComponent implements OnInit {
   @Input()
   pincodes: string[] = ['560017'];
   studentAddress!: StudentAddress;
+  personalId: string | null = null;
 
   constructor(
     private formBuilder: FormBuilder,
     private commonService: CommonService,
     private studentAddressService: StudentAddressService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
@@ -39,8 +41,18 @@ export class StudentAddressDetailsComponent implements OnInit {
     });
 
     this.fetchDropdownData();
-    this.getStudentAddressDetailsByStudentId();
+    this.route.paramMap.subscribe(params => {
+      
+      this. personalId = params.get('PersonalId');
+      if (this.personalId) {
+        this.isStudentAddressPresent=true;
+        this.getStudentAddressDetailsByStudentId(this.personalId);
+      } else {
+        console.error('No PersonalId provided in route');
+      }
+    });
   }
+  
 
   fetchDropdownData() {
     // Get countries
@@ -106,8 +118,8 @@ export class StudentAddressDetailsComponent implements OnInit {
 
   get f() { return this.studentAddressForm.controls; }
 
-  getStudentAddressDetailsByStudentId() {
-    this.studentAddressService.getStudentAddressByStudentId().subscribe((data: StudentAddress) => {
+  getStudentAddressDetailsByStudentId(personalId: string) {
+    this.studentAddressService.getStudentAddressByStudentId(personalId).subscribe((data: StudentAddress) => {
       this.studentAddress = data;
       if (this.studentAddress != null) {
         this.isStudentAddressPresent = true;
@@ -135,10 +147,10 @@ export class StudentAddressDetailsComponent implements OnInit {
 
       if (this.isStudentAddressPresent) {
         // Update API
-        this.studentAddressService.updateStudentAddressData(this.studentAddress)
+        this.studentAddressService.updateStudentAddressData(this.studentAddress,)
           .subscribe(response => {
             console.log('Data updated successfully:', response);
-            this.router.navigate(['/studentUniversityRegistration/studentEducationalDeatialsForm']);
+            this.router.navigate(['/studentUniversityRegistration/studentEducationalDeatialsForm',this.personalId]);
           }, error => {
             console.error('Error updating data:', error);
           });
@@ -147,7 +159,7 @@ export class StudentAddressDetailsComponent implements OnInit {
         this.studentAddressService.saveStudentAddressData(this.studentAddress)
           .subscribe(response => {
             console.log('Data saved successfully:', response);
-            this.router.navigate(['/studentUniversityRegistration/studentEducationalDeatialsForm']);
+            this.router.navigate(['/studentUniversityRegistration/studentEducationalDeatialsForm',this.personalId]);
           }, error => {
             console.error('Error saving data:', error);
           });

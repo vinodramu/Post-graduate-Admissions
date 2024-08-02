@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { StudentCourse } from 'src/app/models/studentCourse.model';
 import { StudentApplicationService } from 'src/app/services/student-application.service';
 
@@ -22,7 +22,8 @@ export class StudentCourseSelectionComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private studentApplicationServices: StudentApplicationService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit() {
@@ -31,13 +32,25 @@ export class StudentCourseSelectionComponent implements OnInit {
     });
     this.studentId = localStorage.getItem('studentId') as string;
     this.fetchDropdownData();
-    this.loadExistingData();
-
+    
     this.studentCourseForm.get('selectedCourses')?.valueChanges.subscribe(() => {
       this.calculateTotalFee();
     });
+
+    this.route.paramMap.subscribe(params => {
+      
+      const personalId = params.get('PersonalId');
+      if (personalId) {
+        this.isCoursesExist = true;
+        this. loadExistingData(personalId);
+      } else {
+        console.error('No PersonalId provided in route');
+      }
+    });
+  
   }
 
+  
   fetchDropdownData() {
     this.studentApplicationServices.getAllCourses().subscribe(data => {
       this.courses = data.map((course: any) => course.courseName);
@@ -54,8 +67,8 @@ export class StudentCourseSelectionComponent implements OnInit {
     }, 0);
   }
 
-  loadExistingData() {
-    this.studentApplicationServices.getApplicationByStudentId().subscribe(data => {
+  loadExistingData(personalId: string) {
+    this.studentApplicationServices.getApplicationByStudentId(personalId).subscribe(data => {
       if (data && data.application) {
         const existingCourses = data.application.map((courseData: any) => {
           const selectedCourse = this.studentCourses.find(course => course.courseId === courseData.courseId);
