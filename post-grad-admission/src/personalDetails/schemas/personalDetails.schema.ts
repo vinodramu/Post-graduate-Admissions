@@ -27,12 +27,12 @@ export class PersonalDetails extends Document {
   @Length(1, 10)
   gender: string;
 
-  @Prop()
+  @Prop({ required: true, unique: true })
   @IsEmail()
   @IsNotEmpty()
   email: string;
 
-  @Prop()
+  @Prop({ required: true, unique: true })
   @IsPhoneNumber(null)
   phoneNumber: string;
 }

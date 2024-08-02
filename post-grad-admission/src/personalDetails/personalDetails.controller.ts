@@ -12,6 +12,7 @@ import { PersonalDetailsService } from './personalDetails.service';
 import { CreatePersonalDetailsDto } from './schemas/create-personal-details.dto';
 import { PersonalDetails } from './schemas/personalDetails.schema';
 import { UpdatePersonalDetailsDto } from './schemas/update-personal-details.dto';
+import { PersonalDetailsResponseDto } from 'src/dto/personalDetails.response';
 
 @Controller('personalDetails')
 export class PersonalDetailsController {
@@ -66,5 +67,12 @@ export class PersonalDetailsController {
         `Personal details with ID ${personalDetailsId} not found`
       );
     }
+  }
+  @Get('/getall/students')
+  async getAllStudents(): Promise<any> {
+    const students = await this.personalDetailsService.findAlls();
+    if (!students) {
+      return 'No Student Found';
+    } else return students;
   }
 }

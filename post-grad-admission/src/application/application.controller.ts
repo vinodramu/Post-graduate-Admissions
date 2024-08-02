@@ -24,7 +24,7 @@ export class ApplicationController {
     return this.applicationService.create(createApplicationDetailsDto);
   }
   
-  @Get('getApplicationByStudentId/:studentId')
+  @Get('/getApplicationByStudentId/:studentId')
   async getApplicationDetailsByStudentId(
     @Param('studentId') studentId: string
   ): Promise<ApplicationsDetails> {
