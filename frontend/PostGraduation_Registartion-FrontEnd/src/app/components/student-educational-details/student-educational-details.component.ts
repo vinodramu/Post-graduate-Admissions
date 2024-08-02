@@ -15,6 +15,7 @@ export class StudentEducationalDetailsComponent implements OnInit {
   studentEducationalForm!: FormGroup;
   studentEducationalData!: StudentEducationdata[];
   personalId: string | null = null;
+  role!:string;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -38,16 +39,21 @@ export class StudentEducationalDetailsComponent implements OnInit {
       sscYearOfPassing: ['', [Validators.required, Validators.pattern('^[0-9]{4}$')]],
       sscPercentage: ['', [Validators.required, Validators.min(0), Validators.max(100)]],
     });
-    this.route.paramMap.subscribe(params => {
-      
-     this.personalId = params.get('PersonalId');
+    this.personalId=localStorage.getItem('studentId')
+    if (localStorage.getItem('role') === 'admin') {
+      this.route.paramMap.subscribe((params) => {
+        this.personalId = params.get('PersonalId');
+      });
+    }
+
       if (this.personalId) {
         this.isStudentEducationPresent = true;
         this.getEducationalDataByStudentId(this.personalId);
       } else {
         console.error('No PersonalId provided in route');
       }
-    });
+
+   
   }
 
   private mapFormToEducationData(formValue: any): StudentEducationdata[] {

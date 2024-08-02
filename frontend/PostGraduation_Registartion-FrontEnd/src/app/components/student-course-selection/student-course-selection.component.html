@@ -1,28 +1,48 @@
-<div class="form-container">
-    <form [formGroup]="studentCourseForm" (ngSubmit)="onSubmit()">
-      <h1>Select Courses</h1>
-      <div class="form-group">
-        <label for="courses">Courses</label>
-        <div class="dropdown">
-          <div type="button" class="dropdown-button" (click)="toggleDropdown()">
-            {{ selectedCourses.length > 0 ? selectedCourses.join(', ') : 'Select Courses' }}
-          </div>
-          <div class="dropdown-content" [class.show]="dropdownOpen">
-            <label *ngFor="let course of courses">
-              <input 
-                type="checkbox" 
-                [value]="course" 
-                (change)="onCourseChange($event)"
-                [checked]="isCourseSelected(course)"
-              />
-              {{ course }}
-            </label>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Course Selection</title>
+  </head>
+  <body>
+    <div class="form-container">
+      <form [formGroup]="studentCourseForm" (ngSubmit)="onSubmit()">
+        <h1>Select Courses</h1>
+        <div class="form-group">
+          <label for="courses">Courses</label>
+          <div class="dropdown">
+            <div
+              type="button"
+              class="dropdown-button"
+              (click)="toggleDropdown()"
+            >
+              {{
+                selectedCourses.length > 0
+                  ? selectedCourses.join(', ')
+                  : 'Select Courses'
+              }}
+            </div>
+            <div class="dropdown-content" [class.show]="dropdownOpen">
+              <label *ngFor="let course of courses">
+                <input
+                  type="checkbox"
+                  [value]="course"
+                  (change)="onCourseChange($event)"
+                  [checked]="isCourseSelected(course)"
+                />
+                {{ course }}
+              </label>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="form-buttons">
-        <button type="submit" [disabled]="studentCourseForm.invalid">Submit</button>
-      </div>
-    </form>
-  </div>
-  
+        <div>Total Fee: Rs {{ totalFee }}</div>
+        <div class="form-buttons">
+          <button type="submit" [disabled]="studentCourseForm.invalid">
+            Submit
+          </button>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>
