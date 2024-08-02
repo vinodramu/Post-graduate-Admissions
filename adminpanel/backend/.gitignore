@@ -1,0 +1,8 @@
+# Ignore dist folder and all contents
+dist/
+
+# Ignore node_modules folder and all contents
+node_modules/
+
+# Ignore test folder and all contents
+test/

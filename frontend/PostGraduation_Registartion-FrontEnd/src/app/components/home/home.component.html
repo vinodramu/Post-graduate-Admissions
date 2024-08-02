@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sample Webpage</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-image: url('assets/university.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center center;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container h-100 d-flex flex-column justify-content-center align-items-center">
+        <div class="row w-100 text-center">
+            <div class="col-12">
+                <h1 id="homepage" class="text-dark mt-4">Home Page</h1>
+            </div>
+        </div>
+        <div class="row w-100 justify-content-center align-items-center">
+            <div class="col-lg-6 col-md-8 col-sm-10 mb-4 card-container">
+                <div class="card shadow-lg equal-height">
+                    <div class="card-body">
+                        <h5 class="card-title">Student Registration</h5>
+                        <button class="btn btn-primary my-2" routerLink="/user">Create User</button>
+                        <button class="btn btn-secondary my-2" style="background-color: #4caf50;"
+                            (click)="showPopup()">Login</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-8 col-sm-10 mb-4 card-container">
+                <div class="card shadow-lg equal-height">
+                    <div class="card-body">
+                        <h5 class="card-title">Admin Login</h5>
+                        <button class="btn btn-primary my-2">Super Admin</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- login-popup.component.html -->
+
+    <div *ngIf="isPopupVisible" class="login-container" (click)="closePopup($event)"
+        (keydown.enter)="handleKeyboardEvent($event)" (keyup.space)="handleKeyboardEvent($event)" tabindex="0">
+        <div class="login-card">
+            <h2>Login</h2>
+            <form (ngSubmit)="onLoginSubmit()">
+                <div class="form-group">
+                    <label for="userEmail">userEmail</label>
+                    <input type="text"  [(ngModel)]="userEmail" name="userEmail" required />
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password"  [(ngModel)]="password" name="password" required />
+                </div>
+                <button type="submit" class="btn btn-primary">Login</button>
+                <div class="form-group">
+                    <button type="button" class="btn btn-link" (click)="onForgotPassword($event)">Forgot
+                        Password?</button>
+                </div>
+                <div *ngIf="loginError" class="error-message" style="color: red;">
+                    Incorrect email or password.
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
