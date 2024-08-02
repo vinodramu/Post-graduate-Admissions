@@ -18,6 +18,7 @@ export class StudentCourseSelectionComponent implements OnInit {
   selectedCourses: string[] = [];
   dropdownOpen: boolean = false;
   isCoursesExist = false;
+  personalId: string | null = null;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -39,10 +40,10 @@ export class StudentCourseSelectionComponent implements OnInit {
 
     this.route.paramMap.subscribe(params => {
       
-      const personalId = params.get('PersonalId');
-      if (personalId) {
+    this.personalId = params.get('PersonalId');
+      if (this.personalId) {
         this.isCoursesExist = true;
-        this. loadExistingData(personalId);
+        this. loadExistingData(this.personalId);
       } else {
         console.error('No PersonalId provided in route');
       }
@@ -151,7 +152,7 @@ export class StudentCourseSelectionComponent implements OnInit {
       this.studentApplicationServices.updateCoursesByCourseId(requestBody).subscribe(
         response => {
           console.log('Courses updated successfully:', response);
-          this.router.navigate(['/studentUniversityRegistration/studentDocumentForm']);
+          this.router.navigate(['/studentUniversityRegistration/studentDocumentForm', this.personalId]);
         },
         error => {
           console.error('Error updating courses:', error);
