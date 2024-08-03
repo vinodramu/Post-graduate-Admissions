@@ -45,14 +45,13 @@ export class StudentAddressDetailsComponent implements OnInit {
       subscribe
       (
         params => {
-          this.personalId = params.
-            get(
-              'PersonalId'
-            );
+          if(params.get('PersonalId'))
+          this.personalId = params.get('PersonalId');
           console.log(this.personalId);
         })
     }
     if (this.personalId) {
+      localStorage.setItem('studentId',this.personalId as string)
       this.isStudentAddressPresent = true;
       this.getStudentAddressDetailsByStudentId(this.personalId);
     } else {
@@ -215,7 +214,7 @@ else{
             (response) => {
               console.log('Data updated successfully:', response);
               this.router.navigate([
-                '/studentUniversityRegistration/studentEducationalDeatialsForms',this.personalId
+                '/studentUniversityRegistration/studentEducationalDeatialsForm'
               ]);
             },
             (error) => {

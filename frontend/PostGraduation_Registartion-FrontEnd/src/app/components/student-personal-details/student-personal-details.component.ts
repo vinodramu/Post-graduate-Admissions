@@ -26,11 +26,15 @@ export class StudentPersonalDetailsComponent implements OnInit {
  
   ngOnInit() {
     this.initializeForm();
+    this.personalId=localStorage.getItem('studentId')
     this.role = localStorage.getItem('role') as string;
     this.route.paramMap.subscribe((params) => {
-      this.personalId = params.get('PersonalId');
+      if(params.get('PersonalId'))
+        this.personalId = params.get('PersonalId');
+      localStorage.setItem('studentId',this.personalId as string)
       console.log('PersonalId from route:', this.personalId); // Debugging line
       if (this.personalId) {
+        localStorage.setItem('studentId',this.personalId)
         this.isStudentPersonalDetailsPresent = true;
         this.fetchStudentPersonalDetailsByPersonalId(this.personalId);
       } else {
@@ -147,7 +151,7 @@ export class StudentPersonalDetailsComponent implements OnInit {
           .subscribe(
             (response) => {
               console.log('Data updated successfully:', response._id);
-              this.router.navigate(['/studentUniversityRegistration/studentAddressDeatialsForms',response._id]);
+              this.router.navigate(['/studentUniversityRegistration/studentAddressDeatialsForm']);
             },
             (error) => {
               console.error('Error updating data:', error);

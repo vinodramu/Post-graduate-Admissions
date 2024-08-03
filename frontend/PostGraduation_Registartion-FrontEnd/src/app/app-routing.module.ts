@@ -43,14 +43,14 @@ const routes: Routes = [
 
   {
     path: 'studentUniversityRegistration', component: StudentUniversityRegistrationComponent, children: [
-      { path: 'studentPersonalDeatialsForm', component: StudentPersonalDetailsComponent },
       { path: 'studentPersonalDeatialsForms/:PersonalId', component: StudentPersonalDetailsComponent },
-      { path: 'studentAddressDeatialsForm', component: StudentAddressDetailsComponent },
+      { path: 'studentPersonalDeatialsForm', component: StudentPersonalDetailsComponent },
       { path: 'studentAddressDeatialsForms/:PersonalId', component: StudentAddressDetailsComponent },
-      { path: 'studentEducationalDeatialsForm', component: StudentEducationalDetailsComponent },
+      { path: 'studentAddressDeatialsForm', component: StudentAddressDetailsComponent },
       { path: 'studentEducationalDeatialsForms/:PersonalId', component: StudentEducationalDetailsComponent },
-      { path: 'studentCourseDeatialsForm', component: StudentCourseSelectionComponent },
+      { path: 'studentEducationalDeatialsForm', component: StudentEducationalDetailsComponent },
       { path: 'studentCourseDeatialsForms/:PersonalId', component: StudentCourseSelectionComponent },
+      { path: 'studentCourseDeatialsForm', component: StudentCourseSelectionComponent },
       { path: 'studentDocumentForm', component: StudentDocumentDetailsComponent },
     ]
   },

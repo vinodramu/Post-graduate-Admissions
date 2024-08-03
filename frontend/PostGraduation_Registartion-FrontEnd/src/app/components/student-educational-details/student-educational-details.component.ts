@@ -46,15 +46,14 @@ export class StudentEducationalDetailsComponent implements OnInit {
       subscribe
       (
         params => {
-          this.personalId = params.
-            get(
-              'PersonalId'
-            );
+          if(params.get('PersonalId'))
+            this.personalId = params.get('PersonalId');
           console.log(this.personalId);
         })
     }
 
       if (this.personalId) {
+        localStorage.setItem('studentId',this.personalId)
         this.isStudentEducationPresent = true;
         this.getEducationalDataByStudentId(this.personalId);
       } else {
