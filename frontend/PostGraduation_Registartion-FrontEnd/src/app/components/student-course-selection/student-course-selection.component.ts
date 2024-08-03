@@ -19,6 +19,7 @@ export class StudentCourseSelectionComponent implements OnInit {
   dropdownOpen: boolean = false;
   isCoursesExist = false;
   personalId: string | null = null;
+  role!:string;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -28,6 +29,7 @@ export class StudentCourseSelectionComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.role=localStorage.getItem('role') as string
     this.studentCourseForm = this.formBuilder.group({
       selectedCourses: [[], Validators.required],
     });
@@ -42,9 +44,16 @@ export class StudentCourseSelectionComponent implements OnInit {
 
     this.personalId = localStorage.getItem('studentId');
     if (localStorage.getItem('role') === 'admin') {
-      this.route.paramMap.subscribe((params) => {
-        this.personalId = params.get('PersonalId');
-      });
+      this.route.paramMap.
+      subscribe
+      (
+        params => {
+          this.personalId = params.
+            get(
+              'PersonalId'
+            );
+          console.log(this.personalId);
+        })
     }
 
     if (this.personalId) {
@@ -134,6 +143,87 @@ export class StudentCourseSelectionComponent implements OnInit {
   }
 
   onSubmit() {
+
+    if((this.role === 'student')){
+       // Mark all form controls as touched to trigger validation messages
+    this.studentCourseForm.markAllAsTouched();
+
+    // Stop if form is invalid
+    if (this.studentCourseForm.invalid) {
+      return;
+    }
+
+    // Get the selected courses from the form
+    const selectedCoursesData =
+      this.studentCourseForm.get('selectedCourses')?.value;
+    console.log(selectedCoursesData);
+
+    // Ensure the selectedCoursesData is an array of strings
+    if (!Array.isArray(selectedCoursesData)) {
+      console.error('selectedCoursesData is not an array');
+      return;
+    }
+
+    // Convert form data to the expected format for API
+    const application = selectedCoursesData
+      .map((courses: string) => {
+        const selectedCourse = this.studentCourses.find(
+          (course) => course.courseName === courses
+        );
+
+        // Handle the case where the course is not found
+        if (!selectedCourse) {
+          console.error(`Course not found: ${courses}`);
+          return null;
+        }
+
+        return {
+          courseId: selectedCourse.courseId,
+        };
+      })
+      .filter(
+        (application): application is { courseId: string } =>
+          application !== null
+      ); // Filter out null entries and assert type
+
+    // Construct the request body
+    const requestBody = {
+      studentId: this.studentId,
+      application: application,
+    };
+
+    // Send the formatted request body
+    if (this.isCoursesExist) {
+      this.studentApplicationServices
+        .updateCoursesByCourseId(requestBody)
+        .subscribe(
+          (response) => {
+            console.log('Courses updated successfully:', response);
+            this.router.navigate([
+              '/studentUniversityRegistration/studentDocumentForm'
+            ]);
+          },
+          (error) => {
+            console.error('Error updating courses:', error);
+          }
+        );
+    } else {
+      this.studentApplicationServices
+        .saveSelectedCourses(requestBody)
+        .subscribe(
+          (response) => {
+            console.log('Data saved successfully:', response);
+            this.router.navigate([
+              '/studentUniversityRegistration/studentDocumentForm',
+            ]);
+          },
+          (error) => {
+            console.error('Error saving data:', error);
+          }
+        );
+    }
+  }else{
+
     // Mark all form controls as touched to trigger validation messages
     this.studentCourseForm.markAllAsTouched();
 
@@ -189,28 +279,14 @@ export class StudentCourseSelectionComponent implements OnInit {
           (response) => {
             console.log('Courses updated successfully:', response);
             this.router.navigate([
-              '/studentUniversityRegistration/studentDocumentForm',
-              this.personalId,
+              `/studentUniversityRegistration/studentDocumentForms`,{PersonalId: this.personalId}
             ]);
           },
           (error) => {
             console.error('Error updating courses:', error);
           }
         );
-    } else {
-      this.studentApplicationServices
-        .saveSelectedCourses(requestBody)
-        .subscribe(
-          (response) => {
-            console.log('Data saved successfully:', response);
-            this.router.navigate([
-              '/studentUniversityRegistration/studentDocumentForm',
-            ]);
-          },
-          (error) => {
-            console.error('Error saving data:', error);
-          }
-        );
-    }
-  }
+    } 
+}
+}
 }

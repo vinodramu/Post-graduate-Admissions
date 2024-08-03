@@ -86,22 +86,6 @@ export class CommonService {
       })
     );
   }
-  getPincodesByCity(city: string): Observable<any> {
-    const url = `https://api.postalpincode.in/postoffice/${city}`;
-    return this.http.get(url).pipe(
-      map((response: any) => {
-        if (response && response[0] && response[0].PostOffice) {
-          return response[0].PostOffice.map((post: any) => post.Pincode);
-        } else {
-          return [];
-        }
-      }),
-      catchError(error => {
-        console.error('Error fetching pincodes:', error);
-        return throwError(() => new Error('Failed to fetch pincodes'));
-      })
-    );
-  }
   
 
 }

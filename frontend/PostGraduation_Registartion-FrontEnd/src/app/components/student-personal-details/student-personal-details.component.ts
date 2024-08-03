@@ -108,25 +108,19 @@ export class StudentPersonalDetailsComponent implements OnInit {
   }
  
   onSubmit(): void {
-      this.submitted = true;
-      if (this.studentPersonalDetailsForm.valid) {
-        this.mapFormToStudentPersonalData(
-          this.studentPersonalDetailsForm.value
-        );
- 
+    this.submitted = true;
+    if (this.studentPersonalDetailsForm.valid) {
+      this.mapFormToStudentPersonalData(this.studentPersonalDetailsForm.value);
+
+      if (this.role === 'student') {
         if (this.isStudentPersonalDetailsPresent) {
           // Update API call
           this.studentPersonalDetailsService
-            .updateStudentPersonalData(
-              this.studentPersonalData,
-              localStorage.getItem('studentId') as string
-            )
+            .updateStudentPersonalData(this.studentPersonalData, localStorage.getItem('studentId') as string)
             .subscribe(
               (response) => {
                 console.log('Data updated successfully:', response);
-                this.router.navigate([
-                  '/studentUniversityRegistration/studentAddressDeatialsForm',
-                ]);
+                this.router.navigate(['/studentUniversityRegistration/studentAddressDeatialsForm']);
               },
               (error) => {
                 console.error('Error updating data:', error);
@@ -139,9 +133,7 @@ export class StudentPersonalDetailsComponent implements OnInit {
             .subscribe(
               (response) => {
                 console.log('Data saved successfully:', response);
-                this.router.navigate([
-                  '/studentUniversityRegistration/studentAddressDeatialsForm',
-                ]);
+                this.router.navigate(['/studentUniversityRegistration/studentAddressDeatialsForm']);
               },
               (error) => {
                 console.error('Error saving data:', error);
@@ -149,10 +141,23 @@ export class StudentPersonalDetailsComponent implements OnInit {
             );
         }
       } else {
-        console.log('Form is invalid');
+        this.studentPersonalData._id = this.personalId as string;
+        this.studentPersonalDetailsService
+          .updateStudentPersonalData(this.studentPersonalData, this.personalId as string)
+          .subscribe(
+            (response) => {
+              console.log('Data updated successfully:', response._id);
+              this.router.navigate(['/studentUniversityRegistration/studentAddressDeatialsForms',response._id]);
+            },
+            (error) => {
+              console.error('Error updating data:', error);
+            }
+          );
       }
+    } else {
+      console.log('Form is invalid');
     }
-  
+  }
  
   private formatDateForForm(date: Date): string {
     const d = new Date(date);

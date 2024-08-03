@@ -89,15 +89,15 @@ export class StudentReportComponent implements OnInit {
       const studentId = params.data._id; // Use _id from API response
 
       if (action === 'profile') {
-        (params.context.router as Router).navigate(['/studentUniversityRegistration/studentPersonalDeatialsForm',studentId]);
+        (params.context.router as Router).navigate(['/studentUniversityRegistration/studentPersonalDeatialsForms',studentId]);
       } else if (action === 'address') {
-        (params.context.router as Router).navigate(['/studentUniversityRegistration/studentAddressDeatialsForm',studentId]);
+        (params.context.router as Router).navigate(['/studentUniversityRegistration/studentAddressDeatialsForms',studentId]);
       } else if (action === 'education') {
-        (params.context.router as Router).navigate(['/studentUniversityRegistration/studentEducationalDeatialsForm',studentId]);
+        (params.context.router as Router).navigate(['/studentUniversityRegistration/studentEducationalDeatialsForms',studentId]);
       } else if (action === 'course') {
-        (params.context.router as Router).navigate(['/studentUniversityRegistration/studentCourseDeatialsForm',studentId]);
+        (params.context.router as Router).navigate(['/studentUniversityRegistration/studentCourseDeatialsForms',studentId]);
       } else if (action === 'document') {
-        (params.context.router as Router).navigate(['/studentUniversityRegistration/studentDocumentForm',studentId]);
+        (params.context.router as Router).navigate(['/studentUniversityRegistration/studentDocumentForm']);
       }
     });
 

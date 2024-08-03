@@ -53,9 +53,7 @@
 
           <div class="mb-3">
             <label for="pincode" class="form-label">Pincode</label>
-            <select id="pincode" formControlName="pincode" class="form-control">
-              <option *ngFor="let pincode of pincodes" [value]="pincode">{{pincode}}</option>
-            </select>
+            <input id="pincode" formControlName="pincode" class="form-control" />
             <div *ngIf="submitted && f['pincode'].errors" class="text-danger">
               <div *ngIf="f['pincode'].errors['required']">Pincode is required</div>
             </div>

@@ -17,10 +17,9 @@ export class StudentAddressDetailsComponent implements OnInit {
   countries: string[] = [];
   states: string[] = [];
   cities: string[] = [];
-  @Input()
-  pincodes: string[] = ['560017'];
   studentAddress!: StudentAddress;
   personalId: string | null = null;
+  role!:string;
   constructor(
     private formBuilder: FormBuilder,
     private commonService: CommonService,
@@ -30,6 +29,7 @@ export class StudentAddressDetailsComponent implements OnInit {
   ) {}
  
   ngOnInit() {
+    this.role = localStorage.getItem('role') as string;
     this.studentAddressForm = this.formBuilder.group({
       permanentAddress: ['', Validators.required],
       correspondenseAddress: ['', Validators.required],
@@ -41,9 +41,16 @@ export class StudentAddressDetailsComponent implements OnInit {
     this.personalId = localStorage.getItem('studentId');
     this.fetchDropdownData();
     if (localStorage.getItem('role') === 'admin') {
-      this.route.paramMap.subscribe((params) => {
-        this.personalId = params.get('PersonalId');
-      });
+      this.route.paramMap.
+      subscribe
+      (
+        params => {
+          this.personalId = params.
+            get(
+              'PersonalId'
+            );
+          console.log(this.personalId);
+        })
     }
     if (this.personalId) {
       this.isStudentAddressPresent = true;
@@ -101,17 +108,6 @@ export class StudentAddressDetailsComponent implements OnInit {
   onCityChange(event: Event): void {
     const target = event.target as HTMLSelectElement;
     const selectedCity = target.value;
- 
-    this.commonService.getPincodesByCity(selectedCity).subscribe(
-      (data) => {
-        console.log('Pincodes data:', data); // Log the response data
-        this.pincodes = data;
-        this.studentAddressForm.controls['pincode'].setValue('');
-      },
-      (error) => {
-        console.error('Error fetching pincode data:', error);
-      }
-    );
   }
  
   private mapFormToStudentAddressData(formValue: any): void {
@@ -162,7 +158,9 @@ export class StudentAddressDetailsComponent implements OnInit {
   }
  
   onSubmit(): void {
-    this.submitted = true;
+
+if((this.role === 'student')){
+  this.submitted = true;
  
     if (this.studentAddressForm.valid) {
       this.mapFormToStudentAddressData(this.studentAddressForm.value);
@@ -175,8 +173,7 @@ export class StudentAddressDetailsComponent implements OnInit {
             (response) => {
               console.log('Data updated successfully:', response);
               this.router.navigate([
-                '/studentUniversityRegistration/studentEducationalDeatialsForm',
-                this.personalId,
+                '/studentUniversityRegistration/studentEducationalDeatialsForm'              
               ]);
             },
             (error) => {
@@ -191,8 +188,7 @@ export class StudentAddressDetailsComponent implements OnInit {
             (response) => {
               console.log('Data saved successfully:', response);
               this.router.navigate([
-                '/studentUniversityRegistration/studentEducationalDeatialsForm',
-                this.personalId,
+                '/studentUniversityRegistration/studentEducationalDeatialsForm'
               ]);
             },
             (error) => {
@@ -203,7 +199,35 @@ export class StudentAddressDetailsComponent implements OnInit {
     } else {
       console.log('Form is invalid');
     }
+}
+//ADMIN
+else{
+    this.submitted = true;
+ 
+    if (this.studentAddressForm.valid) {
+      this.mapFormToStudentAddressData(this.studentAddressForm.value);
+ 
+      if (this.isStudentAddressPresent) {
+        // Update API
+        this.studentAddressService
+          .updateStudentAddressData(this.studentAddress)
+          .subscribe(
+            (response) => {
+              console.log('Data updated successfully:', response);
+              this.router.navigate([
+                '/studentUniversityRegistration/studentEducationalDeatialsForms',this.personalId
+              ]);
+            },
+            (error) => {
+              console.error('Error updating data:', error);
+            }
+          );
+      }
+    } else {
+      console.log('Form is invalid');
+    }
   }
+}
 }
  
  

@@ -33,25 +33,28 @@ const routes: Routes = [
   { path: 'payment', component: PaymetComponent },
   { path: 'exam-application', component: ExamApplicationComponent },
   { path: 'studentPersonalDeatialsForm', component: StudentPersonalDetailsComponent },
-  { path: 'studentPersonalDetailsForm/:personalId', component: StudentPersonalDetailsComponent },
+  { path: 'studentPersonalDetailsForm/:PersonalId', component: StudentPersonalDetailsComponent },
   { path: 'studentAddressDeatialsForm', component: StudentAddressDetailsComponent },
+  { path: 'studentAddressDeatialsForm/:PersonalId', component: StudentAddressDetailsComponent },
   { path: 'studentEducationalDeatialsForm', component: StudentEducationalDetailsComponent },
   { path: 'studentCourseDeatialsForm', component: StudentCourseSelectionComponent },
   { path: 'studentDocumentForm', component: StudentDocumentDetailsComponent },
   { path: 'studentReport', component: StudentReportComponent },
+
   {
     path: 'studentUniversityRegistration', component: StudentUniversityRegistrationComponent, children: [
       { path: 'studentPersonalDeatialsForm', component: StudentPersonalDetailsComponent },
-      { path: 'studentPersonalDeatialsForm/:PersonalId', component: StudentPersonalDetailsComponent },
+      { path: 'studentPersonalDeatialsForms/:PersonalId', component: StudentPersonalDetailsComponent },
       { path: 'studentAddressDeatialsForm', component: StudentAddressDetailsComponent },
-      { path: 'studentAddressDeatialsForm/:PersonalId', component: StudentAddressDetailsComponent },
+      { path: 'studentAddressDeatialsForms/:PersonalId', component: StudentAddressDetailsComponent },
       { path: 'studentEducationalDeatialsForm', component: StudentEducationalDetailsComponent },
-      { path: 'studentEducationalDeatialsForm/:PersonalId', component: StudentEducationalDetailsComponent },
+      { path: 'studentEducationalDeatialsForms/:PersonalId', component: StudentEducationalDetailsComponent },
       { path: 'studentCourseDeatialsForm', component: StudentCourseSelectionComponent },
-      { path: 'studentCourseDeatialsForm/:PersonalId', component: StudentCourseSelectionComponent },
+      { path: 'studentCourseDeatialsForms/:PersonalId', component: StudentCourseSelectionComponent },
       { path: 'studentDocumentForm', component: StudentDocumentDetailsComponent },
     ]
   },
+  
 
 ];
 

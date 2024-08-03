@@ -25,6 +25,7 @@ export class StudentEducationalDetailsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.role=localStorage.getItem('role') as string
     this.studentEducationalForm = this.formBuilder.group({
       degreeLevelOfEducation: [{ value: 'UnderGraduation', disabled: true }, Validators.required],
       degreeInstitution: ['', [Validators.required, Validators.minLength(2)]],
@@ -41,9 +42,16 @@ export class StudentEducationalDetailsComponent implements OnInit {
     });
     this.personalId=localStorage.getItem('studentId')
     if (localStorage.getItem('role') === 'admin') {
-      this.route.paramMap.subscribe((params) => {
-        this.personalId = params.get('PersonalId');
-      });
+      this.route.paramMap.
+      subscribe
+      (
+        params => {
+          this.personalId = params.
+            get(
+              'PersonalId'
+            );
+          console.log(this.personalId);
+        })
     }
 
       if (this.personalId) {
@@ -122,6 +130,37 @@ export class StudentEducationalDetailsComponent implements OnInit {
   get f() { return this.studentEducationalForm.controls; }
 
   onSubmit(): void {
+
+    if((this.role === 'student')){
+      this.submitted = true;
+      if (this.studentEducationalForm.invalid) {
+        return;
+      }
+  
+      this.studentEducationalData = this.mapFormToEducationData(this.studentEducationalForm.value);
+      if (this.isStudentEducationPresent) {
+        // Update API
+        this.studentEducationService.updateEducationalData(this.studentEducationalData)
+          .subscribe(response => {
+            console.log('Data updated successfully:', response);
+            this.router.navigate(['/studentUniversityRegistration/studentCourseDeatialsForm']);
+          }, error => {
+            console.error('Error updating data:', error);
+          });
+      } else {
+        this.studentEducationService.saveEducationalData(this.studentEducationalData)
+          .subscribe(response => {
+            console.log('Data saved successfully:', response);
+            this.router.navigate(['/studentUniversityRegistration/studentCourseDeatialsForm']);
+          }, error => {
+            console.error('Error saving data:', error);
+          });
+      }
+    
+    }
+    //ADMIN
+    else{
+
     this.submitted = true;
     if (this.studentEducationalForm.invalid) {
       return;
@@ -133,18 +172,11 @@ export class StudentEducationalDetailsComponent implements OnInit {
       this.studentEducationService.updateEducationalData(this.studentEducationalData)
         .subscribe(response => {
           console.log('Data updated successfully:', response);
-          this.router.navigate(['/studentUniversityRegistration/studentCourseDeatialsForm',this.personalId]);
+          this.router.navigate(['/studentUniversityRegistration/studentCourseDeatialsForms',this.personalId]);
         }, error => {
           console.error('Error updating data:', error);
         });
-    } else {
-      this.studentEducationService.saveEducationalData(this.studentEducationalData)
-        .subscribe(response => {
-          console.log('Data saved successfully:', response);
-          this.router.navigate(['/studentUniversityRegistration/studentCourseDeatialsForm']);
-        }, error => {
-          console.error('Error saving data:', error);
-        });
-    }
+    } 
   }
+}
 }
