@@ -4,12 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-import { HomeComponent } from './home/home.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { SuperAdminLoginComponent } from './login/super-admin-login/super-admin-login.component';
-import { ExaminationLoginComponent } from './login/examination-login/examination-login.component';
-import { ChairpersonLoginComponent } from './login/chairperson-login/chairperson-login.component';
-import { AdminLoginComponent } from './login/admin-login/admin-login.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -27,9 +22,7 @@ import { StudentAddressDetailsComponent } from './components/student-address-det
 import { StudentEducationalDetailsComponent } from './components/student-educational-details/student-educational-details.component';
 import { StudentCourseSelectionComponent } from './components/student-course-selection/student-course-selection.component';
 import { StudentDocumentDetailsComponent } from './components/student-document-details/student-document-details.component';
-import { EditStudentComponent } from './superAdmin/student-report/edit-student/edit-student.component';
 import { MatTabsModule } from '@angular/material/tabs'
-import { StudentReportComponent } from './superAdmin/student-report/student-report.component';
 import { AgGridModule } from 'ag-grid-angular';
 import { RouterModule } from '@angular/router';
 import { MatSelectModule } from '@angular/material/select';
@@ -38,6 +31,13 @@ import { StudentUniversityRegistrationComponent } from './components/student-uni
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TabGroupComponent } from './components/student-university-registration/tab-group/tab-group.component';
 import { HeaderComponent } from './components/header/header.component';
+import { HomeComponent } from './components/home/home.component';
+import { SuperAdminLoginComponent } from './components/login/super-admin-login/super-admin-login.component';
+import { ExaminationLoginComponent } from './components/login/examination-login/examination-login.component';
+import { ChairpersonLoginComponent } from './components/login/chairperson-login/chairperson-login.component';
+import { AdminLoginComponent } from './components/login/admin-login/admin-login.component';
+import { StudentReportComponent } from './components/superAdmin/student-report/student-report.component';
+import { EditStudentComponent } from './components/superAdmin/student-report/edit-student/edit-student.component';
 
 @NgModule({
   declarations: [
@@ -58,11 +58,10 @@ import { HeaderComponent } from './components/header/header.component';
     StudentCourseSelectionComponent,
     StudentDocumentDetailsComponent, 
     StudentReportComponent,
-    EditStudentComponent,
     StudentUniversityRegistrationComponent,
     TabGroupComponent,
-    HeaderComponent
-
+    HeaderComponent,
+    EditStudentComponent
   ],
   imports: [
     BrowserModule,

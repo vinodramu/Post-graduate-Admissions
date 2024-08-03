@@ -1,10 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './home/home.component';
-import { SuperAdminLoginComponent } from './login/super-admin-login/super-admin-login.component';
-import { ExaminationLoginComponent } from './login/examination-login/examination-login.component';
-import { ChairpersonLoginComponent } from './login/chairperson-login/chairperson-login.component';
-import { AdminLoginComponent } from './login/admin-login/admin-login.component';
 import { UserComponent } from './components/user/user.component';
 import { StudentComponent } from './components/student/student.component';
 import { PaymetComponent } from './components/paymet/paymet.component';
@@ -14,8 +9,13 @@ import { StudentAddressDetailsComponent } from './components/student-address-det
 import { StudentEducationalDetailsComponent } from './components/student-educational-details/student-educational-details.component';
 import { StudentCourseSelectionComponent } from './components/student-course-selection/student-course-selection.component';
 import { StudentDocumentDetailsComponent } from './components/student-document-details/student-document-details.component';
-import { StudentReportComponent } from './superAdmin/student-report/student-report.component';
 import { StudentUniversityRegistrationComponent } from './components/student-university-registration/student-university-registration.component';
+import { StudentReportComponent } from './components/superAdmin/student-report/student-report.component';
+import { AdminLoginComponent } from './components/login/admin-login/admin-login.component';
+import { SuperAdminLoginComponent } from './components/login/super-admin-login/super-admin-login.component';
+import { ExaminationLoginComponent } from './components/login/examination-login/examination-login.component';
+import { ChairpersonLoginComponent } from './components/login/chairperson-login/chairperson-login.component';
+import { HomeComponent } from './components/home/home.component';
 
 
 
