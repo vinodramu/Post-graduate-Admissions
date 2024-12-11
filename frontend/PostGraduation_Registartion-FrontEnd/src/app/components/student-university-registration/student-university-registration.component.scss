@@ -1,0 +1,53 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  background-color: #3f51b5; /* Primary color */
+  color: white;
+}
+
+.title-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.profile-container {
+  position: relative; /* Needed for positioning the menu */
+}
+
+.profile-image {
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.profile-image:hover {
+  transform: scale(1.1);
+}
+
+.menu {
+  position: absolute;
+  top: 60px; /* Position below the profile image */
+  right: 0;
+  background-color: white;
+  color: black;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  padding: 8px;
+}
+
+.menu button {
+  background: none;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.menu button:hover {
+  background-color: #f0f0f0;
+}

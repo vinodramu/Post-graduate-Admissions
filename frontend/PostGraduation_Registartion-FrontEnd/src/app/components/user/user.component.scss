@@ -1,0 +1,100 @@
+body {
+  background-color: #818488;
+  font-family: Arial, sans-serif;
+}
+
+.container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.form-container {
+  width: 100%;
+  max-width: 600px;
+  border: 1px solid #dee2e6;
+  border-radius: 0.5rem;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  position: relative;
+}
+
+.form-container h1 {
+  font-size: 1.75rem;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.form-control {
+  border-radius: 0.25rem;
+  padding: 0.75rem;
+  font-size: 1rem;
+  width: calc(100% - 1.5rem);
+}
+
+.btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+  border-radius: 0.25rem;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+  border-color: #004085;
+}
+
+.text-danger {
+  font-size: 0.875rem;
+}
+
+/* Modal backdrop */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px);
+  z-index: 1040;
+}
+
+.modal-content {
+  border-radius: 1rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.modal-header {
+  border-bottom: 1px solid #e9ecef;
+  border-radius: 1rem 1rem 0 0;
+}
+
+.modal-body {
+  padding: 2rem;
+}
+
+@media (max-width: 768px) {
+  .modal-dialog {
+    width: 90%;
+    max-width: 100%;
+  }
+
+  .modal-content {
+    border-radius: 0.5rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .modal-body {
+    padding: 1rem;
+  }
+
+  .modal-header {
+    font-size: 1.25rem;
+  }
+}

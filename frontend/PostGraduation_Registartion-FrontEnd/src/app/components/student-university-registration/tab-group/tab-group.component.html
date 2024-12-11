@@ -1,0 +1,8 @@
+<div class="tabs">
+    <ul class="tab-group">
+      <li *ngFor="let tab of tabs; let sr = index" (click)="changeTab(sr)" class="tab" [class.active]="selectedTab === sr">
+        <a>{{ tab.label }}</a>
+      </li>
+    </ul>
+  </div>
+  

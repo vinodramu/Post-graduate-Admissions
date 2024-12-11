@@ -1,26 +1,37 @@
 // user.controller.ts
-import { Controller, Post, Body, Res } from '@nestjs/common';
+import { Controller, Post, Body, Get, Param } from '@nestjs/common';
 import { UserService } from './user.service';
-import { Response } from 'express';
+import { CreateUserDto } from 'src/dto/create-user.dto';
+import { SendOtpDto } from 'src/dto/otp.dto';
+import { VerifyOtpDto } from 'src/dto/verify-otp.dto';
+import { User } from './user.entity';
 
 @Controller('api')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post('/register')
-  async register(
-    @Body('name') name: string,
-    @Body('email') email: string,
-    @Body('phone') phone: string,
-    @Body('password') password: string,
-    @Body('confirmPassword') confirmPassword: string,
-    @Res() res: Response,
-  ) {
-    try {
-      const user = await this.userService.register(name, email, phone, password, confirmPassword);
-      return user;
-    } catch (error) {
-      return res.status(500).json({ message: 'Registration failed', error: error.message });
-    }
+  async register(@Body() createUserDto: CreateUserDto) {
+    return this.userService.register(createUserDto);
+  }
+
+  @Post('/sendotp/:phoneNumber')
+  async sendOtp(@Param('phoneNumber') phone: string): Promise<any> {
+    const sendOtpDto: SendOtpDto = { phone };
+    return this.userService.sendOtp(sendOtpDto);
+  }
+
+  @Post('/varifyotp')
+  async verifyOtp(@Body() verifyOtpDto: VerifyOtpDto): Promise<any> {
+    return this.userService.verifyOtp(verifyOtpDto);
+  }
+  @Get('/getalluser')
+  async getAllUsers(): Promise<User[]> {
+    return this.userService.getAllUsers();
+  }
+
+  @Get('/by-email/:email')
+  async getUserByEmail(@Param('email') email: string): Promise<User> {
+    return this.userService.getUserByEmail(email);
   }
 }

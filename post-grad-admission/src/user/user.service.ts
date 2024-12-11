@@ -1,58 +1,69 @@
-// user.service.ts
-import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import * as bcrypt from 'bcrypt';
-import * as nodemailer from 'nodemailer';
-import { User, UserDocument } from './user.entity';
-import { Twilio } from 'twilio';
+import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { User, UserDocument } from '../schemas/user.schema';
+import * as bcrypt from 'bcrypt';
+import { Twilio } from 'twilio';
+import * as nodemailer from 'nodemailer';
+import * as dotenv from 'dotenv';
+import { User, UserDocument } from './user.entity';
+import { CreateUserDto } from 'src/dto/create-user.dto';
 import { SendOtpDto } from 'src/dto/otp.dto';
+import { VerifyOtpDto } from '../dto/verify-otp.dto';
+import { SentMessageInfo } from 'nodemailer';
+import { MailerService } from '@nestjs-modules/mailer';
+import { environment } from '../environment';
+dotenv.config();
 
 @Injectable()
 export class UserService {
   private twilioClient: Twilio;
-  private transporter: nodemailer.Transporter
-  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {
-    this.twilioClient = new Twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
-    this.transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: process.env.GMAIL_USER,
-        pass: process.env.GMAIL_PASS,
-      },
-    });
+  private transporter: nodemailer.Transporter;
+
+  constructor(
+    @InjectModel(User.name) private userModel: Model<UserDocument>,
+    private readonly mailerService: MailerService
+  ) {
+    this.twilioClient = new Twilio(
+      environment.twiloId,
+      environment.twilosecretKey
+    );
   }
 
-  async register(
-    name: string,
-    email: string,
-    phone: string,
-    password: string,
-    confirmPassword: string
-  ): Promise<User> {
-    try {
-      Logger.log(`Creating user with name: ${name}, email: ${email}, phone: ${phone}`);
-      if (password !== confirmPassword) {
-        throw new Error('Passwords do not match');
-      }
-      const hashedPassword = await bcrypt.hash(password, 10);
-      const user = this.userRepository.create({
-        name,
-        email,
-        phone,
-        password: hashedPassword,
-        confirmPassword: hashedPassword
-      });
-      Logger.log(`User created successfully: ${user.name}`);
-      const savedUser = await this.userRepository.save(user);
-      Logger.log(`Creating user with name: ${savedUser.name}, email: ${email}, phone: ${phone}`);
-      return savedUser;
-    } catch (error) {
-      Logger.log(error)
-      throw new Error(`Registration failed: ${error.message}`);
+  async sendMail(
+    to: string,
+    subject: string,
+    template: string,
+    context: any
+  ): Promise<SentMessageInfo> {
+    const mailOptions = {
+      from: environment.fromEmail,
+      to,
+      subject,
+      template,
+      context,
+    };
+    return this.mailerService.sendMail(mailOptions);
+  }
+
+  async register(createUserDto: CreateUserDto): Promise<any> {
+    const { username, email, phone, password, confirmpassword } = createUserDto;
+
+    if (password !== confirmpassword) {
+      throw new HttpException('Passwords do not match', HttpStatus.BAD_REQUEST);
     }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const user = new this.userModel({
+      username,
+      email,
+      phone,
+      password: hashedPassword,
+      phoneVerified: false,
+    });
+    await user.save();
+    return {
+      message: 'Registration successful. Please verify your phone number.',
+    };
   }
 
   async sendOtp(sendOtpDto: SendOtpDto): Promise<any> {
@@ -66,11 +77,39 @@ export class UserService {
     await user.save();
     await this.twilioClient.messages.create({
       body: `Your OTP is ${otp}`,
-      from: '+1234567890', // Your Twilio phone number
-      to: phone
+      from: environment.fromphone,
+      to: phone,
     });
     return { message: 'OTP sent successfully.' };
   }
 
-  
+  async verifyOtp(verifyOtpDto: VerifyOtpDto): Promise<any> {
+    const { phone, otp } = verifyOtpDto;
+    const user = await this.userModel.findOne({ phone });
+    if (!user || user.otp !== otp) {
+      throw new HttpException('Invalid OTP', HttpStatus.BAD_REQUEST);
+    }
+    user.phoneVerified = true;
+    user.otp = undefined; // Clear the OTP
+    await user.save();
+    await this.sendMail(
+      user.email,
+      'Registration Successful',
+      'registration-email.hbs',
+      { username: user.username }
+    );
+    return true;
+  }
+
+  async getAllUsers(): Promise<User[]> {
+    return this.userModel.find().exec();
+  }
+
+  async getUserByEmail(email: string): Promise<User | null> {
+    const user = await this.userModel.findOne({ email }).exec();
+    if (!user) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+    return user;
+  }
 }

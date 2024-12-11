@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Personal Details</title>
+    <style>
+        .error-message {
+            color: red;
+            font-size: 0.875em;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <form [formGroup]="studentPersonalDetailsForm" (ngSubmit)="onSubmit()">
+            <h1>Student Personal Details</h1>
+ 
+            <!-- Personal Details Section -->
+            <div class="form-section">
+                <div class="card">
+                    <div class="form-grid">
+                        <div>
+                            <label for="name">Name</label>
+                            <input id="name" formControlName="name">
+                            <div *ngIf="submitted && formControls['name'].errors" class="error-message">
+                                <small *ngIf="formControls['name'].errors['required']">Name is required.</small>
+                                <small *ngIf="formControls['name'].errors['minlength']">Name must be at least 2 characters long.</small>
+                            </div>
+                        </div>
+                        <div>
+                            <label for="dateOfBirth">Date of Birth</label>
+                            <input id="dateOfBirth" type="date" formControlName="dateOfBirth">
+                            <div *ngIf="submitted && formControls['dateOfBirth'].errors" class="error-message">
+                                <small *ngIf="formControls['dateOfBirth'].errors['required']">Date of Birth is required.</small>
+                            </div>
+                        </div>
+                        <div>
+                            <label for="gender">Gender</label>
+                            <select id="gender" formControlName="gender">
+                              <option value="" disabled>Select Gender</option>
+                              <option *ngFor="let gender of genders" [value]="gender">{{gender}}</option>
+                            </select>
+                            <div *ngIf="submitted && formControls['gender'].errors" class="error-message">
+                              <small *ngIf="formControls['gender'].errors['required']">Gender is required.</small>
+                            </div>
+                          </div>
+                        <div>
+                            <label for="email">Email</label>
+                            <input id="email" type="email" formControlName="email">
+                            <div *ngIf="submitted && formControls['email'].errors" class="error-message">
+                                <small *ngIf="formControls['email'].errors['required']">Email is required.</small>
+                                <small *ngIf="formControls['email'].errors['email']">Enter a valid email.</small>
+                            </div>
+                        </div>
+                        <div>
+                            <label for="phoneNumber">Phone Number</label>
+                            <input id="phoneNumber" formControlName="phoneNumber">
+                            <div *ngIf="submitted && formControls['phoneNumber'].errors" class="error-message">
+                                <small *ngIf="formControls['phoneNumber'].errors['required']">Phone Number is required.</small>
+                                <small *ngIf="formControls['phoneNumber'].errors['pattern']">Enter a valid 10-digit phone number.</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-buttons">
+                        <button type="submit">Save</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

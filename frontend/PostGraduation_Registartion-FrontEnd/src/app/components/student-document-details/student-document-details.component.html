@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam Application</title>
+</head>
+<body>
+    <div class="form-container">
+        <form [formGroup]="studentDocumentForm" (ngSubmit)="onSubmit()">
+            <h1>Upload Documents</h1>
+            <div class="form-section">
+                <div class="card">
+                    <div class="form-grid">
+                        <div>
+                            <label for="aadharPhoto">Upload Adhar</label>
+                            <input id="aadharPhoto" type="file" (change)="onFileChange($event, 'aadharPhoto')">
+                        </div>
+                        <div>
+                            <label for="studentPhoto">Upload Photo</label>
+                            <input id="studentPhoto" type="file" (change)="onFileChange($event, 'studentPhoto')">
+                        </div>
+                        <div>
+                            <label for="signature">Upload Signature</label>
+                            <input id="signature" type="file" (change)="onFileChange($event, 'signature')">
+                        </div>
+                        <div>
+                            <label for="graduationCertificate">Upload Degree Certificate</label>
+                            <input id="graduationCertificate" type="file" (change)="onFileChange($event, 'graduationCertificate')">
+                        </div>
+                        <div>
+                            <label for="twelthCertificate">Upload Inter Certificate</label>
+                            <input id="twelthCertificate" type="file" (change)="onFileChange($event, 'twelthCertificate')">
+                        </div>
+                        <div>
+                            <label for="tenthCertificate">Upload SSC Certificate</label>
+                            <input id="tenthCertificate" type="file" (change)="onFileChange($event, 'tenthCertificate')">
+                        </div>   
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="form-buttons">
+                <button type="submit">Submit</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
