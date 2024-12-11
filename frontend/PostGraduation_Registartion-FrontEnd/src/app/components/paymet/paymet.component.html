@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payemnt Form</title>
+</head>
+<style>
+    body {
+        background-image: url('assets/university.jpg');
+        font-family: Arial, sans-serif;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center center;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+    }
+</style>
+
+<body>
+    <div class="form-container">
+        <form (ngSubmit)="onSubmit()">
+            <div class="form-card">
+                <h2>Payment Method</h2>
+                <label for="paymentMethod">Select Payment Method:</label>
+                <select id="paymentMethod" [(ngModel)]="selectedPaymentMethod" name="paymentMethod" required>
+                    <option *ngFor="let method of paymentMethods" [value]="method">{{ method }}</option>
+                </select>
+                <button type="submit">Submit</button>
+            </div>
+        </form>
+
+        <!-- Success Popup -->
+        <div class="popup" *ngIf="showSuccessPopup">
+            <div class="popup-content-success">
+                <h3>Payment Successful!</h3>
+                <button (click)="closePopup()">Close</button>
+            </div>
+        </div>
+
+        <!-- Failure Popup -->
+        <div class="popup" *ngIf="showFailurePopup">
+            <div class="popup-content-unsuccess">
+                <h3>Payment Unsuccessful</h3>
+                <button (click)="closePopup()">Close</button>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam Application</title>
+</head>
+<body>
+    <div class="form-container">
+        <form [formGroup]="studentCourseForm" (ngSubmit)="onSubmit()">
+            <h1>Select Course</h1>
+            <div class="form-section">
+                <div class="card">
+                    <div class="form-grid">
+                        <div class="course">
+                            <label for="course">Course</label>
+                            <select id="course" formControlName="course" (change)="onCourseChange($event)">
+                                <option *ngFor="let course of courses" [value]="course">{{course}}</option>
+                            </select>
+                        </div> 
+                    </div>
+                    <h3>FEE: {{fee}}</h3>
+                </div>
+            </div>
+            <div class="form-buttons">
+                <button type="submit">Submit</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
