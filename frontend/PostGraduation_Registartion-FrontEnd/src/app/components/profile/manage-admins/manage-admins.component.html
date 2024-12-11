@@ -1,0 +1,48 @@
+<div class="manage-admins-container">
+    <div class="admin-form">
+        <h3>Create New Admin</h3>
+        <form (ngSubmit)="createAdmin()">
+          <label for="name">Name:</label>
+          <input type="text" id="name" [(ngModel)]="newAdmin.name" name="name" required>
+          <label for="email">Email:</label>
+          <input type="email" id="email" [(ngModel)]="newAdmin.email" name="email" required>
+          <label for="password">Password:</label>
+          <input type="password" id="password" [(ngModel)]="newAdmin.password" name="password" required>
+          <button type="submit">Create Admin</button>
+        </form>
+    </div>
+    <div class="manage-admins-container">
+  <div class="admin-list">
+    <h3>Admin List</h3>
+    <ag-grid-angular
+      style="width: 100%; height: 400px;"
+      class="ag-theme-alpine"
+      [rowData]="admins"
+      [columnDefs]="columnDefs"
+      [pagination]="true"
+      [paginationPageSize]="pageSize"
+      [domLayout]="'autoHeight'"
+      (gridReady)="onGridReady($event)"
+      (paginationChanged)="onPaginationChanged($event)"
+      (cellClicked)="onCellClicked($event)">
+    </ag-grid-angular>
+    <div class="pagination-controls">
+      <button (click)="previousPage()">Previous</button>
+      <button (click)="nextPage()">Next</button>
+      <span>Page {{ currentPage + 1 }} of {{ totalPages }}</span>
+    </div>
+  </div>
+
+  <div class="admin-edit-form" *ngIf="editAdminData.id">
+    <h3>Edit Admin</h3>
+    <form (ngSubmit)="updateAdmin()">
+      <label for="edit-name">Name:</label>
+      <input type="text" id="edit-name" [(ngModel)]="editAdminData.name" name="editName" required>
+      <label for="edit-email">Email:</label>
+      <input type="email" id="edit-email" [(ngModel)]="editAdminData.email" name="editEmail" required>
+      <label for="edit-password">Password:</label>
+      <input type="password" id="edit-password" [(ngModel)]="editAdminData.password" name="editPassword" required>
+      <button type="submit">Update Admin</button>
+    </form>
+  </div>
+</div>

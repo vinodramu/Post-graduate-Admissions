@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Educational Details Form</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    
+</head>
+<body>
+    <div class="container">
+        <div class="form-container">
+            <form [formGroup]="studentEducationalForm" (ngSubmit)="onSubmit()">
+                <h1>Student Educational Details Form</h1>
+                <!-- Educational Details Section -->
+                <div class="form-section">
+                    <!-- 10TH Details -->
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h2>10TH Details</h2>
+                            <div class="form-grid">
+                                <div class="mb-3">
+                                    <label for="sscLevelOfEducation" class="form-label">SSC</label>
+                                    <input id="sscLevelOfEducation" formControlName="sscLevelOfEducation" class="form-control">
+                                    <div *ngIf="submitted && f['sscLevelOfEducation'].errors" class="text-danger">
+                                        <!-- Display validation errors here -->
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="sscInstitution" class="form-label">Institution</label>
+                                    <input id="sscInstitution" formControlName="sscInstitution" class="form-control">
+                                    <div *ngIf="submitted && f['sscInstitution'].errors" class="text-danger">
+                                        <div *ngIf="f['sscInstitution'].errors['required']">Institution is required</div>
+                                        <div *ngIf="f['sscInstitution'].errors['minlength']">Institution name must be at least 2 characters long</div>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="sscYearOfPassing" class="form-label">Year of Passing</label>
+                                    <input id="sscYearOfPassing" type="number" formControlName="sscYearOfPassing" class="form-control">
+                                    <div *ngIf="submitted && f['sscYearOfPassing'].errors" class="text-danger">
+                                        <div *ngIf="f['sscYearOfPassing'].errors['required']">Year of passing is required</div>
+                                        <div *ngIf="f['sscYearOfPassing'].errors['pattern']">Invalid year format</div>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="sscPercentage" class="form-label">Percentage/CGPA</label>
+                                    <input id="sscPercentage" formControlName="sscPercentage" class="form-control">
+                                    <div *ngIf="submitted && f['sscPercentage'].errors" class="text-danger">
+                                        <div *ngIf="f['sscPercentage'].errors['required']">Percentage is required</div>
+                                        <div *ngIf="f['sscPercentage'].errors['min']">Percentage must be between 0 and 100</div>
+                                        <div *ngIf="f['sscPercentage'].errors['max']">Percentage must be between 0 and 100</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 12TH Details -->
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h2>12TH Details</h2>
+                            <div class="form-grid">
+                                <div class="mb-3">
+                                    <label for="interLevelOfEducation" class="form-label">Intermediate</label>
+                                    <input id="interLevelOfEducation" formControlName="interLevelOfEducation" class="form-control">
+                                    <div *ngIf="submitted && f['interLevelOfEducation'].errors" class="text-danger">
+                                        <!-- Display validation errors here -->
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="interInstitution" class="form-label">Institution</label>
+                                    <input id="interInstitution" formControlName="interInstitution" class="form-control">
+                                    <div *ngIf="submitted && f['interInstitution'].errors" class="text-danger">
+                                        <div *ngIf="f['interInstitution'].errors['required']">Institution is required</div>
+                                        <div *ngIf="f['interInstitution'].errors['minlength']">Institution name must be at least 2 characters long</div>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="interYearOfPassing" class="form-label">Year of Passing</label>
+                                    <input id="interYearOfPassing" type="number" formControlName="interYearOfPassing" class="form-control">
+                                    <div *ngIf="submitted && f['interYearOfPassing'].errors" class="text-danger">
+                                        <div *ngIf="f['interYearOfPassing'].errors['required']">Year of passing is required</div>
+                                        <div *ngIf="f['interYearOfPassing'].errors['pattern']">Invalid year format</div>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="interPercentage" class="form-label">Percentage/CGPA</label>
+                                    <input id="interPercentage" formControlName="interPercentage" class="form-control">
+                                    <div *ngIf="submitted && f['interPercentage'].errors" class="text-danger">
+                                        <div *ngIf="f['interPercentage'].errors['required']">Percentage is required</div>
+                                        <div *ngIf="f['interPercentage'].errors['min']">Percentage must be between 0 and 100</div>
+                                        <div *ngIf="f['interPercentage'].errors['max']">Percentage must be between 0 and 100</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Degree Details -->
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h2>Degree Details</h2>
+                            <div class="form-grid">
+                                <div class="mb-3">
+                                    <label for="degreeLevelOfEducation" class="form-label">Degree</label>
+                                    <input id="degreeLevelOfEducation" formControlName="degreeLevelOfEducation" class="form-control">
+                                    <div *ngIf="submitted && f['degreeLevelOfEducation'].errors" class="text-danger">
+                                        <!-- Display validation errors here -->
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="degreeInstitution" class="form-label">Institution</label>
+                                    <input id="degreeInstitution" formControlName="degreeInstitution" class="form-control">
+                                    <div *ngIf="submitted && f['degreeInstitution'].errors" class="text-danger">
+                                        <div *ngIf="f['degreeInstitution'].errors['required']">Institution is required</div>
+                                        <div *ngIf="f['degreeInstitution'].errors['minlength']">Institution name must be at least 2 characters long</div>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="degreeYearOfPassing" class="form-label">Year of Passing</label>
+                                    <input id="degreeYearOfPassing" type="number" formControlName="degreeYearOfPassing" class="form-control">
+                                    <div *ngIf="submitted && f['degreeYearOfPassing'].errors" class="text-danger">
+                                        <div *ngIf="f['degreeYearOfPassing'].errors['required']">Year of passing is required</div>
+                                        <div *ngIf="f['degreeYearOfPassing'].errors['pattern']">Invalid year format</div>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="degreePercentage" class="form-label">Percentage/CGPA</label>
+                                    <input id="degreePercentage" formControlName="degreePercentage" class="form-control">
+                                    <div *ngIf="submitted && f['degreePercentage'].errors" class="text-danger">
+                                        <div *ngIf="f['degreePercentage'].errors['required']">Percentage is required</div>
+                                        <div *ngIf="f['degreePercentage'].errors['min']">Percentage must be between 0 and 100</div>
+                                        <div *ngIf="f['degreePercentage'].errors['max']">Percentage must be between 0 and 100</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-buttons">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

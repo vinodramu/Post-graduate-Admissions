@@ -1,22 +1,30 @@
-import { Entity, PrimaryGeneratedColumn, Column, Repository } from 'typeorm';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Document } from 'mongoose';
 
-@Entity()
-export class User extends Repository<User>{
-  @PrimaryGeneratedColumn()
-  id: string;
+export type UserDocument = User & Document;
 
-  @Column()
-  name: string;
+@Schema()
+export class User {
+  @Prop({ required: true })
+  username: string;
 
-  @Column()
+  @Prop({ required: true, unique: true })
   email: string;
 
-  @Column()
+  @Prop({ required: true, unique: true })
   phone: string;
 
-  @Column()
+  @Prop({ required: true })
   password: string;
 
-  @Column()
-  confirmPassword: string;
+  @Prop({ required: true, default: 'student' })
+  role: string;
+
+  @Prop({ default: false }) // Default to false
+  phoneVerified: boolean;
+
+  @Prop()
+  otp: string;
 }
+
+export const UserSchema = SchemaFactory.createForClass(User);
